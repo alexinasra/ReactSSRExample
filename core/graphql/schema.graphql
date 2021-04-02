@@ -1,0 +1,67 @@
+
+type Query {
+  application: Application!,
+  users: [User!]!
+  userById(userId: String!): User
+  userByUsername(username: String!): User
+  userByEmail(email: String!): User
+  categories: [Category]!
+}
+type Mutation {
+  _ : Boolean
+}
+
+type Application {
+  name: String!
+}
+
+scalar Upload
+
+type User {
+  id: String!
+  email: String!
+  firstname: String!
+  lastname: String!
+  profilePicture: String!
+  restaurant: Restaurant
+  ownsRestaurant: Boolean!
+}
+
+input UserInput {
+  email: String!
+  firstname: String!
+  lastname: String!
+}
+
+
+type File {
+ filename: String!
+ mimetype: String!
+ encoding: String!
+}
+
+type Category {
+ id: String!
+ label: String!
+ parentId: String
+}
+
+type MenuItem {
+ name: String!
+}
+
+type Menu {
+ label: String!
+ icon: String!
+ items: [MenuItem!]
+}
+
+type Restaurant {
+ name: String!
+ description: String!
+ owner: User!
+ tags: [String!]!
+ menu: Menu!
+ logo: String!
+ cover: String!
+}

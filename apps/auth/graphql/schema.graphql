@@ -1,0 +1,41 @@
+
+extend type Query {
+  userInRole: User
+}
+
+
+extend type Mutation {
+  signupWithEmail(signupForm: SignupFormInput!): AuthPayload
+  signinWithEmail(email: String!, password: String!): AuthPayload
+  signout: AuthPayload
+  changePassword(password: String!): AuthPayload
+}
+
+
+input SignupFormInput {
+  userInput: UserInput!
+  password: String!
+}
+
+enum AuthStatusCode {
+  Success
+  InputError
+  InvalidEmail
+  InvalidPassword
+  EmailBooked
+  DuplicateSignin
+  UserNotFound
+  IncorrectPassword
+  UnauthenticatedUser
+}
+
+type AuthPayload {
+  user: User
+  status: AuthPayloadStatus!
+  token: String
+}
+
+type AuthPayloadStatus {
+  code: AuthStatusCode!
+  msg: String
+}

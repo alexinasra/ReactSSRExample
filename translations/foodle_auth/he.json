@@ -1,0 +1,27 @@
+{
+	"SigninButton": {
+		"text": "התחבר"
+	},
+	"CancelButton": {
+		"text": "ביטול"
+	},
+	"NextButton": {
+		"text": "הבא"
+	},
+	"RememberInput": {
+		"label": "תזכור אותי"
+	},
+	"EmailInput": {
+		"label": "מייל"
+	},
+	"PasswordInput": {
+		"label": "סיסמה"
+	},
+	"SignoutButton": {
+		"text": "התנתק"
+	},
+	"Error": {
+		"IncorrectPassword": "סיסמה שגויה, נסה שנית.",
+		"UserNotFound": "החשבון לא נמצא."
+	}
+}

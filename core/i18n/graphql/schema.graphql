@@ -1,0 +1,24 @@
+extend type Query {
+  languages: [Language!]
+  language: Language!
+  getLanguageInfo(lng: String!): Language!
+  translate (key:String!, options: TranslationOptions!): String
+}
+
+extend type Mutation {
+  setLanguage(lang: String!): Language
+}
+
+
+type Language {
+  short: String!
+  long: String!
+  dir: String!
+  native: String!
+}
+
+
+input TranslationOptions {
+  ns: String!,
+  lng: String
+}

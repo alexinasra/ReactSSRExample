@@ -1,0 +1,48 @@
+{
+	"SigninButton": {
+		"text": "Sign In"
+	},
+	"CancelButton": {
+		"text": "Cancel"
+	},
+	"NextButton": {
+		"text": "Next"
+	},
+	"EmailInput": {
+		"label": "Email"
+	},
+	"PasswordInput": {
+		"label": "Password"
+	},
+	"RememberInput": {
+		"label": "Remember me"
+	},
+	"FirstnameInput": {
+		"label": "First Name"
+	},
+	"LastnameInput": {
+		"label": "Last Name"
+	},
+	"SignupButton": {
+		"text": "Sign Up"
+	},
+	"HaveAcc": {
+		"text": "Already have an account? Sign in"
+	},
+	"ForgotPass": {
+		"text": "Forgot password?"
+	},
+	"NoAcc": {
+		"text": "Don't have an account? Sign Up"
+	},
+	"AcceptTermInput": {
+		"label": "I accpet usage terms."
+	},
+	"SignoutButton": {
+		"text": "Sign Out"
+	},
+	"Error": {
+		"IncorrectPassword": "Incorrect Passowrd, Try again.",
+		"UserNotFound": "User not found."
+	}
+}

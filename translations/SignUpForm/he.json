@@ -1,0 +1,11 @@
+{
+	"signUp": "הרשם",
+	"firstName": "שם פרטי",
+	"lastName": "שמ משפחה",
+	"emailAddress": "אימייל",
+	"mobileNumber": "מספר נייד",
+	"password": "סיסמה",
+	"restaurantOwner": "בעל מסעדה ?",
+	"signUpButton": "הרשם",
+	"signInLink": "יש לך חשבון? לחץ כאן להתחברות ."
+}

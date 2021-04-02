@@ -1,0 +1,10 @@
+{
+	"favoritesList": "רשימת מועדפים",
+	"search": {
+		"placeholder": "חפש ...",
+		"search": "חפש"
+	},
+	"citySelectModal": {
+		"title": "בחר את עירך"
+	}
+}

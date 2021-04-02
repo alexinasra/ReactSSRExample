@@ -1,0 +1,15 @@
+{
+  "name": "@foodle/utils",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "mocha --require @babel/register */**/*.test.js"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.10.5",
+    "chai": "^4.2.0",
+    "mocha": "^8.1.2"
+  }
+}

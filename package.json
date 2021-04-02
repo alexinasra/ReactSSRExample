@@ -1,0 +1,15 @@
+{
+  "name": "foodle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "resolutions": {
+    "**/**/fs-capacitor":"^6.2.0",
+    "**/graphql-upload": "^11.0.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "core/*",
+    "apps/*"
+  ]
+}

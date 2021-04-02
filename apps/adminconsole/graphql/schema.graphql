@@ -1,0 +1,23 @@
+
+enum TranslationStatus {
+  SUCCESS
+  MISSING_KEY
+  MISSING_NAMESPACE
+  INVALED_KEY
+  INVALED_NAMESPACE
+  BOOKED_KEY
+  BOOKED_NAMESPACE
+}
+
+extend type Query {
+  i18nNamespaces: [String!]!
+  i18nNamespaceKeys(ns: String!): [String]!
+}
+
+extend type Mutation {
+  i18nCreateNamespace (ns: String!): TranslationStatus!
+  i18nDropNamespace (ns: String!): TranslationStatus!
+  i18nSetTranslation(key: String!, ns: String!, value: String!, lng: String): TranslationStatus!
+  i18nDropTranslation(key:String!, ns: String!): TranslationStatus
+  i18nClearTranslation(key: String!, ns: String!, lng: String!): TranslationStatus!
+}

@@ -1,0 +1,10 @@
+{
+	"favoritesList": "Favorites List",
+	"search": {
+		"search": "Search",
+		"placeholder": "Search ..."
+	},
+	"citySelectModal": {
+		"title": "Select your city"
+	}
+}

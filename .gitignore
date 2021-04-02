@@ -1,0 +1,12 @@
+build
+yarn.lock
+node_modules
+**/missing.json
+yarn-error.lo
+log
+*.log
+build
+**/build
+*/**/build
+uploads/**
+tmp/**/*

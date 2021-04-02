@@ -1,0 +1,44 @@
+{
+	"SigninButton": {
+		"text": "دخول"
+	},
+	"CancelButton": {
+		"text": "ألغاء"
+	},
+	"NextButton": {
+		"text": "التالي"
+	},
+	"EmailInput": {
+		"label": "البريد الألكتروني"
+	},
+	"PasswordInput": {
+		"label": "كلمة المرور"
+	},
+	"RememberInput": {
+		"label": "تذكرني"
+	},
+	"AcceptTermInput": {
+		"label": "أقبل شروط الأستخدام."
+	},
+	"NoAcc": {
+		"text": "لا تمتلك حساب بعد؟ سجل حساب جديد."
+	},
+	"ForgotPass": {
+		"text": "نسيت كلمة المرور؟"
+	},
+	"HaveAcc": {
+		"text": "تمتلك حساب؟ سجل الدخول"
+	},
+	"SignupButton": {
+		"text": "تسجيل"
+	},
+	"LastnameInput": {
+		"label": "أسم العائله"
+	},
+	"FirstnameInput": {
+		"label": "الأسم الشخصي"
+	},
+	"SignoutButton": {
+		"text": "تسجيل خروج"
+	}
+}

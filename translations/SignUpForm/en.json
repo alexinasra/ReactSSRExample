@@ -1,0 +1,11 @@
+{
+	"signUp": "Sign up",
+	"firstName": "First name",
+	"lastName": "Last name",
+	"emailAddress": "Email address",
+	"mobileNumber": "Mobile",
+	"password": "Password",
+	"restaurantOwner": "Restaurant Owner ?",
+	"signUpButton": "SIGN UP",
+	"signInLink": "Already have an account? Sign in ."
+}
