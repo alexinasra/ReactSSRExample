@@ -16,7 +16,12 @@ const STATUS_CODE = {
 const resolvers = {
   AuthStatusCode: STATUS_CODE,
   Query: {
-    userInRole: (root, args, { req }) => req.user
+    userInRole: (root, args, { req }) => ({
+      id: 'user-generated-uuid',
+      profilePicture: userDir.getProfilePictureUrl('user-generated-uuid', 'default_profile_picture.png'),
+      firstname: 'Fake',
+      lastname: 'User',
+    })
   },
   Mutation: {
     signupWithEmail: async function registerUser(root, { signupForm }, {req}) {
