@@ -5,11 +5,11 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-var rethinkdbConfig = require('@foodle/config/rethinkdb.config');
-var attachAssets = require('@foodle/assets/attach');
+var rethinkdbConfig = require('@react-ssrex/config/rethinkdb.config');
+var attachAssets = require('@react-ssrex/assets/attach');
 
-const attachGraphQL = require('@foodle/graphql/attach');
-const attachI18n = require('@foodle/i18n/attach');
+const attachGraphQL = require('@react-ssrex/graphql/attach');
+const attachI18n = require('@react-ssrex/i18n/attach');
 const app = express();
 
 

@@ -120,7 +120,7 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       // test: /\.xxx$/, // may apply this only for some modules
       options: {
-        external: ['react', 'react-dom', 'react-router', 'react-router-dom', '@material-ui', '@foodle/ui'],
+        external: ['react', 'react-dom', 'react-router', 'react-router-dom', '@material-ui', '@react-ssrex/ui'],
       },
     }),
   ],

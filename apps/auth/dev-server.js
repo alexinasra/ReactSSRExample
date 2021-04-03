@@ -7,15 +7,15 @@ const session = require('express-session');
 const cors = require('cors');
 
 // Configurations
-const rethinkdbConfig = require('@foodle/config/rethinkdb.config');
+const rethinkdbConfig = require('@react-ssrex/config/rethinkdb.config');
 
 // Services
-const attachAssets = require('@foodle/assets/attach');
-const attachGraphQL = require('@foodle/graphql/attach');
-const attachI18n = require('@foodle/i18n/attach');
+const attachAssets = require('@react-ssrex/assets/attach');
+const attachGraphQL = require('@react-ssrex/graphql/attach');
+const attachI18n = require('@react-ssrex/i18n/attach');
 
 // Applications
-const attachAuth = require('@foodle/auth/attach');
+const attachAuth = require('@react-ssrex/auth/attach');
 
 const app = express();
 

@@ -3,7 +3,7 @@ import { Translation } from 'react-i18next';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Suspense from '@foodle/ui/build/Suspense';
+import Suspense from '@react-ssrex/ui/build/Suspense';
 
 export default function TranslationTableHead(props) {
   const {

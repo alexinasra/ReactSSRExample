@@ -1,5 +1,5 @@
 
-const userDir =  require('@foodle/userconsole/graphql/user-dir');
+const userDir =  require('@react-ssrex/userconsole/graphql/user-dir');
 
 const STATUS_CODE = {
   Success: "Success",

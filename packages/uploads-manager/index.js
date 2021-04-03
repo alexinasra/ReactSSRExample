@@ -40,7 +40,7 @@ function applyMiddleware({
 }
 const rootDir = path.join(__dirname, "../../../uploads/user_data/")
 const rootUrl = '/uploads/user_data';
-const defaultProfilePicture = require.resolve('@foodle/assets/public/defaults/default-profile-picture.png');
+const defaultProfilePicture = require.resolve('@react-ssrex/assets/public/defaults/default-profile-picture.png');
 
 function getHomeDir(userId) {
   return path.join(rootDir, userId);

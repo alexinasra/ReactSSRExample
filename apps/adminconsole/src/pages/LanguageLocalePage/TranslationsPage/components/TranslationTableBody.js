@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import * as Styles from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Suspense from '@foodle/ui/build/Suspense';
+import Suspense from '@react-ssrex/ui/build/Suspense';
 import TranslationValue from './TranslationValue';
 
 export default function TranslationTableBody(props) {

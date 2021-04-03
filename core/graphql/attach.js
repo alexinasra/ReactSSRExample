@@ -24,28 +24,28 @@ module.exports = async function attach({ app }) {
 
   const i18nModule = createModule({
     id: 'i18n',
-    typeDefs: require('@foodle/i18n/graphql/schema.graphql'),
-    resolvers: require('@foodle/i18n/graphql/resolvers'),
+    typeDefs: require('@react-ssrex/i18n/graphql/schema.graphql'),
+    resolvers: require('@react-ssrex/i18n/graphql/resolvers'),
   });
   const authModule = createModule({
     id: 'auth',
-    typeDefs: require('@foodle/auth/graphql/schema.graphql'),
-    resolvers: require('@foodle/auth/graphql/resolvers'),
+    typeDefs: require('@react-ssrex/auth/graphql/schema.graphql'),
+    resolvers: require('@react-ssrex/auth/graphql/resolvers'),
   });
   const adminConsoleModule = createModule({
     id: 'adminconsole',
-    typeDefs: require('@foodle/adminconsole/graphql/schema.graphql'),
-    resolvers: require('@foodle/adminconsole/graphql/resolvers'),
+    typeDefs: require('@react-ssrex/adminconsole/graphql/schema.graphql'),
+    resolvers: require('@react-ssrex/adminconsole/graphql/resolvers'),
   });
   const userConsoleModule = createModule({
     id: 'userconsole',
-    typeDefs: require('@foodle/userconsole/graphql/schema.graphql'),
-    resolvers: require('@foodle/userconsole/graphql/resolvers'),
+    typeDefs: require('@react-ssrex/userconsole/graphql/schema.graphql'),
+    resolvers: require('@react-ssrex/userconsole/graphql/resolvers'),
   });
   const webappModule = createModule({
     id: 'webapp',
-    typeDefs: require('@foodle/webapp/graphql/schema.graphql'),
-    resolvers: require('@foodle/webapp/graphql/resolvers'),
+    typeDefs: require('@react-ssrex/webapp/graphql/schema.graphql'),
+    resolvers: require('@react-ssrex/webapp/graphql/resolvers'),
   });
 
 

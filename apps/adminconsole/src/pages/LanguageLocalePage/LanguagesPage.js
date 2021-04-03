@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import i18n from '@foodle/i18n/client';
+import i18n from '@react-ssrex/i18n/client';
 import Typography from '@material-ui/core/Typography';
 import { Translation } from 'react-i18next';
-import Suspense from '@foodle/ui/build/Suspense';
+import Suspense from '@react-ssrex/ui/build/Suspense';
 import DashboardPage from '../../layout/DashboardPage';
 
 export default function LanguagesPage() {

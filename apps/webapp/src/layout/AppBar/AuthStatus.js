@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
-import Suspense from '@foodle/ui/build/Suspense';
+import Suspense from '@react-ssrex/ui/build/Suspense';
 import { Translation } from 'react-i18next';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';

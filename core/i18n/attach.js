@@ -7,7 +7,7 @@ const i18nMiddleware = require('i18next-http-middleware');
 const Backend = require('i18next-node-fs-backend');
 const deepmerge = require('deepmerge');
 const webpack = require('webpack');
-const utils = require('@foodle/utils');
+const utils = require('@react-ssrex/utils');
 const saveJson = utils.json.saveJson;
 const { initReactI18next } = require('react-i18next');
 
@@ -185,8 +185,8 @@ module.exports = function attach({
       const keys = getResourceBundleKeys(cns);
       const resources = keys.map(key => {
         const val = i18next.t(`${ns}:${key}`, { lng });
-        const cmp1 = FoodleUtils.text.normalize(val.toLowerCase());
-        const cmp2 = FoodleUtils.text.normalize(text.toLowerCase());
+        const cmp1 = Utils.text.normalize(val.toLowerCase());
+        const cmp2 = Utils.text.normalize(text.toLowerCase());
         if(cmp1.includes(cmp2)){
           return {
             searchText: val,

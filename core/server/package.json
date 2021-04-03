@@ -1,5 +1,5 @@
 {
-  "name": "@foodle/server",
+  "name": "@react-ssrex/server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -10,14 +10,13 @@
     "start": "cross-env NODE_ENV=production node ./build/server.js"
   },
   "dependencies": {
-    "@foodle/assets": "^1.0.0",
-    "@foodle/auth": "^1.0.0",
-    "@foodle/config": "^1.0.0",
-    "@foodle/graphql": "^1.0.0",
-    "@foodle/i18n": "^1.0.0",
-    "@foodle/userconsole": "^1.0.0",
-    "@foodle/restaurantconsole": "^1.0.0",
-    "@foodle/webapp": "^1.0.0",
+    "@react-ssrex/assets": "^1.0.0",
+    "@react-ssrex/auth": "^1.0.0",
+    "@react-ssrex/config": "^1.0.0",
+    "@react-ssrex/graphql": "^1.0.0",
+    "@react-ssrex/i18n": "^1.0.0",
+    "@react-ssrex/userconsole": "^1.0.0",
+    "@react-ssrex/webapp": "^1.0.0",
     "@apollo/client": "^3.3.6",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",

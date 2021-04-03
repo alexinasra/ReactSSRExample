@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import i18n from '@foodle/i18n/client';
+import i18n from '@react-ssrex/i18n/client';
 import IconButton from '@material-ui/core/IconButton';
 import LanguageIcon from '@material-ui/icons/Language';
 import MenuItem from '@material-ui/core/MenuItem';

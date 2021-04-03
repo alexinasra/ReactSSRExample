@@ -3,7 +3,7 @@ const fs = require('fs');
 const deepmerge = require('deepmerge');
 const flattenkeys = require('flattenkeys');
 
-const utils = require('@foodle/utils');
+const utils = require('@react-ssrex/utils');
 const saveJson = utils.json.saveJson;
 
 function deletePropertyPath (origin, path) {

@@ -18,7 +18,7 @@ import {
   StylesProvider,
   jssPreset,
 } from '@material-ui/core/styles';
-import i18n, { setupI18n } from '@foodle/i18n/client';
+import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 import theme from './theme';
 import App from './App';
 
