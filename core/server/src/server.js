@@ -19,7 +19,6 @@ const attachI18n = require('@foodle/i18n/attach');
 const attachAuth = require('@foodle/auth/attach');
 const attachAdminConsole = require('@foodle/adminconsole/attach');;
 const attachUserConsole = require('@foodle/userconsole/attach');
-const attachRestaurantConsole = require('@foodle/restaurantconsole/attach');;
 const attachWebApp = require('@foodle/webapp/attach');
 
 const app = express();
@@ -66,7 +65,6 @@ global.ROOT_DIR = path.resolve(__dirname, '../..');
   await attachAuth({ app });
   await attachAdminConsole({app});
   await attachUserConsole({app});
-  await attachRestaurantConsole({app});
   await attachWebApp({app})
   app.listen(3030, () => {
     console.log('Server Started');

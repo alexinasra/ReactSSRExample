@@ -1,9 +1,0 @@
-extend type User {
-  profilePictures: [String]!
-  preferedLanguage: String!
-}
-
-extend type Mutation {
-  changeRestaurantLogo(logoUrlData: String!): Restaurant!
-  changeRestaurantCover(coverUrlData: String!): Restaurant!
-}

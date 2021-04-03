@@ -42,11 +42,6 @@ module.exports = async function attach({ app }) {
     typeDefs: require('@foodle/userconsole/graphql/schema.graphql'),
     resolvers: require('@foodle/userconsole/graphql/resolvers'),
   });
-  const restaurantConsoleModule = createModule({
-    id: 'restaurantconsole',
-    typeDefs: require('@foodle/restaurantconsole/graphql/schema.graphql'),
-    resolvers: require('@foodle/restaurantconsole/graphql/resolvers'),
-  });
   const webappModule = createModule({
     id: 'webapp',
     typeDefs: require('@foodle/webapp/graphql/schema.graphql'),
@@ -85,15 +80,6 @@ module.exports = async function attach({ app }) {
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
   })).applyMiddleware({app, path: '/userconsoleql'});
 
-  const restaurantConsoleApp = await createApplication({
-    modules: [rootModule, i18nModule, authModule, restaurantConsoleModule]
-  })
-  const restaurantConsoleSchema = await restaurantConsoleApp.createSchemaForApollo();
-  (new ApolloServer({
-    schema: restaurantConsoleSchema,
-    context: (c) => c,
-    uploads: { maxFileSize: 10000000, maxFiles: 20 },
-  })).applyMiddleware({app, path: '/restaurantconsoleql'});
 
   const webappConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, webappModule]

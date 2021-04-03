@@ -11,6 +11,7 @@ import LanguageSelect from './LanguageSelect';
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
+    background: theme.palette.grey['800'],
   },
   appbarToolbar: {
     display: 'flex',

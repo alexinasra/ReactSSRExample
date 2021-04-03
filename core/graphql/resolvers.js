@@ -13,9 +13,6 @@ const resolvers = {
       conn.release();
       return users.toArray();
     },
-    userById: function getUserById(id) {},
-    userByUsername: function getUserByUsername(username) {},
-    userByEmail: function getUserByUsername(email) {},
   },
   Upload: GraphQLUpload,
   User: {
@@ -24,21 +21,6 @@ const resolvers = {
         return profilePicture
       }
       return "/public/defaults/default-profile-picture.png";
-    },
-    ownsRestaurant: ({ restaurantId }) => !!restaurantId,
-    restaurant: async ({ restaurantId }, args, { req }) => {
-      const conn = await req.connectionPool.getConnection();
-      const restaurant = await RestaurantsTable.get(restaurantId).run(conn);
-      conn.release();
-      return restaurant;
-    }
-  },
-  Restaurant: {
-    owner: async ({ id }, args, { req }) => {
-      const conn = await req.connectionPool.getConnection();
-      const user = await UsersTable.getFisrtResult({ restaurantId: id }).run(conn);
-      conn.release();
-      return user;
     }
   }
 };
