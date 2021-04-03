@@ -10,3 +10,5 @@ build
 */**/build
 uploads/**
 tmp/**/*
+core/i18n/client.js
+modified:   core/i18n/client.js.LICENSE.txt
