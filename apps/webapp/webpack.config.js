@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   name: 'client',
   mode: 'development',
+  devtool: "eval-source-map",
   target: 'web',
   entry: {
     main: [
