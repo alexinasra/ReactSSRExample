@@ -13,7 +13,6 @@
     "@foodle/assets": "^1.0.0",
     "@foodle/auth": "^1.0.0",
     "@foodle/config": "^1.0.0",
-    "@foodle/database": "^1.0.0",
     "@foodle/graphql": "^1.0.0",
     "@foodle/i18n": "^1.0.0",
     "@foodle/userconsole": "^1.0.0",

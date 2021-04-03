@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const deepmerge = require('deepmerge');
 const flattenkeys = require('flattenkeys');
-const { DbTable } = require('@foodle/database');
 
 const utils = require('@foodle/utils');
 const saveJson = utils.json.saveJson;

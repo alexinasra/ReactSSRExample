@@ -1,7 +1,6 @@
 
 type Query {
   application: Application!,
-  users: [User!]!
 }
 type Mutation {
   _ : Boolean

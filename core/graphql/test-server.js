@@ -9,7 +9,6 @@ var rethinkdbConfig = require('@foodle/config/rethinkdb.config');
 var attachAssets = require('@foodle/assets/attach');
 
 const attachGraphQL = require('@foodle/graphql/attach');
-const attachDatabase = require('@foodle/database/attach');
 const attachI18n = require('@foodle/i18n/attach');
 const app = express();
 
@@ -37,7 +36,6 @@ Promise.all([
     defaultLanguage: 'en',
     defaultNamespace: 'common'
   }),
-  attachDatabase({ app, config: rethinkdbConfig }),
   attachGraphQL({ app }),
 ]).then(() => {
   console.log('starting server')

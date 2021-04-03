@@ -1,9 +1,7 @@
 const path = require("path");
 const { createWriteStream, mkdirSync, readdirSync } = require("fs");
-const { DbTable } = require('@foodle/database');
 const userDir = require('./user-dir');
 
-const UsersTable = new DbTable({ tableName: 'Users' });
 
 module.exports = {
   Query: {
@@ -25,24 +23,18 @@ module.exports = {
     },
   },
   Mutation: {
-    updateProfilePicture: async function(root, { url }, { req }) {
-      const conn = await req.connectionPool.getConnection();
-      await UsersTable.update(req.user.id, { profilePicture: url }).run(conn)
-      return await UsersTable.get(req.user.id).run(conn).finally(conn.release);
+    updateProfilePicture: function(root, { url }, { req }) {
+      return {...req.user, profilePicture: url };
     },
     uploadProfilePicture: async function (root, { file }, { req }) {
       const { createReadStream, filename, mimetype, encoding } = await file;
-      const conn = await req.connectionPool.getConnection();
-
       await userDir.addProfilePicture(req.user.id, createReadStream(), filename);
-      await UsersTable.update(req.user.id, { profilePicture: userDir.getProfilePictureUrl(req.user.id, filename) }).run(conn);
-      return await UsersTable.get(req.user.id).run(conn).finally(conn.release);
+      req.user.profilePicture= userDir.getProfilePictureUrl(req.user.id, filename);
+      return req.user;
     },
     setPreferedLanguage: async function (root, { lng }, { req }) {
-      const conn = await req.connectionPool.getConnection();
-      await UsersTable.update(req.user.id, { preferedLanguage: lng });
-      await req.i18n.changeLanguage(lng);
-      return await UsersTable.get(req.user.id).run(conn).finally(conn.release);
+      req.user.preferedLanguage = lng;
+      return req.user;
     },
   }
 }

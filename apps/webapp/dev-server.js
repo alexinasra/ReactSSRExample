@@ -12,7 +12,6 @@ const rethinkdbConfig = require('@foodle/config/rethinkdb.config');
 // Services
 const attachAssets = require('@foodle/assets/attach');
 const attachGraphQL = require('@foodle/graphql/attach');
-const attachDatabase = require('@foodle/database/attach');
 const attachI18n = require('@foodle/i18n/attach');
 
 // Applications
@@ -58,8 +57,6 @@ global.ROOT_DIR = path.resolve(__dirname, '../..');
     defaultLanguage: 'en',
     defaultNamespace: 'common'
   });
-
-  await attachDatabase({ app, config: rethinkdbConfig });
 
   await attachGraphQL({ app });
   await attachAuth({ app }); //Webapp depends on auth module

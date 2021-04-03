@@ -10,7 +10,6 @@
   "dependencies": {
     "@foodle/auth": "^1.0.0",
     "@foodle/config": "^1.0.0",
-    "@foodle/database": "^1.0.0",
     "@foodle/i18n": "^1.0.0",
     "@foodle/utils": "^1.0.0",
     "@graphql-tools/load-files": "^6.2.5",
