@@ -21,6 +21,7 @@ const resolvers = {
       profilePicture: userDir.getProfilePictureUrl('user-generated-uuid', 'default_profile_picture.png'),
       firstname: 'Fake',
       lastname: 'User',
+      email: "fakeuser@example.com"
     })
   },
   Mutation: {
