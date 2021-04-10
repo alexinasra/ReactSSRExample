@@ -5,15 +5,13 @@ const { ApolloServer } = require('apollo-server-express');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
 
+const { MongoClient, ObjectId } = require('mongodb');
+const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
-const restrictToAdmin = (req, res, next) => next();
-const restrictToUser = (req, res, next) => {
-  if (!req.user) {
-    res.status(401);
-  }
+const connectionUrl = `mongodb://${MongoDbConfig.host}:${MongoDbConfig.port}?${Object.keys(MongoDbConfig.options).map(key => key + '=' + MongoDbConfig.options[key]).join('&')}`
 
-  return next();
-};
+
+const mongoClient = new MongoClient(connectionUrl);
 
 module.exports = async function attach({ app }) {
   const rootModule = createModule({
@@ -56,7 +54,13 @@ module.exports = async function attach({ app }) {
   const authSchema = authApp.createSchemaForApollo();
   (new ApolloServer({
     schema: authSchema,
-    context: (c) => c,
+    context: (c) => {
+      return {
+        ...c,
+        mongoClient,
+        generateId: (idStr) => new ObjectId(idStr),
+      }
+    },
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
   })).applyMiddleware({app, path: '/authql'});
 
@@ -66,7 +70,13 @@ module.exports = async function attach({ app }) {
   const adminConsoleSchema = await adminConsoleApp.createSchemaForApollo();
   (new ApolloServer({
     schema: adminConsoleSchema,
-    context: (c) => c,
+    context: (c) => {
+      return {
+        ...c,
+        mongoClient,
+        generateId: (idStr) => new ObjectId(idStr),
+      }
+    },
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
   })).applyMiddleware({app, path: '/adminconsoleql'});
 
@@ -76,7 +86,13 @@ module.exports = async function attach({ app }) {
   const userConsoleSchema = userConsoleApp.createSchemaForApollo();
   (new ApolloServer({
     schema: userConsoleSchema,
-    context: (c) => c,
+    context: (c) => {
+      return {
+        ...c,
+        mongoClient,
+        generateId: (idStr) => new ObjectId(idStr),
+      }
+    },
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
   })).applyMiddleware({app, path: '/userconsoleql'});
 
@@ -87,7 +103,13 @@ module.exports = async function attach({ app }) {
   const webAppSchema = webappConsoleApp.createSchemaForApollo();
   (new ApolloServer({
     schema: webAppSchema,
-    context: (c) => c,
+    context: (c) => {
+      return {
+        ...c,
+        mongoClient,
+        generateId: (idStr) => new ObjectId(idStr),
+      }
+    },
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
   })).applyMiddleware({app, path: '/webappql'});
 };

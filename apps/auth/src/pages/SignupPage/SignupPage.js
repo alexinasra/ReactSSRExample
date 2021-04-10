@@ -39,16 +39,13 @@ mutation ($firstname: String!, $lastname: String!, $email: String!, $password: S
   signupWithEmail(
    signupForm: {
      password: $password
-     userInput: {
-       email: $email
-       firstname: $firstname
-       lastname: $lastname
-     }
+     email: $email
+     firstname: $firstname
+     lastname: $lastname
    }
  ) {
    user {
      id
-     email
      firstname
      lastname
    }

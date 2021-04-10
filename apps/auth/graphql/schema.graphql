@@ -13,7 +13,9 @@ extend type Mutation {
 
 
 input SignupFormInput {
-  userInput: UserInput!
+  firstname: String!
+  lastname: String!
+  email: String!
   password: String!
 }
 
@@ -27,6 +29,7 @@ enum AuthStatusCode {
   UserNotFound
   IncorrectPassword
   UnauthenticatedUser
+  ServerError
 }
 
 type AuthPayload {

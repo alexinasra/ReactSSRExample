@@ -10,6 +10,7 @@
   "dependencies": {
     "@react-ssrex/auth": "^1.0.0",
     "@react-ssrex/config": "^1.0.0",
+    "@react-ssrex/database": "^1.0.0",
     "@react-ssrex/i18n": "^1.0.0",
     "@react-ssrex/utils": "^1.0.0",
     "@graphql-tools/load-files": "^6.2.5",

@@ -1,5 +1,7 @@
-
+const UsersDb = require('@react-ssrex/database/UsersDb');
+const { DbLoginBadPasswordError, DbLoginUserNotFoundError } = require('@react-ssrex/database/DbError');
 const userDir =  require('@react-ssrex/userconsole/graphql/user-dir');
+
 
 const STATUS_CODE = {
   Success: "Success",
@@ -10,57 +12,81 @@ const STATUS_CODE = {
   DuplicateSignin: "DuplicateSignin",
   UserNotFound: "UserNotFound",
   IncorrectPassword: "IncorrectPassword",
-  UnauthenticatedUser: "UnauthenticatedUser"
+  UnauthenticatedUser: "UnauthenticatedUser",
+  ServerError: "ServerError"
 };
 
 const resolvers = {
   AuthStatusCode: STATUS_CODE,
   Query: {
-    userInRole: (root, args, { req }) => ({
-      id: 'user-generated-uuid',
-      profilePicture: userDir.getProfilePictureUrl('user-generated-uuid', 'default_profile_picture.png'),
-      firstname: 'Fake',
-      lastname: 'User',
-      email: "fakeuser@example.com"
-    })
+    userInRole: (root, args, { req }) => (req.session.userInRole),
   },
   Mutation: {
-    signupWithEmail: async function registerUser(root, { signupForm }, {req}) {
-      const userId = 'user-generated-uuid';
+    signupWithEmail: async function registerUser(root, { signupForm }, { req, mongoClient, generateId }) {
+      const userId = generateId();
+      const client = await mongoClient.connect();
+      const database = await client.db("react-ssrex")
 
-      const user = {
-        ...signupForm.userInput,
-        id: userId,
-        password: signupForm.password,
-        profilePicture: userDir.getProfilePictureUrl(userId, 'default_profile_picture.png'),
-      }
       //create home directory
-      await userDir.createHomeDir(userId);
+      await userDir.createHomeDir(userId.toString());
+
+      const userData = {
+        firstname: signupForm.firstname,
+        lastname: signupForm.lastname,
+        _id: userId,
+        profilePicture: userDir.getProfilePictureUrl(userId.toString(), 'default_profile_picture.png'),
+      }
+
+      const user = await UsersDb.with(database).create(userData, signupForm.email, signupForm.password)
 
       return { user, status: { code: STATUS_CODE.Success }, token: '' };
     },
-    signinWithEmail: async function signinWithEmail(root, { email, password }, {req}) {
-      const userId = 'user-generated-uuid';
-      return {
-        status: {
-          code: STATUS_CODE.Success
-        },
-        user: {
-          id: userId,
-          email,
-          firstname: 'Demo User',
-          lastname: 'Demo User',
-          password: password,
-          profilePicture: userDir.getProfilePictureUrl(userId, 'default_profile_picture.png'),
+    signinWithEmail: async function signinWithEmail(root, { email, password }, { req, mongoClient, generateId }) {
+      const client = await mongoClient.connect();
+      const database = await client.db("react-ssrex");
+      try {
+        const result = await UsersDb.with(database).login(email, password);
+        req.session.userInRole = {
+          ...result.user
         }
-      };
+
+        return {
+          status: {
+            code: STATUS_CODE.Success
+          },
+          user: result.user
+        };
+      } catch (e) {
+        if (e instanceof DbLoginUserNotFoundError) {
+
+          return {
+            status: {
+              code: STATUS_CODE.UserNotFound
+            },
+          };
+        } else if (e instanceof DbLoginBadPasswordError) {
+
+          return {
+            status: {
+              code: STATUS_CODE.IncorrectPassword
+            },
+          };
+        } else  {
+          return {
+            status: {
+              code: STATUS_CODE.ServerError,
+              msg: e.message
+            },
+          };
+        }
+      }
     },
     signout: function signout(root, args, { req }) {
       return new Promise(function(resolve, reject) {
-        if (!req.user) {
+        if (!req.session.userInRole) {
           return resolve({status: { code: STATUS_CODE.UnauthenticatedUser} })
         }
-        req.logout();
+        req.session.userInRole = null;
         resolve({ status: { code: STATUS_CODE.Success } })
 
       });

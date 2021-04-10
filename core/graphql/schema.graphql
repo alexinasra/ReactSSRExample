@@ -14,14 +14,10 @@ scalar Upload
 
 type User {
   id: String!
-  email: String!
   firstname: String!
   lastname: String!
   profilePicture: String!
-}
-
-input UserInput {
   email: String!
-  firstname: String!
-  lastname: String!
+  activated: Boolean!
+  preferedLanguage: String
 }

@@ -1,0 +1,11 @@
+{
+  "name": "@react-ssrex/database",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@react-ssrex/utils": "^1.0.0",
+    "bcrypt": "^5.0.1",
+    "mongodb": "^3.6.6"
+  }
+}
