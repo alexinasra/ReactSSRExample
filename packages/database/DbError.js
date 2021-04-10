@@ -20,9 +20,27 @@ class DbLoginUserNotFoundError extends DbError {
 }
 class DbLoginBadPasswordError extends DbError {
   constructor(email, attempt = 0) {
-    super(`incurrect password for ${email}, attempt (${attempt}).`)
+    super(`incorrect password for ${email}, attempt (${attempt}).`)
     this.data = {
       email,
+      attempt
+    }
+  }
+}
+class DbChangePasswordBadPasswordError extends DbError {
+  constructor(userId, attempt = 0) {
+    super(`incorrect password for ${userId}, attempt (${attempt}).`)
+    this.data = {
+      userId,
+      attempt
+    }
+  }
+}
+class DbChangePasswordUserNotFoundError extends DbError {
+  constructor(userId) {
+    super(`user with id ${userId} not found.`)
+    this.data = {
+      userId,
       attempt
     }
   }
