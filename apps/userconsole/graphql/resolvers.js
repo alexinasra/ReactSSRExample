@@ -2,6 +2,7 @@ const path = require("path");
 const { createWriteStream, mkdirSync, readdirSync } = require("fs");
 const UsersDb = require('@react-ssrex/database/UsersDb');
 
+const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 const userDir = require('./user-dir');
 
 
@@ -24,7 +25,7 @@ module.exports = {
   Mutation: {
     updateProfilePicture: async (root, { url }, { req, mongoClient, generateId }) => {
       const client = await mongoClient.connect();
-      const database = await client.db("react-ssrex")
+      const database = await client.db(MongoDbConfig.db)
 
       const userId = req.session.userInRole._id;
       const user = await UsersDb.with(database).update(generateId(userId), {
@@ -34,7 +35,7 @@ module.exports = {
     },
     uploadProfilePicture: async function (root, { file }, { req, mongoClient, generateId }) {
       const client = await mongoClient.connect();
-      const database = await client.db("react-ssrex")
+      const database = await client.db(MongoDbConfig.db)
       const userId = req.session.userInRole._id;
       const { createReadStream, filename, mimetype, encoding } = await file;
       await userDir.addProfilePicture(userId, createReadStream(), filename);
@@ -46,7 +47,7 @@ module.exports = {
     },
     setPreferedLanguage: async function (root, { lng }, { req, mongoClient, generateId }) {
       const client = await mongoClient.connect();
-      const database = await client.db("react-ssrex")
+      const database = await client.db(MongoDbConfig.db)
       const userId = req.session.userInRole._id;
       const user = await UsersDb.with(database).update(generateId(userId), {
         preferedLanguage: lng

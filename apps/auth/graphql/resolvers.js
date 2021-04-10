@@ -2,6 +2,7 @@ const UsersDb = require('@react-ssrex/database/UsersDb');
 const { DbLoginBadPasswordError, DbLoginUserNotFoundError } = require('@react-ssrex/database/DbError');
 const userDir =  require('@react-ssrex/userconsole/graphql/user-dir');
 
+const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 const STATUS_CODE = {
   Success: "Success",
@@ -25,7 +26,7 @@ const resolvers = {
     signupWithEmail: async function registerUser(root, { signupForm }, { req, mongoClient, generateId }) {
       const userId = generateId();
       const client = await mongoClient.connect();
-      const database = await client.db("react-ssrex")
+      const database = await client.db(MongoDbConfig.db)
 
       //create home directory
       await userDir.createHomeDir(userId.toString());
@@ -43,7 +44,7 @@ const resolvers = {
     },
     signinWithEmail: async function signinWithEmail(root, { email, password }, { req, mongoClient, generateId }) {
       const client = await mongoClient.connect();
-      const database = await client.db("react-ssrex");
+      const database = await client.db(MongoDbConfig.db);
       try {
         const result = await UsersDb.with(database).login(email, password);
         req.session.userInRole = {
