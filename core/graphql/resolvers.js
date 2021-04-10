@@ -2,9 +2,6 @@ const { GraphQLUpload } = require('graphql-modules');
 
 
 const resolvers = {
-  Query: {
-    application: () => ({ name: 'Lookfor Emirates' }),
-  },
   Upload: GraphQLUpload,
   User: {
     id: (root) => root['_id'],
