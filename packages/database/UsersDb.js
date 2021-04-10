@@ -56,7 +56,9 @@ class UsersDb {
       throw new errors.DbLoginUserNotFoundError(email);
     }
   }
+  changePassword = async (userId, password, newPassword) {
 
+  }
   update = async (userId, batch) => {
     const result = await this.collection.findOneAndUpdate({ _id: userId }, { '$set': batch });
     const user = await this.collection.findOne({ _id: userId });
