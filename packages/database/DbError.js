@@ -51,4 +51,6 @@ module.exports = {
   DbError,
   DbLoginUserNotFoundError,
   DbLoginBadPasswordError,
+  DbChangePasswordBadPasswordError,
+  DbChangePasswordUserNotFoundError
 }

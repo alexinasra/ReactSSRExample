@@ -1,5 +1,10 @@
 const UsersDb = require('@react-ssrex/database/UsersDb');
-const { DbLoginBadPasswordError, DbLoginUserNotFoundError } = require('@react-ssrex/database/DbError');
+const {
+  DbLoginBadPasswordError,
+  DbLoginUserNotFoundError ,
+  DbChangePasswordBadPasswordError,
+  DbChangePasswordUserNotFoundError,
+} = require('@react-ssrex/database/DbError');
 const userDir =  require('@react-ssrex/userconsole/graphql/user-dir');
 
 const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
@@ -92,18 +97,51 @@ const resolvers = {
 
       });
     },
-    changePassword: async function (root, { password }, { req }) {
-      if (!req.user) {
+    changePassword: async function (root, { password, newPassword }, { req, mongoClient, generateId }) {
+      const client = await mongoClient.connect();
+      const database = await client.db(MongoDbConfig.db);
+      if (!req.session.userInRole) {
         return {
           status: { code: STATUS_CODE.UnauthenticatedUser }
         };
       }
-      return {
-        user: req.user,
-        status: {
-          code: STATUS_CODE.Success
+
+      try {
+        const result = await UsersDb.with(database).changePassword(generateId(req.session.userInRole._id), password, newPassword);
+        req.session.userInRole = {
+          ...result.user
         }
-      };
+
+        return {
+          status: {
+            code: STATUS_CODE.Success
+          },
+          user: result.user
+        };
+      } catch (e) {
+        if (e instanceof DbChangePasswordUserNotFoundError) {
+
+          return {
+            status: {
+              code: STATUS_CODE.UserNotFound
+            },
+          };
+        } else if (e instanceof DbChangePasswordBadPasswordError) {
+
+          return {
+            status: {
+              code: STATUS_CODE.IncorrectPassword
+            },
+          };
+        } else  {
+          return {
+            status: {
+              code: STATUS_CODE.ServerError,
+              msg: e.message
+            },
+          };
+        }
+      }
     }
   },
 };

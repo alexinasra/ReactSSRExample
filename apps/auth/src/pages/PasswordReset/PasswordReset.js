@@ -12,8 +12,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CHANGE_PASSWORD = gql`
-mutation ($password: String!) {
-  changePassword(password: $password){
+mutation ($password: String! $newPassword: String!) {
+  changePassword(password: $password, newPassword: $newPassword){
     status {
       code
     }
@@ -34,13 +34,14 @@ export default function PasswordReset() {
   }
   const [changePassword, { loading, error }] = useMutation(CHANGE_PASSWORD);
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const enableButton = useMemo(
-    () => (password && password === passwordConfirm),
-    [password, passwordConfirm],
+    () => (password && newPassword && newPassword === passwordConfirm),
+    [password, newPassword, passwordConfirm],
   );
   const handleButtonClick = async () => {
-    await changePassword({ variables: { password } });
+    await changePassword({ variables: { password, newPassword } });
     window.location.href = query.redirectto || '/';
   };
 
@@ -58,6 +59,19 @@ export default function PasswordReset() {
         autoComplete="current-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        name="new-password"
+        label={t('PasswordInput.label')}
+        type="password"
+        id="new-password"
+        autoComplete="current-password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
       />
       <TextField
         variant="outlined"

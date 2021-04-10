@@ -56,7 +56,25 @@ class UsersDb {
       throw new errors.DbLoginUserNotFoundError(email);
     }
   }
-  changePassword = async (userId, password, newPassword) {
+  changePassword = async (userId, password, newPassword, attempt = 0) => {
+    const user = await this.collection.findOne({ _id: userId });
+    if (user) {
+      const success = await simplePasswordCompare(password, user.hash);
+      if (success) {
+        const hash = await simplePasswordHash(newPassword);
+        this.update(userId, { hash })
+
+        delete user.hash;
+        return {
+          user
+        }
+      } else {
+        throw new errors.DbChangePasswordBadPasswordError(userId, attempt);
+      }
+    } else {
+      //user not found
+      throw new errors.DbChangePasswordUserNotFoundError(userId);
+    }
 
   }
   update = async (userId, batch) => {
