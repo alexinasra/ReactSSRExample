@@ -11,7 +11,7 @@ const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 const connectionUrl = `mongodb://${MongoDbConfig.host}:${MongoDbConfig.port}?${Object.keys(MongoDbConfig.options).map(key => key + '=' + MongoDbConfig.options[key]).join('&')}`
 
 
-const mongoClient = new MongoClient(connectionUrl);
+const mongoClient = new MongoClient(connectionUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 module.exports = async function attach({ app }) {
   const rootModule = createModule({
