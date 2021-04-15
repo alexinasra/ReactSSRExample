@@ -6,9 +6,6 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const cors = require('cors');
 
-// Configurations
-const rethinkdbConfig = require('@react-ssrex/config/rethinkdb.config');
-
 // Services
 const attachAssets = require('@react-ssrex/assets/attach');
 const attachGraphQL = require('@react-ssrex/graphql/attach');
