@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import {
-  Link as RouterLink, useHistory, useLocation,
+  Link as RouterLink, useLocation,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Alert from '@material-ui/lab/Alert';
@@ -40,19 +40,20 @@ function useQuery() {
 }
 const SIGN_IN = gql`
 mutation SigninWithEmail($email: String!, $password: String!){
-  signinWithEmail(email: $email, password: $password) {
-    user{ firstname }
-    token
-    status {
-      code
-      msg
+  signin(input: {
+      email: $email
+      password: $password
+    }) {
+    user{
+      id
+      firstname
     }
+    error
   }
 }
 `;
 
 export default function SignIn() {
-  const history = useHistory();
   const query = useQuery();
   const classes = useStyles();
   const { t, ready } = useTranslation('Auth', { useSuspense: false });
@@ -63,7 +64,7 @@ export default function SignIn() {
   const [inputError, setInputError] = useState(false);
 
   const [
-    signinWithEmail,
+    signin,
     { loading, data, error },
   ] = useMutation(SIGN_IN);
   const [email, setEmail] = useState('');
@@ -81,7 +82,7 @@ export default function SignIn() {
 
   const signIn = (e) => {
     e.preventDefault();
-    signinWithEmail({
+    signin({
       variables: {
         email,
         password,
@@ -91,11 +92,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (!data) return;
-    switch (data.signinWithEmail.status.code) {
-      case AuthStatusCode.Success: // login success
-        // redirect to redirecto query param or to home
-        window.location.href = query.redirectto || '/';
-        break;
+    switch (data.signin.error) {
       case AuthStatusCode.DuplicateSignin: // allready in
         window.location.href = '/';
         break;
@@ -106,9 +103,9 @@ export default function SignIn() {
         setInputError(t('Error.UserNotFound'));
         break;
       default:
-        break;
+        window.location.href = query.redirectto || '/';
     }
-  }, [data, history]);
+  }, [data, query]);
 
   return (
     <AuthPage error={error} loading={loading} className={classes.paper} maxWidth="xs">

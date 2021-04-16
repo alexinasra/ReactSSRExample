@@ -5,40 +5,42 @@ extend type Query {
 
 
 extend type Mutation {
-  signupWithEmail(signupForm: SignupFormInput!): AuthPayload
-  signinWithEmail(email: String!, password: String!): AuthPayload
-  signout: AuthPayload
-  changePassword(password: String!, newPassword: String!): AuthPayload
+  signup(input: SignupInput!): SignupPayload
+  signin(input: SigninInput): SigninPayload
+  signout: SignoutPayload
+  changePassword(input: ChangePasswordInput): ChangePasswordPayload
 }
 
 
-input SignupFormInput {
+input SignupInput {
   firstname: String!
   lastname: String!
   email: String!
   password: String!
 }
-
-enum AuthStatusCode {
-  Success
-  InputError
-  InvalidEmail
-  InvalidPassword
-  EmailBooked
-  DuplicateSignin
-  UserNotFound
-  IncorrectPassword
-  UnauthenticatedUser
-  ServerError
-}
-
-type AuthPayload {
+type SignupPayload {
   user: User
-  status: AuthPayloadStatus!
-  token: String
+  error: String
 }
 
-type AuthPayloadStatus {
-  code: AuthStatusCode!
-  msg: String
+input SigninInput {
+  email: String!
+  password: String!
+}
+type SigninPayload {
+  user: User
+  error: String
+}
+
+type SignoutPayload {
+  error: String
+}
+
+input ChangePasswordInput{
+  oldPassword: String!
+  newPassword: String!
+}
+
+type ChangePasswordPayload {
+  error: String
 }

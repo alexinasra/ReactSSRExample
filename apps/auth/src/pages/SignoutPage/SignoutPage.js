@@ -11,12 +11,7 @@ function useRedirectTo() {
 const SIGN_OUT = gql`
 mutation Signinout{
   signout {
-    user{ firstname }
-    token
-    status {
-      code
-      msg
-    }
+    error
   }
 }
 `;

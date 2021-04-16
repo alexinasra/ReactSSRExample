@@ -23,87 +23,77 @@ const STATUS_CODE = {
 };
 
 const resolvers = {
-  AuthStatusCode: STATUS_CODE,
   Query: {
     userInRole: (root, args, { req }) => (req.session.userInRole),
   },
   Mutation: {
-    signupWithEmail: async function registerUser(root, { signupForm }, { req, mongoClient, generateId }) {
+    signup: async function registerUser(root, { input }, { req, mongoClient, generateId }) {
       const userId = generateId();
       const client = await mongoClient.connect();
       const database = await client.db(MongoDbConfig.db)
-
-      //create home directory
-      await userDir.createHomeDir(userId.toString());
+      try {
+        //create home directory
+        await userDir.createHomeDir(userId.toString());
+      } catch (e) {
+        return { error: STATUS_CODE.ServerError, }
+      }
 
       const userData = {
-        firstname: signupForm.firstname,
-        lastname: signupForm.lastname,
+        firstname: input.firstname,
+        lastname: input.lastname,
         _id: userId,
         profilePicture: userDir.getProfilePictureUrl(userId.toString(), 'default_profile_picture.png'),
       }
-
-      const user = await UsersDb.with(database).create(userData, signupForm.email, signupForm.password)
-
-      return { user, status: { code: STATUS_CODE.Success }, token: '' };
+      try {
+        const user = await UsersDb.with(database).create(userData, input.email, input.password);
+        await UsersDb.with(database).login(input.email, input.password)
+        req.session.userInRole = user;
+        return { user };
+      } catch (e) {
+        // TODO: check for other errors.
+        return { error: STATUS_CODE.ServerError, }
+      }
     },
-    signinWithEmail: async function signinWithEmail(root, { email, password }, { req, mongoClient, generateId }) {
+    signin: async function signinWithEmail(root, { input: { email, password } }, { req, mongoClient, generateId }) {
       const client = await mongoClient.connect();
       const database = await client.db(MongoDbConfig.db);
       try {
         const result = await UsersDb.with(database).login(email, password);
-        req.session.userInRole = {
-          ...result.user
-        }
+        req.session.userInRole = result.user
 
         return {
-          status: {
-            code: STATUS_CODE.Success
-          },
           user: result.user
         };
       } catch (e) {
         if (e instanceof DbLoginUserNotFoundError) {
 
           return {
-            status: {
-              code: STATUS_CODE.UserNotFound
-            },
+            error: STATUS_CODE.UserNotFound
           };
         } else if (e instanceof DbLoginBadPasswordError) {
 
           return {
-            status: {
-              code: STATUS_CODE.IncorrectPassword
-            },
+            error: STATUS_CODE.IncorrectPassword
           };
         } else  {
           return {
-            status: {
-              code: STATUS_CODE.ServerError,
-              msg: e.message
-            },
+            error: STATUS_CODE.ServerError,
           };
         }
       }
     },
-    signout: function signout(root, args, { req }) {
-      return new Promise(function(resolve, reject) {
-        if (!req.session.userInRole) {
-          return resolve({status: { code: STATUS_CODE.UnauthenticatedUser} })
-        }
-        req.session.userInRole = null;
-        resolve({ status: { code: STATUS_CODE.Success } })
-
-      });
+    signout: (root, args, { req }) => {
+      if (!req.session.userInRole) {
+        return resolve({ error: STATUS_CODE.UnauthenticatedUser })
+      }
+      req.session.userInRole = null;
+      return { error: null }
     },
     changePassword: async function (root, { password, newPassword }, { req, mongoClient, generateId }) {
       const client = await mongoClient.connect();
       const database = await client.db(MongoDbConfig.db);
       if (!req.session.userInRole) {
-        return {
-          status: { code: STATUS_CODE.UnauthenticatedUser }
-        };
+        return { error: STATUS_CODE.UnauthenticatedUser };
       }
 
       try {
@@ -113,32 +103,23 @@ const resolvers = {
         }
 
         return {
-          status: {
-            code: STATUS_CODE.Success
-          },
-          user: result.user
+          error : null
         };
       } catch (e) {
         if (e instanceof DbChangePasswordUserNotFoundError) {
 
           return {
-            status: {
-              code: STATUS_CODE.UserNotFound
-            },
+            error: STATUS_CODE.UserNotFound
+
           };
         } else if (e instanceof DbChangePasswordBadPasswordError) {
 
           return {
-            status: {
-              code: STATUS_CODE.IncorrectPassword
-            },
+            error: STATUS_CODE.IncorrectPassword
           };
         } else  {
           return {
-            status: {
-              code: STATUS_CODE.ServerError,
-              msg: e.message
-            },
+            error: STATUS_CODE.ServerError,
           };
         }
       }

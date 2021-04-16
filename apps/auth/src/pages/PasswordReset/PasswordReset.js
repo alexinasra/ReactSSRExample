@@ -13,10 +13,11 @@ const useStyles = makeStyles(() => ({
 
 const CHANGE_PASSWORD = gql`
 mutation ($password: String! $newPassword: String!) {
-  changePassword(password: $password, newPassword: $newPassword){
-    status {
-      code
-    }
+  changePassword(input: {
+      oldPassword: $password
+      newPassword: $newPassword
+    }){
+    error
   }
 }
 `;

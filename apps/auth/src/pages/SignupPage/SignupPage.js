@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const SIGN_UP = gql`
 mutation ($firstname: String!, $lastname: String!, $email: String!, $password: String!){
-  signupWithEmail(
+  signup(
    signupForm: {
      password: $password
      email: $email
@@ -49,11 +49,7 @@ mutation ($firstname: String!, $lastname: String!, $email: String!, $password: S
      firstname
      lastname
    }
-   status {
-     code
-     msg
-   }
-   token
+   error
  }
 }
 `;
@@ -70,28 +66,25 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [inputError, setInputError] = useState(false);
   const [
-    signupWithEmail,
+    signup,
     { loading, data, error },
   ] = useMutation(SIGN_UP);
 
   const signUp = (e) => {
     e.preventDefault();
-    signupWithEmail({
+    signup({
       variables: {
         firstname,
         lastname,
         email,
         password,
+
       },
     });
   };
   useEffect(() => {
     if (!data) return;
-    switch (data.signupWithEmail.status.code) {
-      case AuthStatusCode.Success: // login success
-        // redirect to redirecto query param or to home
-        window.location.href = '/';
-        break;
+    switch (data.signup.error) {
       case AuthStatusCode.DuplicateSignin: // allready in
         window.location.href = '/';
         break;
@@ -102,7 +95,7 @@ export default function SignUp() {
         setInputError('User Not Found');
         break;
       default:
-        break;
+        window.location.href = '/';
     }
   }, [data, history]);
   if (!ready) {
