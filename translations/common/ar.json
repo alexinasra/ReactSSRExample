@@ -1,17 +1,5 @@
 {
-	"ok": "موافق",
-	"cancel": "ألغاء",
-	"apply": "طبق",
-	"deny": "أمنع",
-	"allow": "أسمح",
-	"accept": "أقبل",
-	"reject": "أرفض",
-	"approve": "موافقه",
-	"confirm": "أكد",
-	"redo": "إعادة",
-	"undo": "ألغى",
-	"login": "تسجيل دخول",
-	"logout": "تسجيل خروج",
-	"profile": "الملف الشخصي",
-	"clear": "نظف"
+	"greetings": {
+		"welcome": "Welcome"
+	},
 }

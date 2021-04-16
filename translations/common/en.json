@@ -1,17 +1,5 @@
 {
-	"ok": "Ok",
-	"cancel": "Cancel",
-	"apply": "Apply",
-	"undo": "Undo",
-	"redo": "Redo",
-	"confirm": "Confirm",
-	"approve": "Approve",
-	"reject": "Reject",
-	"accept": "Accept",
-	"allow": "Allow",
-	"deny": "Deny",
-	"login": "Login",
-	"profile": "Profile",
-	"logout": "Logout",
-	"clear": "Clear"
+	"greetings": {
+		"welcome": "Welcome"
+	},
 }

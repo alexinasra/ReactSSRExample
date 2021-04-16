@@ -28,7 +28,7 @@ function useQuery() {
 export default function PasswordReset() {
   const classes = useStyles();
   const query = useQuery();
-  const { t, ready } = useTranslation('foodle_auth', { useSuspense: false });
+  const { t, ready } = useTranslation('Auth', { useSuspense: false });
   if (!ready) {
     return false;
   }

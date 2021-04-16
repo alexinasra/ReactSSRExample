@@ -1,9 +1,5 @@
 {
-	"ok": "אישור",
-	"cancel": "ביטול",
-	"login": "התחבר",
-	"profile": "פרופיל",
-	"logout": "התחנתק",
-	"clear": "נקה",
-	"apply": "החל"
+	"greetings": {
+		"welcome": "Welcome"
+	},
 }

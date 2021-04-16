@@ -55,7 +55,7 @@ export default function SignIn() {
   const history = useHistory();
   const query = useQuery();
   const classes = useStyles();
-  const { t, ready } = useTranslation('foodle_auth', { useSuspense: false });
+  const { t, ready } = useTranslation('Auth', { useSuspense: false });
   if (!ready) {
     return false;
   }

@@ -61,7 +61,7 @@ mutation ($firstname: String!, $lastname: String!, $email: String!, $password: S
 export default function SignUp() {
   const classes = useStyles();
   const history = useHistory();
-  const { t, ready } = useTranslation('foodle_auth', { useSuspense: false });
+  const { t, ready } = useTranslation('Auth', { useSuspense: false });
 
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [firstname, setFirstname] = useState('');
