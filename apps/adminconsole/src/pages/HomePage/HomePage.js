@@ -1,9 +1,10 @@
 import React from 'react';
+import LayoutPage from '../../layout/LayoutPage';
 
 export default function HomePage() {
   return (
-    <div>
+    <LayoutPage>
       my page
-    </div>
+    </LayoutPage>
   );
 }

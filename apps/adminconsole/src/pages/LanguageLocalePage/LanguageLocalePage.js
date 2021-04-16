@@ -1,9 +1,10 @@
 import React from 'react';
+import LayoutPage from '../../layout/LayoutPage';
 
 export default function LanguageLocalePage() {
   return (
-    <div>
+    <LayoutPage>
       my LanguageLocalePage
-    </div>
+    </LayoutPage>
   );
 }

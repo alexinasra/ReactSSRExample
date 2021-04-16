@@ -3,7 +3,7 @@ import i18n from '@react-ssrex/i18n/client';
 import Typography from '@material-ui/core/Typography';
 import { Translation } from 'react-i18next';
 import Suspense from '@react-ssrex/ui/build/Suspense';
-import DashboardPage from '../../layout/DashboardPage';
+import LayoutPage from '../../layout/LayoutPage';
 
 export default function LanguagesPage() {
   const [state, setState] = useState({
@@ -20,7 +20,7 @@ export default function LanguagesPage() {
   })), []);
 
   return (
-    <DashboardPage>
+    <LayoutPage>
       {
         state.languages.map((lng) => (
           <p key={lng}>
@@ -38,6 +38,6 @@ export default function LanguagesPage() {
           </p>
         ))
       }
-    </DashboardPage>
+    </LayoutPage>
   );
 }

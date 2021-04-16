@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import Toolbar from '@material-ui/core/Toolbar';
-import DashboardContainer from './layout/DashboardContainer';
+import { Switch, Route } from 'react-router-dom';
+import LayoutContainer from './layout/LayoutContainer';
 
 import HomePage from './pages/HomePage';
 import LanguageLocalePage, {
@@ -12,23 +11,7 @@ import LanguageLocalePage, {
 
 export default function App() {
   return (
-    <DashboardContainer
-      logo={(
-        <Link to="/">
-          <img height="44" src="/assets/logo.png" alt="lookfor.ae" />
-        </Link>
-      )}
-      toolbar={(
-        <Toolbar>
-          Item
-        </Toolbar>
-      )}
-      aside={(
-        <div>
-          <Link to="/locale-settings">Language and Localization</Link>
-        </div>
-      )}
-    >
+    <LayoutContainer>
       <Switch>
         <Route path="/locale-settings/languages" exact>
           <LanguagesPage />
@@ -43,6 +26,6 @@ export default function App() {
           <HomePage />
         </Route>
       </Switch>
-    </DashboardContainer>
+    </LayoutContainer>
   );
 }

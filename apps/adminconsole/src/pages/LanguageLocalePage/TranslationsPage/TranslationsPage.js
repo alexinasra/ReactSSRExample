@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import DashboardPage from '../../../layout/DashboardPage';
+import LayoutPage from '../../../layout/LayoutPage';
 
+// this is very old implementation it can be improved for sure ..
 import TranslationTable from './components/TranslationTable';
 
 const TRANSLATIONS_PAGE = gql`
@@ -49,7 +50,7 @@ export default function TranslationsPage() {
     return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
   }
   return (
-    <DashboardPage>
+    <LayoutPage>
       <TranslationTable
         ns={selectedNs}
         namespaces={ns}
@@ -57,6 +58,6 @@ export default function TranslationsPage() {
         onNamespaceAdd={handleNamespaceAdd}
         onNamespaceChange={handleNsChange}
       />
-    </DashboardPage>
+    </LayoutPage>
   );
 }
