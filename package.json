@@ -4,7 +4,7 @@
   "main": "index.js",
   "private": true,
   "resolutions": {
-    "**/**/fs-capacitor":"^6.2.0",
+    "**/**/fs-capacitor": "^6.2.0",
     "**/graphql-upload": "^11.0.0"
   },
   "workspaces": [
