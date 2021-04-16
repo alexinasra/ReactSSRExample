@@ -12,8 +12,8 @@ const attachGraphQL = require('@react-ssrex/graphql/attach');
 const attachI18n = require('@react-ssrex/i18n/attach');
 
 // Applications
-const attachAuth = require('@react-ssrex/auth/attach');
-const attachUserConsole = require('@react-ssrex/userconsole/attach');
+// const attachAuth = require('@react-ssrex/auth/attach');
+const attachAdminConsole = require('@react-ssrex/adminconsole/attach');
 
 const app = express();
 
@@ -55,7 +55,7 @@ global.ROOT_DIR = path.resolve(__dirname, '../..');
 
 
   await attachGraphQL({ app });
-  await attachAuth({ app }); //Dashboard depends on auth module
+  // await attachAuth({ app }); //Dashboard depends on auth module
   await attachAdminConsole({ app });
   app.listen(3030, () => {
     console.log('Server Started');
