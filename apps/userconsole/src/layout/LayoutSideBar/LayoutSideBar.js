@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.mixins.toolbar.minHeight,
   },
   logoImg: {
-    width: '100%',
+    width: '60px',
   },
   menuButton: {
     background: theme.palette.secondary.light,
@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
 export default function LayoutSideBar() {
   const classes = useStyles();
   const [localExpand, setLocalExpand] = React.useState(false);
-  const handleLocalExpand = () => setLocalExpand(true);
-  const handleLocalShrink = () => setLocalExpand(false);
+  const handleLocalExpand = () => setTimeout(() => setLocalExpand(true), 30);
+  const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 260);
 
   return (
     <LayoutContext.Consumer>
@@ -95,7 +95,13 @@ export default function LayoutSideBar() {
           <Divider />
           <UserProfile />
           <Divider />
-          <Box onMouseOver={handleLocalExpand} onMouseLeave={handleLocalShrink}>
+          <Box
+            onMouseOver={handleLocalExpand}
+            onTouchStart={handleLocalExpand}
+            onTouchMove={handleLocalExpand}
+            onMouseLeave={handleLocalShrink}
+            onTouchEnd={handleLocalShrink}
+          >
             <List>
               <ListItem button component={RouterLink} to="/profile">
                 <ListItemIcon>

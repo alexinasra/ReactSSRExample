@@ -7,7 +7,7 @@ export default function createTheme(mode = 'light', direction = 'ltr') {
   return createMuiTheme({
     ...palette,
     mixins: {
-      toolbar: {
+      appBar: {
         minHeight: 120,
       },
     },

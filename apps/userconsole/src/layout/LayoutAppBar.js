@@ -60,7 +60,7 @@ export default function LayoutAppBar() {
     <LayoutContext.Consumer>
       {({ state, expandSidebar, toggleThemeMode }) => (
         <AppBar
-          position="absolute"
+          position="fixed"
           className={clsx(
             classes.root, state.expandedSidebar && classes.appBarShift,
           )}
