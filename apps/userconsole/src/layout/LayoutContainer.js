@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    background: theme.palette.primary.dark,
+    background: theme.palette.type === 'dark'
+      ? theme.palette.primary.dark : theme.palette.primary.light,
     height: '45vh',
   },
   content: {
