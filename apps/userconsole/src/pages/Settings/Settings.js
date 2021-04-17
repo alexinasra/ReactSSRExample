@@ -1,11 +1,17 @@
 import React from 'react';
-import LayoutPage from '../../layout/pagetypes/PaperPage';
+import Avatar from '@material-ui/core/Avatar';
+import Icon from '@material-ui/core/Icon';
+import PaperPage from '../../layout/pagetypes/PaperPage';
 import LanguageSettings from './LanguageSettings';
 
 export default function Settings() {
   return (
-    <LayoutPage>
+    <PaperPage
+      title="Settings"
+      subheader="change settings and preferences."
+      avatar={(<Avatar><Icon>settings</Icon></Avatar>)}
+    >
       <LanguageSettings />
-    </LayoutPage>
+    </PaperPage>
   );
 }

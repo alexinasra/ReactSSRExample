@@ -122,7 +122,7 @@ export default function LayoutSideBar() {
                     settings
                   </Icon>
                 </ListItemIcon>
-                <ListItemText primary="Language Settings" />
+                <ListItemText primary="Settings" />
               </ListItem>
             </List>
           </Box>

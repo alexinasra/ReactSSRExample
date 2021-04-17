@@ -3,15 +3,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   link: { margin: `auto ${theme.spacing(1)}px ` },
+  langButton: {
+    background: theme.palette.success[theme.palette.type],
+  },
   selectedLanguage: {
-    border: '1px solid',
+    background: theme.palette.success[theme.palette.type],
   },
 }));
 
@@ -57,18 +60,13 @@ export default function LanguageSettings() {
   };
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item md={2}>
-        <Typography>
-          Change platform language:
-        </Typography>
-      </Grid>
-      <Grid item md={10}>
+    <Box className={classes.root}>
+      <ButtonGroup>
         {systemLanguages.map((lng) => (
           <Button
             className={
               clsx(
-                classes.link,
+                classes.langButton,
                 {
                   [classes.selectedLanguage]: lng === data.userInRole.preferedLanguage,
                 },
@@ -80,7 +78,7 @@ export default function LanguageSettings() {
             {t(`Language:language_${lng}`)}
           </Button>
         ))}
-      </Grid>
-    </Grid>
+      </ButtonGroup>
+    </Box>
   );
 }

@@ -1,6 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import Icon from '@material-ui/core/Icon';
 import BasePage from './BasePage';
 
 const useStyles = makeStyles((theme) => ({
@@ -8,13 +12,17 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(6),
   },
   paper: {
-    height: 'calc(100vh - 270px)',
-    padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+    // padding: `${theme.spacing(4)}px ${theme.spacing(2)}px`,
   },
 
 }));
 
-export default function LayoutPage({ children }) {
+export default function LayoutPage({
+  title,
+  subheader,
+  avatar = (<Avatar><Icon>bookmark_border</Icon></Avatar>),
+  children,
+}) {
   const classes = useStyles();
   const [elevation, setElevation] = React.useState(18);
 
@@ -26,14 +34,20 @@ export default function LayoutPage({ children }) {
   };
   return (
     <BasePage containerClassName={classes.root} decorate>
-      <Paper
+      <Card
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         elevation={elevation}
         className={classes.paper}
       >
-        {children}
-      </Paper>
+        {title && (
+          <CardHeader avatar={avatar} title={title} subheader={subheader} />
+        )}
+        <CardContent>
+
+          {children}
+        </CardContent>
+      </Card>
     </BasePage>
   );
 }

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   appBarBackground: {
-    position: 'absolute',
+    position: 'fixed',
     paddingTop: theme.mixins.toolbar.minHeight + 20,
     boxSizing: 'border-box',
     display: 'flex',
@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     zIndex: -99999,
     top: theme.mixins.toolbar.minHeight,
+    left: 0,
+    right: 0,
   },
   appBarSpace: theme.mixins.toolbar,
 }));
@@ -67,6 +69,7 @@ export default function LayoutPage({
           </div>
           )}
           <Container
+            maxWidth="xl"
             className={clsx(classes.container, containerClassName)}
           >
             {children}
