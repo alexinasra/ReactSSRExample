@@ -1,12 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Page from '../../layout/Page';
+import LayoutPage from '../../layout/LayoutPage';
 import EditProfile from './EditProfile';
 import EditProfilePicture from './EditProfilePicture';
 
 export default function Profile() {
   return (
-    <Page>
+    <LayoutPage>
       <Grid container>
         <Grid item md={6}>
           <EditProfile />
@@ -15,6 +15,6 @@ export default function Profile() {
           <EditProfilePicture />
         </Grid>
       </Grid>
-    </Page>
+    </LayoutPage>
   );
 }

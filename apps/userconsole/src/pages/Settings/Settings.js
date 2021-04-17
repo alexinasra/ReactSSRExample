@@ -1,19 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-
-import Page from '../../layout/Page';
+import LayoutPage from '../../layout/LayoutPage';
 import LanguageSettings from './LanguageSettings';
 
-const useStyles = makeStyles(() => ({
-  root: {},
-}));
-
 export default function Settings() {
-  const classes = useStyles();
-
   return (
-    <Page className={classes.root}>
+    <LayoutPage>
       <LanguageSettings />
-    </Page>
+    </LayoutPage>
   );
 }

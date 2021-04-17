@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppContainer from './layout/AppContainer';
+import LayoutContainer from './layout/LayoutContainer';
 
 import ForceLogin from './ForceLogin';
 import HomePage from './pages/HomePage';
@@ -13,8 +12,7 @@ import Settings from './pages/Settings';
 export default function App() {
   return (
     <ForceLogin>
-      <CssBaseline />
-      <AppContainer>
+      <LayoutContainer>
         <Switch>
           <Route path="/enable-business" exact>
             <EnableBusiness />
@@ -29,7 +27,7 @@ export default function App() {
             <HomePage />
           </Route>
         </Switch>
-      </AppContainer>
+      </LayoutContainer>
     </ForceLogin>
   );
 }

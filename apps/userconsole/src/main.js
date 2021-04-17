@@ -19,8 +19,11 @@ import {
   jssPreset,
 } from '@material-ui/core/styles';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
-import theme from './theme';
+import createTheme from './theme';
 import App from './App';
+import LayoutContext from './layout/LayoutContext';
+import layoutReducer, * as actions from './layout/LayoutReducer';
+import layoutDefaultState from './layout/LayoutDefaultState';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -33,24 +36,36 @@ const client = new ApolloClient({
   ssrForceFetchDelay: 100,
 });
 
-function renderApp(RenderedApp, renderedTheme) {
+function renderApp(RenderedApp) {
   function Main() {
+    const [direction, setDirection] = React.useState(i18n.dir());
+
+    const [state, dispatch] = React.useReducer(layoutReducer, layoutDefaultState);
     React.useEffect(() => {
       const jssStyles = document.querySelector('#jss-server-side');
       if (jssStyles) {
         jssStyles.parentElement.removeChild(jssStyles);
       }
     }, []);
-    const [direction, setDirection] = React.useState(i18n.dir());
     React.useEffect(() => {
       i18n.on('languageChanged', (lng) => {
         setDirection(i18n.dir(lng));
       });
     }, [i18n]);
     return (
-      <ThemeProvider theme={{ ...renderedTheme, direction }}>
-        <RenderedApp />
-      </ThemeProvider>
+      <LayoutContext.Provider value={{
+        state: { ...state },
+        expandSidebar: () => dispatch(actions.expandSidebarAction()),
+        shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
+        setDarkMode: () => dispatch(actions.setDarkMode()),
+        setLightMode: () => dispatch(actions.setLightMode()),
+        toggleThemeMode: () => dispatch(actions.toggleThemeMode()),
+      }}
+      >
+        <ThemeProvider theme={createTheme(state.themeMode, direction)}>
+          <RenderedApp />
+        </ThemeProvider>
+      </LayoutContext.Provider>
     );
   }
   const rootElm = document.getElementById('react-root');
@@ -71,8 +86,7 @@ function renderApp(RenderedApp, renderedTheme) {
 if (module.hot) {
   module.hot.accept(['./App.js', './theme.js'], () => {
     const NewApp = require('./App').default;
-    const NewTheme = require('./theme').default;
-    renderApp(NewApp, NewTheme);
+    renderApp(NewApp);
   });
 }
 const opts = {
@@ -107,7 +121,7 @@ const opts = {
 
 setupI18n(opts, LanguageDetector, initReactI18next)
   .then(() => {
-    renderApp(App, theme);
+    renderApp(App, createTheme);
   })
   .catch((err) => {
     // eslint-disable-next-line no-console

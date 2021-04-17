@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Page from '../../layout/Page';
+import LayoutPage from '../../layout/LayoutPage';
 
 export default function EnableBusiness() {
   return (
-    <Page>
+    <LayoutPage>
       Enable Business Account.
-    </Page>
+    </LayoutPage>
   );
 }
