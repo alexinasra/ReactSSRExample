@@ -17,7 +17,6 @@ import LayoutContext from './LayoutContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: 'transparent',
     zIndex: theme.zIndex.drawer + 1,
     marginLeft: 72,
     width: `calc(100% - ${72}px)`,
@@ -35,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   toolbar: {
-    background: 'transparent',
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
