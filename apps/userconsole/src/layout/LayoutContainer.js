@@ -12,7 +12,7 @@ const Decoration = ({ dark = false, direction = 'ltr' }) => (
     y="0px"
     viewBox="0 0 300 46"
     xmlSpace="preserve"
-    style={{ transform: direction === 'ltr' && 'scale(-1,1)' }}
+    style={direction === 'ltr' ? { transform: 'scale(-1,1)' } : {}}
   >
     <path
       fill={dark ? '#303031' : '#FAFAFA'}
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  appBarSpacer: theme.mixins.toolbar,
   appBarBackground: {
     paddingTop: theme.mixins.toolbar.minHeight + 20,
     boxSizing: 'border-box',
