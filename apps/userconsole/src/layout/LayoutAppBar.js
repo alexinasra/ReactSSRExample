@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,7 +10,6 @@ import Badge from '@material-ui/core/Badge';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 
-import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import LayoutContext from './LayoutContext';
@@ -55,10 +54,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function LayoutAppBar() {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <LayoutContext.Consumer>
-      {({ state, expandSidebar, toggleThemeMode }) => (
+      {({
+        state, expandSidebar, shrinkSidebar, toggleThemeMode,
+      }) => (
         <AppBar
           position="fixed"
           className={clsx(
@@ -75,7 +77,18 @@ export default function LayoutAppBar() {
                 classes.menuButton, state.expandedSidebar && classes.menuButtonHidden,
               )}
             >
-              <MenuIcon />
+              <Icon>menu</Icon>
+            </IconButton>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={shrinkSidebar}
+              className={clsx(
+                classes.menuButton, !state.expandedSidebar && classes.menuButtonHidden,
+              )}
+            >
+              <Icon>{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Dashboard

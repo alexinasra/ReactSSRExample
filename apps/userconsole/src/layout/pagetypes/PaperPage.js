@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     // padding: `${theme.spacing(4)}px ${theme.spacing(2)}px`,
   },
+  cardAvatar: {
+    background: theme.palette.type === 'light'
+      ? theme.palette.primary.light
+      : theme.palette.primary.dark,
+  },
 
 }));
 
@@ -41,7 +46,12 @@ export default function LayoutPage({
         className={classes.paper}
       >
         {title && (
-          <CardHeader avatar={avatar} title={title} subheader={subheader} />
+          <CardHeader
+            classes={{ avatar: classes.avatar }}
+            avatar={avatar}
+            title={title}
+            subheader={subheader}
+          />
         )}
         <CardContent>
 

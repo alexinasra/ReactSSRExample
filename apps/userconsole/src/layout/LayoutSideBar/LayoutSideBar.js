@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 
 import Box from '@material-ui/core/Box';
 import Drawer from '@material-ui/core/Drawer';
@@ -43,17 +42,18 @@ const useStyles = makeStyles((theme) => ({
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    justifyContent: 'center',
     ...theme.mixins.toolbar,
   },
   logoUrl: {
     flexGrow: 1,
-    align: 'center',
     height: theme.mixins.toolbar.minHeight,
   },
+  alignStart: {
+    justifyContent: 'flex-start',
+  },
   logoImg: {
-    width: '60px',
+    height: theme.mixins.toolbar.minHeight - theme.spacing(1),
   },
   menuButton: {
     background: theme.palette.secondary.light,
@@ -67,11 +67,11 @@ export default function LayoutSideBar() {
   const classes = useStyles();
   const [localExpand, setLocalExpand] = React.useState(false);
   const handleLocalExpand = () => setTimeout(() => setLocalExpand(true), 30);
-  const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 260);
+  const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 360);
 
   return (
     <LayoutContext.Consumer>
-      {({ state: { expandedSidebar }, shrinkSidebar }) => (
+      {({ state: { expandedSidebar } }) => (
         <Drawer
           variant="permanent"
           classes={{
@@ -79,18 +79,10 @@ export default function LayoutSideBar() {
           }}
           open={expandedSidebar || localExpand}
         >
-          <div className={classes.toolbarIcon}>
+          <div className={clsx(classes.toolbarIcon, !expandedSidebar && classes.alignStart)}>
             <RouterLink className={classes.logoLink} to="/">
               <img className={classes.logoImg} src="/assets/logo.png" alt="lookfor.ae" />
             </RouterLink>
-            <IconButton
-              className={clsx(
-                classes.menuButton, !expandedSidebar && classes.menuButtonHidden,
-              )}
-              onClick={shrinkSidebar}
-            >
-              <Icon>menu</Icon>
-            </IconButton>
           </div>
           <Divider />
           <UserProfile />

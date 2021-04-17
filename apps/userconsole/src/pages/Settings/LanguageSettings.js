@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   link: { margin: `auto ${theme.spacing(1)}px ` },
   langButton: {
-    background: theme.palette.success[theme.palette.type],
+    background: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[600],
   },
   selectedLanguage: {
     background: theme.palette.success[theme.palette.type],
