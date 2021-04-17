@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const SIGN_UP = gql`
 mutation ($firstname: String!, $lastname: String!, $email: String!, $password: String!){
   signup(
-   signupForm: {
+   input: {
      password: $password
      email: $email
      firstname: $firstname
