@@ -1,17 +1,18 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LayoutContext from './LayoutContext';
 
 import LayoutAppBar from './LayoutAppBar';
 import LayoutSideBar from './LayoutSideBar';
 
-const Decoration = ({ dark }) => (
+const Decoration = ({ dark = false, direction = 'ltr' }) => (
   <svg
     x="0px"
     y="0px"
     viewBox="0 0 300 46"
     xmlSpace="preserve"
+    style={{ transform: direction === 'ltr' && 'scale(-1,1)' }}
   >
     <path
       fill={dark ? '#303031' : '#FAFAFA'}
@@ -32,8 +33,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     background: theme.palette.primary.dark,
+    height: '45vh',
   },
   content: {
+    position: 'relative',
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
@@ -42,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LayoutContainer({ children }) {
   const classes = useStyles();
-
+  const theme = useTheme();
   return (
     <LayoutContext.Consumer>
       {({ state: { themeMode } }) => (
@@ -52,7 +55,7 @@ export default function LayoutContainer({ children }) {
           <LayoutSideBar />
           <main className={classes.content}>
             <div className={classes.appBarBackground}>
-              <Decoration dark={themeMode === 'dark'} />
+              <Decoration dark={themeMode === 'dark'} direction={theme.direction} />
             </div>
             {children}
           </main>
