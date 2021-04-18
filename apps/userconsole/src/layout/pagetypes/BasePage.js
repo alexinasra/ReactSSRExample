@@ -39,8 +39,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    background: theme.palette.type === 'dark'
-      ? theme.palette.primary.dark : theme.palette.primary.light,
+    background: theme.palette.primary.light,
     width: '100%',
     zIndex: -99999,
     top: theme.mixins.toolbar.minHeight,
