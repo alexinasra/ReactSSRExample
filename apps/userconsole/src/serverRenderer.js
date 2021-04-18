@@ -24,7 +24,7 @@ import {
 
 import { create } from 'jss';
 import rtl from 'jss-rtl';
-import createTheme from './theme';
+import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
 export default function serverRenderer({ clientStats, serverStats }) {
@@ -53,7 +53,7 @@ export default function serverRenderer({ clientStats, serverStats }) {
         sheets.collect(
           <I18nextProvider i18n={req.i18n}>
             <ApolloProvider client={client}>
-              <ThemeProvider theme={createTheme('light', dir)}>
+              <ThemeProvider theme={createTheme('default', 'light', dir)}>
                 <StaticRouter basename="/userconsole" context={context} location={req.url}>
                   <StylesProvider jss={jss}>
                     <App />

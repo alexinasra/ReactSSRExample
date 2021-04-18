@@ -19,7 +19,7 @@ import {
   jssPreset,
 } from '@material-ui/core/styles';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
-import createTheme from './theme';
+import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 import LayoutContext from './layout/LayoutContext';
 import layoutReducer, * as actions from './layout/LayoutReducer';
@@ -62,7 +62,7 @@ function renderApp(RenderedApp) {
         toggleThemeMode: () => dispatch(actions.toggleThemeMode()),
       }}
       >
-        <ThemeProvider theme={createTheme(state.themeMode, direction)}>
+        <ThemeProvider theme={createTheme('default', state.themeMode, direction)}>
           <RenderedApp />
         </ThemeProvider>
       </LayoutContext.Provider>
@@ -84,7 +84,7 @@ function renderApp(RenderedApp) {
 }
 
 if (module.hot) {
-  module.hot.accept(['./App.js', './theme.js'], () => {
+  module.hot.accept(['./App.js'], () => {
     const NewApp = require('./App').default;
     renderApp(NewApp);
   });
