@@ -24,7 +24,7 @@ import {
 
 import { create } from 'jss';
 import rtl from 'jss-rtl';
-import theme from './theme';
+import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
 const client = new ApolloClient({
@@ -43,12 +43,11 @@ export default function serverRenderer({ clientStats, serverStats }) {
       const sheets = new ServerStyleSheets();
       const initialState = client.extract();
       const context = {};
-      theme.direction = dir;
       const body = ReactDOMServer.renderToString(
         sheets.collect(
           <I18nextProvider i18n={req.i18n}>
             <ApolloProvider client={client}>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={createTheme('default', 'dark', dir)}>
                 <StaticRouter basename="/auth" location={req.url} context={context}>
                   <StylesProvider jss={jss}>
                     <App />

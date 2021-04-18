@@ -15,7 +15,7 @@ import {
   jssPreset,
 } from '@material-ui/core/styles';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
-import theme from './theme';
+import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
 // Configure JSS
@@ -27,7 +27,7 @@ const client = new ApolloClient({
   ssrForceFetchDelay: 100,
 });
 
-function renderApp(RenderedApp, renderedTheme) {
+function renderApp(RenderedApp) {
   function Main() {
     React.useEffect(() => {
       const jssStyles = document.querySelector('#jss-server-side');
@@ -37,7 +37,7 @@ function renderApp(RenderedApp, renderedTheme) {
     }, []);
 
     return (
-      <ThemeProvider theme={renderedTheme}>
+      <ThemeProvider theme={createTheme('default', 'light', document.direction)}>
         <RenderedApp />
       </ThemeProvider>
     );
@@ -58,10 +58,9 @@ function renderApp(RenderedApp, renderedTheme) {
 }
 
 if (module.hot) {
-  module.hot.accept(['./App.js', './theme.js'], () => {
+  module.hot.accept(['./App.js'], () => {
     const NewApp = require('./App').default;
-    const NewTheme = require('./theme').default;
-    renderApp(NewApp, NewTheme);
+    renderApp(NewApp);
   });
 }
 const opts = {
@@ -96,7 +95,7 @@ const opts = {
 
 setupI18n(opts, LanguageDetector, initReactI18next)
   .then(() => {
-    renderApp(App, theme);
+    renderApp(App);
   })
   .catch((err) => {
     // eslint-disable-next-line no-console

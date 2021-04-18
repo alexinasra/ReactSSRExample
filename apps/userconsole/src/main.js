@@ -121,7 +121,7 @@ const opts = {
 
 setupI18n(opts, LanguageDetector, initReactI18next)
   .then(() => {
-    renderApp(App, createTheme);
+    renderApp(App);
   })
   .catch((err) => {
     // eslint-disable-next-line no-console

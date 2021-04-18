@@ -3,9 +3,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDom from 'react-dom';
-import {
-  ApolloProvider, ApolloClient, HttpLink, InMemoryCache,
-} from '@apollo/client';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
@@ -17,19 +15,19 @@ import {
   jssPreset,
 } from '@material-ui/core/styles';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
-import theme from './theme';
+import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: '/authql', credentials: 'include' }),
+  uri: '/authql',
   cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
   ssrForceFetchDelay: 100,
 });
 
-function renderApp(RenderedApp, renderedTheme) {
+function renderApp(RenderedApp) {
   function Main() {
     React.useEffect(() => {
       const jssStyles = document.querySelector('#jss-server-side');
@@ -39,10 +37,8 @@ function renderApp(RenderedApp, renderedTheme) {
     }, []);
 
     return (
-      <ThemeProvider theme={{ ...renderedTheme, direction: document.dir }}>
-        <StylesProvider jss={jss}>
-          <RenderedApp />
-        </StylesProvider>
+      <ThemeProvider theme={createTheme('default', 'dark', document.direction)}>
+        <RenderedApp />
       </ThemeProvider>
     );
   }
@@ -51,7 +47,9 @@ function renderApp(RenderedApp, renderedTheme) {
     ReactDom.hydrate(
       <ApolloProvider client={client}>
         <BrowserRouter basename="/auth">
-          <Main />
+          <StylesProvider jss={jss}>
+            <Main />
+          </StylesProvider>
         </BrowserRouter>
       </ApolloProvider>,
       rootElm,
@@ -60,10 +58,9 @@ function renderApp(RenderedApp, renderedTheme) {
 }
 
 if (module.hot) {
-  module.hot.accept(['./App.js', './theme.js'], () => {
+  module.hot.accept(['./App.js', '@react-ssrex/ui/build/createTheme'], () => {
     const NewApp = require('./App').default;
-    const NewTheme = require('./theme').default;
-    renderApp(NewApp, NewTheme);
+    renderApp(NewApp);
   });
 }
 const opts = {
@@ -98,7 +95,7 @@ const opts = {
 
 setupI18n(opts, LanguageDetector, initReactI18next)
   .then(() => {
-    renderApp(App, theme);
+    renderApp(App);
   })
   .catch((err) => {
     // eslint-disable-next-line no-console

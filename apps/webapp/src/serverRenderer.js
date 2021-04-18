@@ -20,7 +20,7 @@ import {
 
 import { create } from 'jss';
 import rtl from 'jss-rtl';
-import theme from './theme';
+import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
 export default function serverRenderer({ clientStats, serverStats }) {
@@ -46,11 +46,10 @@ export default function serverRenderer({ clientStats, serverStats }) {
 
       const sheets = new ServerStyleSheets();
       const context = {};
-      theme.direction = dir;
       const body = ReactDOMServer.renderToString(
         sheets.collect(
           <ApolloProvider client={client}>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={createTheme('default', 'light', dir)}>
               <StylesProvider jss={jss}>
                 <StaticRouter context={context} location={req.url}>
                   <App />
