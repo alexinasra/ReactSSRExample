@@ -57,12 +57,13 @@ function renderApp(RenderedApp) {
         state: { ...state },
         expandSidebar: () => dispatch(actions.expandSidebarAction()),
         shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
+        setTheme: (themeName) => dispatch(actions.setTheme(themeName)),
         setDarkMode: () => dispatch(actions.setDarkMode()),
         setLightMode: () => dispatch(actions.setLightMode()),
         toggleThemeMode: () => dispatch(actions.toggleThemeMode()),
       }}
       >
-        <ThemeProvider theme={createTheme('default', state.themeMode, direction)}>
+        <ThemeProvider theme={createTheme(state.themeName, state.themeMode, direction)}>
           <RenderedApp />
         </ThemeProvider>
       </LayoutContext.Provider>

@@ -1,5 +1,5 @@
-import primaryColor from '@material-ui/core/colors/deepOrange';
-import secondaryColor from '@material-ui/core/colors/blue';
+import primaryColor from '@material-ui/core/colors/blue';
+import secondaryColor from '@material-ui/core/colors/lightBlue';
 
 const darkPalette = {
   palette: {
