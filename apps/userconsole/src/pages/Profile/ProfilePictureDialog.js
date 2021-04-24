@@ -1,5 +1,7 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
+import { useTranslation } from 'react-i18next';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import SwipeableViews from 'react-swipeable-views';
@@ -35,6 +37,7 @@ query ProfilePic {
 
 export default function ProfilePictureDialog({ open, onClose }) {
   const classes = useStyles();
+  const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   const { loading, error, data } = useQuery(GET_PROFILE_PIC);
   const [tabIndex, setTabIndex] = React.useState(0);
   const theme = useTheme();
@@ -42,7 +45,9 @@ export default function ProfilePictureDialog({ open, onClose }) {
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
-
+  if (!ready) {
+    return false;
+  }
   if (loading) {
     return (<p>Loading ...</p>);
   }
@@ -57,8 +62,8 @@ export default function ProfilePictureDialog({ open, onClose }) {
       </DialogTitle>
       <DialogContent>
         <Tabs value={tabIndex} onChange={handleTabChange}>
-          <Tab id="tab_upload" aria-controls="ppic-tab-0" label="Upload" />
-          <Tab id="tab_gallery" aria-controls="ppic-tab-1" label="Gallery" />
+          <Tab id="tab_upload" aria-controls="ppic-tab-0" label={t('userProfile.upload')} />
+          <Tab id="tab_gallery" aria-controls="ppic-tab-1" label={t('userProfile.gallery')} />
         </Tabs>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -92,7 +97,7 @@ export default function ProfilePictureDialog({ open, onClose }) {
         </SwipeableViews>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t('userProfile.close')}</Button>
       </DialogActions>
     </Dialog>
   );

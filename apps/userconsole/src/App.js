@@ -5,7 +5,6 @@ import LayoutContainer from './layout/LayoutContainer';
 
 import ForceLogin from './ForceLogin';
 import HomePage from './pages/HomePage';
-import EnableBusiness from './pages/EnableBusiness';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 
@@ -14,9 +13,6 @@ export default function App() {
     <ForceLogin>
       <LayoutContainer>
         <Switch>
-          <Route path="/enable-business" exact>
-            <EnableBusiness />
-          </Route>
           <Route path="/profile" exact>
             <Profile />
           </Route>

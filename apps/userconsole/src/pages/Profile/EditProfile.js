@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -46,9 +47,15 @@ mutation EditUserProfile($userId: String!, $firstname: String!, $lastname: Strin
 
 function EditForm({ user }) {
   const classes = useStyles();
+  const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   const [firstname, setFirstname] = useState(user.firstname || '');
   const [lastname, setLastname] = useState(user.lastname || '');
   const [editUserProfile, { loading, error }] = useMutation(EDIT_USER_PROFILE);
+
+  if (!ready) {
+    return false;
+  }
+
   const handleFirstnameChange = (e) => {
     setFirstname(e.target.value);
   };
@@ -81,7 +88,7 @@ function EditForm({ user }) {
             variant="outlined"
             value={firstname}
             onChange={handleFirstnameChange}
-            label="First Name"
+            label={t('userProfile.firstname')}
           />
           <TextField
             className={classes.inputText}
@@ -89,7 +96,7 @@ function EditForm({ user }) {
             variant="outlined"
             value={lastname}
             onChange={handleLastnameChange}
-            label="First Name"
+            label={t('userProfile.lastname')}
           />
         </Grid>
         <Grid className={classes.actions} item md={12}>
@@ -99,14 +106,14 @@ function EditForm({ user }) {
             color="primary"
             onClick={handleSave}
           >
-            Save
+            {t('userProfile.save')}
           </Button>
           <Button
             className={classes.action}
             variant="contained"
             onClick={handleReload}
           >
-            Reload
+            {t('userProfile.reload')}
           </Button>
         </Grid>
       </Grid>

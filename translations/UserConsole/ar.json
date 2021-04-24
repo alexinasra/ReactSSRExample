@@ -1,0 +1,18 @@
+{
+	"mainNav": {
+		"editProfile": "تعديل الملف الشخصي",
+		"changePassword": "تغيير كلمة المرور",
+		"systemSettings": "أعدادات النظام"
+	},
+	"userProfile": {
+		"save": "أحفظ",
+		"reload": "إعادة تحميل",
+		"changeProfilePic": "تغيير صورة الملف الشخصي",
+		"upload": "رفع ملف",
+		"gallery": "أختر من المكتبة",
+		"close": "أغلاق"
+	},
+	"settings": {
+		"subheader": "تغيير الإعدادات والتفضيلات."
+	}
+}

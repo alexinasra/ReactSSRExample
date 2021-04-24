@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -65,10 +66,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LayoutSideBar() {
   const classes = useStyles();
+  const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   const [localExpand, setLocalExpand] = React.useState(false);
   const handleLocalExpand = () => setTimeout(() => setLocalExpand(true), 30);
   const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 360);
-
+  if (!ready) {
+    return false;
+  }
   return (
     <LayoutContext.Consumer>
       {({ state: { expandedSidebar } }) => (
@@ -101,7 +105,7 @@ export default function LayoutSideBar() {
                     account_circle
                   </Icon>
                 </ListItemIcon>
-                <ListItemText primary="Edit Profile" />
+                <ListItemText primary={t('mainNav.editProfile')} />
               </ListItem>
               <ListItem button component="a" href="/auth/change-password?redirectto=/userconsole">
                 <ListItemIcon>
@@ -109,20 +113,18 @@ export default function LayoutSideBar() {
                     lock_open
                   </Icon>
                 </ListItemIcon>
-                <ListItemText primary="Change Password" />
+                <ListItemText primary={t('mainNav.changePassword')} />
               </ListItem>
-            </List>
-            <Divider />
-            <List>
               <ListItem button component={RouterLink} to="/settings">
                 <ListItemIcon>
                   <Icon fontSize="large">
                     settings
                   </Icon>
                 </ListItemIcon>
-                <ListItemText primary="Settings" />
+                <ListItemText primary={t('mainNav.systemSettings')} />
               </ListItem>
             </List>
+            <Divider />
           </Box>
         </Drawer>
       )}

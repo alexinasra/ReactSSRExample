@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
@@ -33,12 +34,18 @@ query ProfilePic {
 `;
 
 export default function EditProfilePicture() {
+  const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
+
   const classes = useStyles();
   const { loading, error, data } = useQuery(GET_PROFILE_PIC);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleDialogClose = () => setDialogOpen(false);
   const handleDialogOpen = () => setDialogOpen(true);
+
+  if (!ready) {
+    return false;
+  }
   if (loading) {
     return (<p>Loading ...</p>);
   }
@@ -51,7 +58,7 @@ export default function EditProfilePicture() {
     <>
       <Paper className={classes.root}>
         <Avatar className={classes.avatar} src={profilePicture} />
-        <Button variant="contained" onClick={handleDialogOpen}>Change</Button>
+        <Button variant="contained" onClick={handleDialogOpen}>{t('userProfile.changeProfilePic')}</Button>
       </Paper>
       <ProfilePictureDialog open={dialogOpen} onClose={handleDialogClose} />
     </>

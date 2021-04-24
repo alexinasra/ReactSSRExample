@@ -17,7 +17,6 @@ const resolvers = {
     },
     language: (root, args, {req}) => getLanguage(req.i18n.languages[0], req.i18n),
     translate: async function (root, { key, options: { ns, lng } }, { req }) {
-      console.log(req.i18n.t(`${ns}:${key}`, { lng }))
       return await req.i18n.t(`${ns}:${key}`, { lng });
     }
   },

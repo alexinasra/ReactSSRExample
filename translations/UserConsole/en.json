@@ -1,0 +1,20 @@
+{
+	"mainNav": {
+		"editProfile": "Edit Profile",
+		"changePassword": "Change Password",
+		"systemSettings": "System Settings"
+	},
+	"userProfile": {
+		"firstname": "$t(common:userProfile.firstname)",
+		"lastname": "$t(common:userProfile.lastname)",
+		"save": "Save",
+		"reload": "Reload",
+		"changeProfilePic": "Change profile picture",
+		"upload": "Upload a file",
+		"gallery": "Choose from gallery",
+		"close": "Close"
+	},
+	"settings": {
+		"subheader": "change settings and preferences."
+	}
+}

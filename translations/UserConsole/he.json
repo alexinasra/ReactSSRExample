@@ -1,0 +1,18 @@
+{
+	"mainNav": {
+		"editProfile": "עריכת פרופיל",
+		"changePassword": "שינוי סיסמה",
+		"systemSettings": "הגדרות מערכת"
+	},
+	"userProfile": {
+		"save": "שמירה",
+		"reload": "טעון מחדש",
+		"changeProfilePic": "שינוי תמונת פרופיל",
+		"gallery": "בחירת מגלריה",
+		"upload": "העלאת קובץ",
+		"close": "סגור"
+	},
+	"settings": {
+		"subheader": "לשנות הגדרות והעדפות."
+	}
+}
