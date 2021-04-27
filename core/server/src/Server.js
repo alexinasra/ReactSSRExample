@@ -52,7 +52,7 @@ export default class Server extends EventEmitter {
     try {
       await attachable({ app: app, ...options });
     } catch (e){
-      throw ServerError(`Unable to load @react-ssrex/${moduleName}.`);
+      throw new ServerError(`Unable to load @react-ssrex/${moduleName}.`);
     }
   }
   start = async () => {
