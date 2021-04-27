@@ -15,7 +15,8 @@ module.exports = {
         "name": "[name].[ext]",
         "outputPath": "/assets",
         "publicPath": "/assets/"}
-    ]
+    ],
+    "@babel/plugin-proposal-class-properties"
   ],
   env: {
 
