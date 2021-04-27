@@ -13,7 +13,8 @@ module.exports = {
   User: {
     profilePictures: async function (root, args, { req }) {
       const userId = req.session.userInRole._id;
-      try{
+
+      try {
         const arr = await userDir.getProfilePictures(userId);
         return arr.map(f => userDir.getProfilePictureUrl(userId, f));
       } catch(error) {
@@ -54,5 +55,14 @@ module.exports = {
       });
       return user;
     },
+    updateUserProfile: async function (root, { input }, { req, mongoClient, generateId }) {
+      const client = await mongoClient.connect();
+      const database = await client.db(MongoDbConfig.db)
+      const userId = req.session.userInRole._id;
+      const user = await UsersDb.with(database).update(generateId(userId), {
+        ...input
+      });
+      return user;
+    }
   }
 }

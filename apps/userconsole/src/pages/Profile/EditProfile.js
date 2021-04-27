@@ -35,22 +35,21 @@ query UserProfile {
 }
 `;
 
-const EDIT_USER_PROFILE = gql`
-mutation EditUserProfile($userId: String!, $firstname: String!, $lastname: String!){
-  editUserProfile(userId: $userId editForm:{firstname:$firstname, lastname:$lastname}){
+const UPDATE_USER_PROFILE = gql`
+mutation UpdateUserProfile($input: UserProfileInput!) {
+  updateUserProfile(input: $input){
     id
     firstname
     lastname
   }
-}
-`;
+}`;
 
 function EditForm({ user }) {
   const classes = useStyles();
   const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   const [firstname, setFirstname] = useState(user.firstname || '');
   const [lastname, setLastname] = useState(user.lastname || '');
-  const [editUserProfile, { loading, error }] = useMutation(EDIT_USER_PROFILE);
+  const [editUserProfile, { loading, error }] = useMutation(UPDATE_USER_PROFILE);
 
   if (!ready) {
     return false;
@@ -70,9 +69,10 @@ function EditForm({ user }) {
   const handleSave = () => {
     editUserProfile({
       variables: {
-        userId: user.id,
-        firstname,
-        lastname,
+        input: {
+          firstname,
+          lastname,
+        },
       },
     });
   };

@@ -6,4 +6,11 @@ extend type Mutation {
   uploadProfilePicture(file: Upload!): User!
   updateProfilePicture(url: String!): User!
   setPreferedLanguage(lng: String!): User!
+  updateUserProfile(input: UserProfileInput!): User!
+}
+
+
+input UserProfileInput {
+  firstname: String!
+  lastname: String!
 }
