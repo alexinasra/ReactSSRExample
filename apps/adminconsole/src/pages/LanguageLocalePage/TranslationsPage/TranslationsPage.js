@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import LayoutPage from '../../../layout/LayoutPage';
+import LayoutPage from '@react-ssrex/ui/build/LayoutPaperPage';
 
 // this is very old implementation it can be improved for sure ..
 import TranslationTable from './components/TranslationTable';

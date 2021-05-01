@@ -23,16 +23,12 @@ const client = new ApolloClient({
 });
 
 function renderApp(RenderedApp) {
-  function Main() {
-    return (<RenderedApp />
-    );
-  }
   const rootElm = document.getElementById('react-root');
   if (rootElm) {
     ReactDom.hydrate(
       <ApolloProvider client={client}>
         <BrowserRouter basename="/userconsole">
-          <Main />
+          <RenderedApp />
         </BrowserRouter>
       </ApolloProvider>,
       rootElm,

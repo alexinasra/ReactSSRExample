@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import flattenkeys from 'flattenkeys';
 
 import TranslationTableToolbar from './TranslationTableToolbar';
@@ -79,7 +79,7 @@ export default function TranslationTable({
   }
 
   return (
-    <Paper className={classes.root}>
+    <Box className={classes.root}>
       <TranslationTableToolbar
         ns={ns}
         namespaces={namespaces || []}
@@ -118,6 +118,6 @@ export default function TranslationTable({
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Paper>
+    </Box>
   );
 }

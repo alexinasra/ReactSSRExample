@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link as RouterLink } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
@@ -12,12 +13,23 @@ import {
   StylesProvider,
   jssPreset,
 } from '@material-ui/core/styles';
+
+import List from '@material-ui/core/List';
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import Icon from '@material-ui/core/Icon';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import LayoutContainer from '@react-ssrex/ui/build/LayoutContainer';
+import LayoutContentContainer from '@react-ssrex/ui/build/LayoutContentContainer';
+import LayoutAppBar from '@react-ssrex/ui/build/LayoutAppBar';
+import LayoutSideBar from '@react-ssrex/ui/build/LayoutSideBar';
 
 import LayoutContext, { LayoutDefaultState } from '@react-ssrex/ui/build/LayoutContext';
 import SideBarReducer, * as actions from '@react-ssrex/ui/build/SideBarReducer';
-import ForceLogin from './ForceLogin';
+import ForceLogin from '@react-ssrex/ui/build/ForceLogin';
 
 import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
@@ -26,6 +38,38 @@ import Settings from './pages/Settings';
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
+const MainNav = () => {
+  const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
+  if (!ready) return false;
+  return (
+    <List>
+      <ListItem button component={RouterLink} to="/profile">
+        <ListItemIcon>
+          <Icon fontSize="large">
+            account_circle
+          </Icon>
+        </ListItemIcon>
+        <ListItemText primary={t('mainNav.editProfile')} />
+      </ListItem>
+      <ListItem button component="a" href="/auth/change-password?redirectto=/userconsole">
+        <ListItemIcon>
+          <Icon fontSize="large">
+            lock_open
+          </Icon>
+        </ListItemIcon>
+        <ListItemText primary={t('mainNav.changePassword')} />
+      </ListItem>
+      <ListItem button component={RouterLink} to="/settings">
+        <ListItemIcon>
+          <Icon fontSize="large">
+            settings
+          </Icon>
+        </ListItemIcon>
+        <ListItemText primary={t('mainNav.systemSettings')} />
+      </ListItem>
+    </List>
+  );
+};
 const THEME_SETTINGS = gql`
 query {
   userInRole {
@@ -113,17 +157,21 @@ export default function App() {
         <StylesProvider jss={jss}>
           <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
             <LayoutContainer>
-              <Switch>
-                <Route path="/profile" exact>
-                  <Profile />
-                </Route>
-                <Route path="/settings" exact>
-                  <Settings />
-                </Route>
-                <Route path="/">
-                  <HomePage />
-                </Route>
-              </Switch>
+              <LayoutAppBar />
+              <LayoutSideBar mainNav={<MainNav />} />
+              <LayoutContentContainer>
+                <Switch>
+                  <Route path="/profile" exact>
+                    <Profile />
+                  </Route>
+                  <Route path="/settings" exact>
+                    <Settings />
+                  </Route>
+                  <Route path="/">
+                    <HomePage />
+                  </Route>
+                </Switch>
+              </LayoutContentContainer>
             </LayoutContainer>
           </ThemeProvider>
         </StylesProvider>
