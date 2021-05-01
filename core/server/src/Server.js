@@ -1,3 +1,4 @@
+
 import EventEmitter from 'events';
 import path from 'path';
 import express from 'express';
@@ -5,7 +6,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
-import r from "rethinkdb";
+
+const { MongoClient, ObjectId } = require('mongodb');
+const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
+
 import passport from "passport";
 
 import { Strategy as LocalStrategy } from 'passport-local';
@@ -23,12 +27,21 @@ const attachUserConsole = require('@react-ssrex/userconsole/attach');
 const attachWebApp = require('@react-ssrex/webapp/attach');
 
 
+const connectionUrl = `mongodb://${MongoDbConfig.host}:${MongoDbConfig.port}?${Object.keys(MongoDbConfig.options).map(key => key + '=' + MongoDbConfig.options[key]).join('&')}`
+const mongoClient = new MongoClient(connectionUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
 const app = express();
 export default class Server extends EventEmitter {
+
   constructor(options = {}){
     super();
     this.host = options.host || 'localhost';
     this.port = options.port || 3030;
+  }
+  
+  get mongoClient () {
+    return mongoClient;
   }
 
   setupMiddlewares = () => {
@@ -47,6 +60,10 @@ export default class Server extends EventEmitter {
 
     app.use('/uploads', express.static('../../uploads'));
 
+    app.use((req, res, next) => {
+      req.mongoClient = mongoClient;
+      next();
+    })
   }
   attachModule = async (moduleName, attachable, options = {}) => {
     try {
@@ -69,7 +86,12 @@ export default class Server extends EventEmitter {
       defaultNamespace: 'common'
     });
 
-    await this.attachModule('graphql', attachGraphQL);
+    await this.attachModule('graphql', attachGraphQL, {
+      mongoClient,
+      modules: [
+
+      ]
+    });
     await this.attachModule('auth', attachAuth);
     await this.attachModule('adminConsole', attachAdminConsole);
     await this.attachModule('userConsole', attachUserConsole);

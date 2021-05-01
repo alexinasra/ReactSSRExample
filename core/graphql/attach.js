@@ -5,15 +5,8 @@ const { ApolloServer } = require('apollo-server-express');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
 
-const { MongoClient, ObjectId } = require('mongodb');
-const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
-const connectionUrl = `mongodb://${MongoDbConfig.host}:${MongoDbConfig.port}?${Object.keys(MongoDbConfig.options).map(key => key + '=' + MongoDbConfig.options[key]).join('&')}`
-
-
-const mongoClient = new MongoClient(connectionUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-
-module.exports = async function attach({ app }) {
+module.exports = async function attach({ app, mongoClient }) {
   const rootModule = createModule({
     id: 'root',
     typeDefs: rootSchema,
@@ -25,6 +18,7 @@ module.exports = async function attach({ app }) {
     typeDefs: require('@react-ssrex/i18n/graphql/schema.graphql'),
     resolvers: require('@react-ssrex/i18n/graphql/resolvers'),
   });
+
   const authModule = createModule({
     id: 'auth',
     typeDefs: require('@react-ssrex/auth/graphql/schema.graphql'),
