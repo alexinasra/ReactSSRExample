@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { gql, useMutation } from '@apollo/client';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,6 +17,29 @@ import MenuItem from '@material-ui/core/MenuItem';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import LayoutContext from './LayoutContext';
+
+const SET_THEME_NAME = gql`
+  mutation ($themeName: String!) {
+    setThemeName(themeName: $themeName) {
+      id
+      themeSettings {
+        name
+        mode
+      }
+    }
+  }
+`;
+const TGL_THEME_MODE = gql`
+  mutation{
+    toggleThemeMode {
+      id
+      themeSettings {
+        name
+        mode
+      }
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,17 +81,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function LayoutAppBar() {
   const classes = useStyles();
+  const [setThemeName] = useMutation(SET_THEME_NAME);
+  const [toggleThemeModeMu] = useMutation(TGL_THEME_MODE);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
   const {
-    state, expandSidebar, shrinkSidebar, toggleThemeMode, setTheme,
+    state, expandSidebar, shrinkSidebar,
   } = React.useContext(LayoutContext);
 
   const handleOpenThemes = (e) => setAnchorEl(e.currentTarget);
   const handleCloseThemes = () => setAnchorEl(null);
   const handleThemeSelection = (themeName) => () => {
-    setTheme(themeName);
+    setThemeName({
+      variables: {
+        themeName,
+      },
+    }).catch(console.log);
     handleCloseThemes();
+  };
+  const handleThemeToggle = () => {
+    toggleThemeModeMu().catch(console.log);
   };
 
   return (
@@ -108,7 +142,7 @@ export default function LayoutAppBar() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <IconButton onClick={toggleThemeMode} color="inherit">
+        <IconButton onClick={handleThemeToggle} color="inherit">
           <Icon>
             {state.themeMode === 'light' ? 'dark_mode' : 'light_mode'}
           </Icon>

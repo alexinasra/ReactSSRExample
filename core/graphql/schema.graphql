@@ -3,7 +3,9 @@ type Query {
   application: Application!,
 }
 type Mutation {
-  _ : Boolean
+  setThemeName(themeName: String!): User!
+  setThemeMode(themeMode: String!): User!
+  toggleThemeMode: User!
 }
 
 type Application {
@@ -11,6 +13,11 @@ type Application {
 }
 
 scalar Upload
+
+type Theme {
+  name: String
+  mode: String
+}
 
 type User {
   id: String!
@@ -20,4 +27,5 @@ type User {
   email: String!
   activated: Boolean!
   preferedLanguage: String
+  themeSettings: Theme!
 }

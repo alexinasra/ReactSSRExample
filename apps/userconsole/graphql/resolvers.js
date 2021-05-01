@@ -25,8 +25,7 @@ module.exports = {
   },
   Mutation: {
     updateProfilePicture: async (root, { url }, { req, mongoClient, generateId }) => {
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db)
+      const database = await mongoClient.db(MongoDbConfig.db)
 
       const userId = req.session.userInRole._id;
       const user = await UsersDb.with(database).update(generateId(userId), {
@@ -35,8 +34,7 @@ module.exports = {
       return user;
     },
     uploadProfilePicture: async function (root, { file }, { req, mongoClient, generateId }) {
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db)
+      const database = await mongoClient.db(MongoDbConfig.db)
       const userId = req.session.userInRole._id;
       const { createReadStream, filename, mimetype, encoding } = await file;
       await userDir.addProfilePicture(userId, createReadStream(), filename);
@@ -47,8 +45,7 @@ module.exports = {
       return user;
     },
     setPreferedLanguage: async function (root, { lng }, { req, mongoClient, generateId }) {
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db)
+      const database = await mongoClient.db(MongoDbConfig.db)
       const userId = req.session.userInRole._id;
       const user = await UsersDb.with(database).update(generateId(userId), {
         preferedLanguage: lng
@@ -56,8 +53,7 @@ module.exports = {
       return user;
     },
     updateUserProfile: async function (root, { input }, { req, mongoClient, generateId }) {
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db)
+      const database = await mongoClient.db(MongoDbConfig.db)
       const userId = req.session.userInRole._id;
       const user = await UsersDb.with(database).update(generateId(userId), {
         ...input

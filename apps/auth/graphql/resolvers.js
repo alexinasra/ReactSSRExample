@@ -29,8 +29,7 @@ const resolvers = {
   Mutation: {
     signup: async function registerUser(root, { input }, { req, mongoClient, generateId }) {
       const userId = generateId();
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db)
+      const database = await mongoClient.db(MongoDbConfig.db)
       try {
         //create home directory
         await userDir.createHomeDir(userId.toString());
@@ -55,8 +54,7 @@ const resolvers = {
       }
     },
     signin: async function signinWithEmail(root, { input: { email, password } }, { req, mongoClient, generateId }) {
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db);
+      const database = await mongoClient.db(MongoDbConfig.db);
       try {
         const result = await UsersDb.with(database).login(email, password);
         req.session.userInRole = result.user
@@ -90,8 +88,7 @@ const resolvers = {
       return { error: null }
     },
     changePassword: async function (root, { password, newPassword }, { req, mongoClient, generateId }) {
-      const client = await mongoClient.connect();
-      const database = await client.db(MongoDbConfig.db);
+      const database = await mongoClient.db(MongoDbConfig.db);
       if (!req.session.userInRole) {
         return { error: STATUS_CODE.UnauthenticatedUser };
       }

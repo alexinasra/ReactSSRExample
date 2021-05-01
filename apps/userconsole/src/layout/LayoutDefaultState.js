@@ -1,7 +1,7 @@
 const LayoutDefaultState = {
   expandedSidebar: true,
-  themeMode: 'light',
   themeName: 'default',
+  themeMode: 'light',
 };
 
 export default LayoutDefaultState;

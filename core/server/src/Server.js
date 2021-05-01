@@ -39,7 +39,7 @@ export default class Server extends EventEmitter {
     this.host = options.host || 'localhost';
     this.port = options.port || 3030;
   }
-  
+
   get mongoClient () {
     return mongoClient;
   }
@@ -59,11 +59,6 @@ export default class Server extends EventEmitter {
     }));
 
     app.use('/uploads', express.static('../../uploads'));
-
-    app.use((req, res, next) => {
-      req.mongoClient = mongoClient;
-      next();
-    })
   }
   attachModule = async (moduleName, attachable, options = {}) => {
     try {
@@ -86,17 +81,25 @@ export default class Server extends EventEmitter {
       defaultNamespace: 'common'
     });
 
+    const client = await mongoClient.connect()
+    app.use((req, res, next) => {
+      req.mongoClient = client;
+      next();
+    })
     await this.attachModule('graphql', attachGraphQL, {
-      mongoClient,
-      modules: [
-
-      ]
+      mongoClient: client,
     });
     await this.attachModule('auth', attachAuth);
     await this.attachModule('adminConsole', attachAdminConsole);
     await this.attachModule('userConsole', attachUserConsole);
     await this.attachModule('webapp', attachWebApp);
 
+    process.on('SIGINT', function() {
+      client.close(function () {
+        console.log('closing mongodb connection');
+        process.exit(0);
+      });
+    });
     app.listen(3030, () => {
       console.log('Server Started');
       this.emit('server-ready');

@@ -1,5 +1,6 @@
 import layoutDefaultState from './LayoutDefaultState';
 
+const INIT_LAYOUT = 'init-layout';
 const SET_THEME = 'set-theme';
 
 const SET_DARK_THEME = 'set-dark-theme';
@@ -17,16 +18,18 @@ function themeNameFilter(state = layoutDefaultState.themeName, action) {
 }
 
 function themeModeFilter(state = layoutDefaultState.themeMode, action) {
+  let mode = state;
+
   if (action.type === SET_DARK_THEME) {
-    return 'dark';
+    mode = 'dark';
   }
   if (action.type === SET_LIGHT_THEME) {
-    return 'light';
+    mode = 'light';
   }
   if (action.type === TOGGLE_THEME) {
-    return (state === 'light') ? 'dark' : 'light';
+    mode = (state === 'light') ? 'dark' : 'light';
   }
-  return state;
+  return mode;
 }
 
 function drawerFilter(state = layoutDefaultState.expandedSidebar, action) {
@@ -44,6 +47,9 @@ export default function layoutReducer(
   },
   action,
 ) {
+  if (action.type === INIT_LAYOUT) {
+    return { ...action.initState };
+  }
   return {
     expandedSidebar: drawerFilter(state.expandedSidebar, action),
     themeMode: themeModeFilter(state.themeMode, action),
@@ -51,6 +57,12 @@ export default function layoutReducer(
   };
 }
 
+export function initLayout(initState) {
+  return {
+    type: INIT_LAYOUT,
+    initState,
+  };
+}
 export function expandSidebarAction() {
   return {
     type: EXPAND_SIDEBAR,

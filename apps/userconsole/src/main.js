@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import {
   ApolloProvider, ApolloClient, InMemoryCache, GraphQLUpload,
+  gql, useQuery,
 } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 
@@ -36,11 +37,26 @@ const client = new ApolloClient({
   ssrForceFetchDelay: 100,
 });
 
+const THEME_SETTINGS = gql`
+query {
+  userInRole {
+    id
+    themeSettings {
+      name,
+      mode,
+    }
+  }
+}
+`;
+
 function renderApp(RenderedApp) {
   function Main() {
+    const { data, loading, error } = useQuery(THEME_SETTINGS);
     const [direction, setDirection] = React.useState(i18n.dir());
+    const [state, dispatch] = React.useReducer(layoutReducer, {
+      ...layoutDefaultState,
+    });
 
-    const [state, dispatch] = React.useReducer(layoutReducer, layoutDefaultState);
     React.useEffect(() => {
       const jssStyles = document.querySelector('#jss-server-side');
       if (jssStyles) {
@@ -52,18 +68,35 @@ function renderApp(RenderedApp) {
         setDirection(i18n.dir(lng));
       });
     }, [i18n]);
+
+    const theme = React.useMemo(() => {
+      if (data && data.userInRole) {
+        console.log(data.userInRole);
+        return {
+          themeName: data.userInRole.themeSettings.name,
+          themeMode: data.userInRole.themeSettings.mode,
+        };
+      }
+      return {
+        ...layoutDefaultState,
+      };
+    }, [data]);
+
+    if (loading) {
+      return (<div> loading </div>);
+    }
+    if (error) {
+      return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
+    }
+
     return (
       <LayoutContext.Provider value={{
-        state: { ...state },
+        state: { ...state, ...theme },
         expandSidebar: () => dispatch(actions.expandSidebarAction()),
         shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-        setTheme: (themeName) => dispatch(actions.setTheme(themeName)),
-        setDarkMode: () => dispatch(actions.setDarkMode()),
-        setLightMode: () => dispatch(actions.setLightMode()),
-        toggleThemeMode: () => dispatch(actions.toggleThemeMode()),
       }}
       >
-        <ThemeProvider theme={createTheme(state.themeName, state.themeMode, direction)}>
+        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
           <RenderedApp />
         </ThemeProvider>
       </LayoutContext.Provider>
