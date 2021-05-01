@@ -5,10 +5,6 @@ const LayoutContext = React.createContext({
   state: { ...layoutDefaultState },
   expandSidebar: () => {},
   shrinkSidebar: () => {},
-  setDarkMode: () => {},
-  setLightMode: () => {},
-  toggleThemeMode: () => {},
-  setTheme: () => {},
 });
 export default LayoutContext;
 

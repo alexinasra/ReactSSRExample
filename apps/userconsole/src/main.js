@@ -71,7 +71,6 @@ function renderApp(RenderedApp) {
 
     const theme = React.useMemo(() => {
       if (data && data.userInRole) {
-        console.log(data.userInRole);
         return {
           themeName: data.userInRole.themeSettings.name,
           themeMode: data.userInRole.themeSettings.mode,
