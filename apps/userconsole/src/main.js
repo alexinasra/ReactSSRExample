@@ -5,29 +5,14 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import {
   ApolloProvider, ApolloClient, InMemoryCache, GraphQLUpload,
-  gql, useQuery,
 } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
-import {
-  ThemeProvider,
-  StylesProvider,
-  jssPreset,
-} from '@material-ui/core/styles';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
-import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
-import LayoutContext from './layout/LayoutContext';
-import layoutReducer, * as actions from './layout/LayoutReducer';
-import layoutDefaultState from './layout/LayoutDefaultState';
-
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -37,68 +22,9 @@ const client = new ApolloClient({
   ssrForceFetchDelay: 100,
 });
 
-const THEME_SETTINGS = gql`
-query {
-  userInRole {
-    id
-    themeSettings {
-      name,
-      mode,
-    }
-  }
-}
-`;
-
 function renderApp(RenderedApp) {
   function Main() {
-    const { data, loading, error } = useQuery(THEME_SETTINGS);
-    const [direction, setDirection] = React.useState(i18n.dir());
-    const [state, dispatch] = React.useReducer(layoutReducer, {
-      ...layoutDefaultState,
-    });
-
-    React.useEffect(() => {
-      const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles) {
-        jssStyles.parentElement.removeChild(jssStyles);
-      }
-    }, []);
-    React.useEffect(() => {
-      i18n.on('languageChanged', (lng) => {
-        setDirection(i18n.dir(lng));
-      });
-    }, [i18n]);
-
-    const theme = React.useMemo(() => {
-      if (data && data.userInRole) {
-        return {
-          themeName: data.userInRole.themeSettings.name,
-          themeMode: data.userInRole.themeSettings.mode,
-        };
-      }
-      return {
-        ...layoutDefaultState,
-      };
-    }, [data]);
-
-    if (loading) {
-      return (<div> loading </div>);
-    }
-    if (error) {
-      return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
-    }
-
-    return (
-      <LayoutContext.Provider value={{
-        state: { ...state, ...theme },
-        expandSidebar: () => dispatch(actions.expandSidebarAction()),
-        shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-      }}
-      >
-        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-          <RenderedApp />
-        </ThemeProvider>
-      </LayoutContext.Provider>
+    return (<RenderedApp />
     );
   }
   const rootElm = document.getElementById('react-root');
@@ -106,9 +32,7 @@ function renderApp(RenderedApp) {
     ReactDom.hydrate(
       <ApolloProvider client={client}>
         <BrowserRouter basename="/userconsole">
-          <StylesProvider jss={jss}>
-            <Main />
-          </StylesProvider>
+          <Main />
         </BrowserRouter>
       </ApolloProvider>,
       rootElm,

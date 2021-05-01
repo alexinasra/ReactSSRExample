@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   appBarSpace: theme.mixins.toolbar,
 }));
 
-export default function LayoutPage({
+export default function LayoutBasePage({
   className,
   decorate, containerClassName, children,
 }) {

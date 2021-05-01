@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { gql, useMutation } from '@apollo/client';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,30 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import LayoutContext from './LayoutContext';
-
-const SET_THEME_NAME = gql`
-  mutation ($themeName: String!) {
-    setThemeName(themeName: $themeName) {
-      id
-      themeSettings {
-        name
-        mode
-      }
-    }
-  }
-`;
-const TGL_THEME_MODE = gql`
-  mutation{
-    toggleThemeMode {
-      id
-      themeSettings {
-        name
-        mode
-      }
-    }
-  }
-`;
+import LayoutContext from '../LayoutContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,13 +57,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function LayoutAppBar() {
   const classes = useStyles();
-  const [setThemeName] = useMutation(SET_THEME_NAME);
-  const [toggleThemeModeMu] = useMutation(TGL_THEME_MODE);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
   const {
-    state, expandSidebar, shrinkSidebar,
+    state, expandSidebar, shrinkSidebar, setThemeName, toggleThemeMode,
   } = React.useContext(LayoutContext);
 
   const handleOpenThemes = (e) => setAnchorEl(e.currentTarget);
@@ -101,7 +74,7 @@ export default function LayoutAppBar() {
     handleCloseThemes();
   };
   const handleThemeToggle = () => {
-    toggleThemeModeMu().catch(console.log);
+    toggleThemeMode().catch(console.log);
   };
 
   return (

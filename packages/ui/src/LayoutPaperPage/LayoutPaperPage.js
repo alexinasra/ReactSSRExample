@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Icon from '@material-ui/core/Icon';
-import BasePage from './BasePage';
+import BasePage from '../LayoutBasePage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function LayoutPage({
+export default function LayoutPaperPage({
   title,
   subheader,
   avatar = (<Avatar><Icon>bookmark_border</Icon></Avatar>),

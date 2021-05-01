@@ -17,13 +17,8 @@ import fetch from 'node-fetch';
 
 import {
   ServerStyleSheets,
-  StylesProvider,
-  ThemeProvider,
-  jssPreset,
 } from '@material-ui/core/styles';
 
-import { create } from 'jss';
-import rtl from 'jss-rtl';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
@@ -31,7 +26,6 @@ export default function serverRenderer({ clientStats, serverStats }) {
   return (req, res, next) => {
     const lng = req.i18n.languages[0];
     const dir = req.i18n.dir(lng);
-    const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
     const client = new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
@@ -53,13 +47,9 @@ export default function serverRenderer({ clientStats, serverStats }) {
         sheets.collect(
           <I18nextProvider i18n={req.i18n}>
             <ApolloProvider client={client}>
-              <ThemeProvider theme={createTheme('default', 'light', dir)}>
-                <StaticRouter basename="/userconsole" context={context} location={req.url}>
-                  <StylesProvider jss={jss}>
-                    <App />
-                  </StylesProvider>
-                </StaticRouter>
-              </ThemeProvider>
+              <StaticRouter basename="/userconsole" context={context} location={req.url}>
+                <App />
+              </StaticRouter>
             </ApolloProvider>
           </I18nextProvider>,
         ),

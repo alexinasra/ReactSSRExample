@@ -1,4 +1,4 @@
-import layoutDefaultState from './LayoutDefaultState';
+import layoutDefaultState from '../LayoutContext/LayoutDefaultState';
 
 const EXPAND_SIDEBAR = 'expand-sidebar';
 const SHRINK_SIDEBAR = 'shrink-sidebar';
@@ -12,7 +12,7 @@ function drawerFilter(state = layoutDefaultState.expandedSidebar, action) {
   }
   return state;
 }
-export default function layoutReducer(
+export default function SideBarReducer(
   state = {
     ...layoutDefaultState,
   },
