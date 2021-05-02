@@ -6,7 +6,7 @@ import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
   StylesProvider,
@@ -22,13 +22,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import createTheme from '@react-ssrex/ui/build/createTheme';
-import LayoutContainer from '@react-ssrex/ui/build/LayoutContainer';
-import LayoutContentContainer from '@react-ssrex/ui/build/LayoutContentContainer';
-import LayoutAppBar from '@react-ssrex/ui/build/LayoutAppBar';
-import LayoutSideBar from '@react-ssrex/ui/build/LayoutSideBar';
 
-import LayoutContext, { LayoutDefaultState } from '@react-ssrex/ui/build/LayoutContext';
-import SideBarReducer, * as actions from '@react-ssrex/ui/build/SideBarReducer';
+import LayoutContainer from '@react-ssrex/ui/build/DashboardLayout/LayoutContainer';
+import LayoutContentContainer from '@react-ssrex/ui/build/DashboardLayout/LayoutContentContainer';
+import LayoutAppBar from '@react-ssrex/ui/build/DashboardLayout/LayoutAppBar';
+import LayoutSideBar from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBar';
+
+import LayoutContext, { LayoutDefaultState } from '@react-ssrex/ui/build/DashboardLayout/LayoutContext';
+import SideBarReducer, * as actions from '@react-ssrex/ui/build/DashboardLayout/SideBarReducer';
+import LayoutSideBarToggle from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBarToggle';
+
+import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
+import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
+
 import ForceLogin from '@react-ssrex/ui/build/ForceLogin';
 
 import HomePage from './pages/HomePage';
@@ -64,33 +70,9 @@ query {
   }
 }
 `;
-const SET_THEME_NAME = gql`
-  mutation ($themeName: String!) {
-    setThemeName(themeName: $themeName) {
-      id
-      themeSettings {
-        name
-        mode
-      }
-    }
-  }
-`;
-const TGL_THEME_MODE = gql`
-  mutation{
-    toggleThemeMode {
-      id
-      themeSettings {
-        name
-        mode
-      }
-    }
-  }
-`;
 
 export default function App() {
   const { data, loading, error } = useQuery(THEME_SETTINGS);
-  const [setThemeName] = useMutation(SET_THEME_NAME);
-  const [toggleThemeMode] = useMutation(TGL_THEME_MODE);
   const [direction, setDirection] = React.useState(i18n.dir());
   const [state, dispatch] = React.useReducer(SideBarReducer, {
     ...LayoutDefaultState,
@@ -130,17 +112,19 @@ export default function App() {
   return (
     <ForceLogin>
       <LayoutContext.Provider value={{
-        state: { ...state, ...theme },
+        state,
         expandSidebar: () => dispatch(actions.expandSidebarAction()),
         shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-        setThemeName,
-        toggleThemeMode,
       }}
       >
         <StylesProvider jss={jss}>
           <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
             <LayoutContainer>
-              <LayoutAppBar />
+              <LayoutAppBar>
+                <LayoutSideBarToggle />
+                <ThemeModeToggle />
+                <ThemePaletteSelect />
+              </LayoutAppBar>
               <LayoutSideBar mainNav={<MainNav />} />
               <LayoutContentContainer>
                 <Switch>
