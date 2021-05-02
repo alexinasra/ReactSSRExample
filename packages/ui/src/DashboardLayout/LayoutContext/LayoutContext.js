@@ -5,8 +5,6 @@ const LayoutContext = React.createContext({
   state: { ...layoutDefaultState },
   expandSidebar: () => {},
   shrinkSidebar: () => {},
-  toggleThemeMode: () => {},
-  setThemeName: () => {},
 });
 export default LayoutContext;
 

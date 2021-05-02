@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import LayoutContext from '../LayoutContext';
 
@@ -54,27 +54,23 @@ export default function LayoutBasePage({
   decorate, containerClassName, children,
 }) {
   const classes = useStyles();
-
+  const theme = useTheme();
   return (
-    <LayoutContext.Consumer>
-      {({ state: { themeMode } }) => (
-        <div
-          className={clsx(classes.root, className)}
-        >
-          <div className={classes.appBarSpace} />
-          {decorate && (
-          <div className={classes.appBarBackground}>
-            <Decoration dark={themeMode === 'dark'} />
-          </div>
-          )}
-          <Container
-            maxWidth="xl"
-            className={clsx(classes.container, containerClassName)}
-          >
-            {children}
-          </Container>
-        </div>
+    <div
+      className={clsx(classes.root, className)}
+    >
+      <div className={classes.appBarSpace} />
+      {decorate && (
+      <div className={classes.appBarBackground}>
+        <Decoration dark={theme.palette.type === 'dark'} />
+      </div>
       )}
-    </LayoutContext.Consumer>
+      <Container
+        maxWidth="xl"
+        className={clsx(classes.container, containerClassName)}
+      >
+        {children}
+      </Container>
+    </div>
   );
 }
