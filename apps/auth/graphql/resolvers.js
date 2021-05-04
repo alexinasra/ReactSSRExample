@@ -1,4 +1,3 @@
-const UsersDb = require('@react-ssrex/database/UsersDb');
 const {
   DbLoginBadPasswordError,
   DbLoginUserNotFoundError ,
@@ -7,7 +6,6 @@ const {
 } = require('@react-ssrex/database/DbError');
 const userDir =  require('@react-ssrex/userconsole/graphql/user-dir');
 
-const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 const STATUS_CODE = {
   Success: "Success",
@@ -27,9 +25,8 @@ const resolvers = {
     userInRole: (root, args, { req }) => (req.session.userInRole),
   },
   Mutation: {
-    signup: async function registerUser(root, { input }, { req, mongoClient, generateId }) {
+    signup: async function registerUser(root, { input }, { req, UsersDb, generateId }) {
       const userId = generateId();
-      const database = await mongoClient.db(MongoDbConfig.db)
       try {
         //create home directory
         await userDir.createHomeDir(userId.toString());
@@ -44,8 +41,8 @@ const resolvers = {
         profilePicture: userDir.getProfilePictureUrl(userId.toString(), 'default_profile_picture.png'),
       }
       try {
-        const user = await UsersDb.with(database).create(userData, input.email, input.password);
-        await UsersDb.with(database).login(input.email, input.password)
+        const user = await UsersDb.create(userData, input.email, input.password);
+        await UsersDb.login(input.email, input.password)
         req.session.userInRole = user;
         return { user };
       } catch (e) {
@@ -53,10 +50,9 @@ const resolvers = {
         return { error: STATUS_CODE.ServerError, }
       }
     },
-    signin: async function signinWithEmail(root, { input: { email, password } }, { req, mongoClient, generateId }) {
-      const database = await mongoClient.db(MongoDbConfig.db);
+    signin: async function signinWithEmail(root, { input: { email, password } }, { req, UsersDb, generateId }) {
       try {
-        const result = await UsersDb.with(database).login(email, password);
+        const result = await UsersDb.login(email, password);
         req.session.userInRole = result.user
 
         return {
@@ -87,14 +83,13 @@ const resolvers = {
       req.session.userInRole = null;
       return { error: null }
     },
-    changePassword: async function (root, { password, newPassword }, { req, mongoClient, generateId }) {
-      const database = await mongoClient.db(MongoDbConfig.db);
+    changePassword: async function (root, { password, newPassword }, { req, UsersDb, generateId }) {
       if (!req.session.userInRole) {
         return { error: STATUS_CODE.UnauthenticatedUser };
       }
 
       try {
-        const result = await UsersDb.with(database).changePassword(generateId(req.session.userInRole._id), password, newPassword);
+        const result = await UsersDb.changePassword(generateId(req.session.userInRole._id), password, newPassword);
         req.session.userInRole = {
           ...result.user
         }

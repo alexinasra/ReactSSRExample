@@ -64,6 +64,7 @@ export default class Server extends EventEmitter {
     try {
       await attachable({ app: app, ...options });
     } catch (e){
+      console.log(e)
       throw new ServerError(`Unable to load @react-ssrex/${moduleName}.`);
     }
   }
@@ -82,6 +83,7 @@ export default class Server extends EventEmitter {
     });
 
     const client = await mongoClient.connect()
+    const database = await client.db(MongoDbConfig.db);
     app.use((req, res, next) => {
       req.mongoClient = client;
       next();

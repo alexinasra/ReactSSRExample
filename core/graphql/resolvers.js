@@ -1,14 +1,11 @@
 const { GraphQLUpload } = require('graphql-modules');
-const UsersDb = require('@react-ssrex/database/UsersDb');
-const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 const resolvers = {
   Mutation: {
-    setThemeName: async (root, { themeName }, { req, mongoClient, generateId }) => {
-      const database = await mongoClient.db(MongoDbConfig.db)
+    setThemeName: async (root, { themeName }, { req, UsersDb, generateId }) => {
       console.log(themeName)
       const userId = req.session.userInRole._id;
-      const user = await UsersDb.with(database).update(generateId(userId), {
+      const user = await UsersDb.update(generateId(userId), {
         themeSettings: {
           ...req.session.userInRole.themeSettings,
           name: themeName
@@ -17,11 +14,9 @@ const resolvers = {
       req.session.userInRole = user;
       return user;
     },
-    setThemeMode: async (root, { themeMode }, { req, mongoClient, generateId }) => {
-      const database = await mongoClient.db(MongoDbConfig.db)
-
+    setThemeMode: async (root, { themeMode }, { req, UsersDb, generateId }) => {
       const userId = req.session.userInRole._id;
-      const user = await UsersDb.with(database).update(generateId(userId), {
+      const user = await UsersDb.update(generateId(userId), {
         themeSettings: {
           ...req.session.userInRole.themeSettings,
           mode: themeMode
@@ -30,13 +25,11 @@ const resolvers = {
       req.session.userInRole = user;
       return user;
     },
-    toggleThemeMode: async (root, args, { req, mongoClient, generateId }) => {
-      const database = await mongoClient.db(MongoDbConfig.db)
-
+    toggleThemeMode: async (root, args, { req, UsersDb, generateId }) => {
       const userId = req.session.userInRole._id;
       const themeMode = req.session.userInRole.themeSettings.mode !== 'light'? 'light' : 'dark';
-      const user = await UsersDb.with(database).update(generateId(userId), {
-        themeSettings: {  
+      const user = await UsersDb.update(generateId(userId), {
+        themeSettings: {
           ...req.session.userInRole.themeSettings,
           mode: themeMode
         }
