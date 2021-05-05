@@ -1,5 +1,3 @@
-import React from 'react';
-
 import i18n from 'i18next';
 import Fetch from 'i18next-fetch-backend';
 
@@ -12,14 +10,15 @@ const defaultOptions = {
   namespacesUrl: '/translations/namespaces',
 };
 
-async function setupI18n(options = {}, ...middlewares) {
+
+export async function setupI18n(options = {}, ...middlewares) {
   const opts = deepmerge(defaultOptions, options);
 
   const languages = await fetch(opts.languagesUrl).then(resp => resp.json());
   const namespaces = await fetch(opts.namespacesUrl).then(resp => resp.json());
   const defaultLng = await fetch(opts.defaultLngUrl).then(resp => resp.json());
   const mds = [...middlewares];
-  
+
   for (let i = 0; i < mds.length; i += 1) {
     i18n.use(mds[i]);
   }
@@ -66,6 +65,3 @@ async function setupI18n(options = {}, ...middlewares) {
 }
 
 export default i18n;
-export {
-  setupI18n,
-};
