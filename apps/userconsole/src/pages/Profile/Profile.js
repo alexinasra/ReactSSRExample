@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import LayoutPage from '@react-ssrex/ui/build/LayoutBasePage';
+import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutBasePage';
 import EditProfile from './EditProfile';
 import EditProfilePicture from './EditProfilePicture';
 

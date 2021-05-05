@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
-import PaperPage from '@react-ssrex/ui/build/LayoutPaperPage';
+import PaperPage from '@react-ssrex/ui/build/DashboardLayout/LayoutPaperPage';
 import LanguageSettings from './LanguageSettings';
 
 export default function Settings() {

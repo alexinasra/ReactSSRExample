@@ -1,5 +1,5 @@
 import React from 'react';
-import LayoutPage from '@react-ssrex/ui/build/LayoutBasePage';
+import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutBasePage';
 
 export default function HomePage() {
   return (
