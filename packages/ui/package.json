@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "clean": "npx rimraf build",
     "build": "npx babel src/ --out-dir ./build"
   },
   "dependencies": {
