@@ -11,7 +11,9 @@ query AuthReport {
 `;
 
 export default function ForceLogin({ children }) {
-  const { loading, error, data } = useQuery(AUTH_REPORT);
+  const { loading, error, data } = useQuery(AUTH_REPORT, {
+    pollInterval: 500
+  });
 
   if (loading) {
     return (<div>Loading</div>);
