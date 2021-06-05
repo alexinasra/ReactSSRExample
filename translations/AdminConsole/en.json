@@ -10,6 +10,7 @@
 		"confirmAction": "$t(common:Actions.confirm)",
 		"cancelAction": "$t(common:Actions.cancel)",
 		"namespace": "Namespace",
-		"newKey": "New Key"
+		"newKey": "New Key",
+		"newKeyTooltip": "add new key ."
 	}
 }

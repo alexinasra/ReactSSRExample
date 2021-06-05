@@ -8,6 +8,7 @@
 		"removeNamespace": "הסר את מרחב השמות שנבחר .",
 		"newKey": "מפתח חדש",
 		"removeAlert": "האם אתה בטוח שברצונך להסיר את {{namespace}}.",
-		"namespace": "מרחב שמות"
+		"namespace": "מרחב שמות",
+		"newKeyTooltip": "הוסף מפתח חדש ."
 	}
 }
