@@ -1,7 +1,4 @@
 {
-	"greetings": {
-		"welcome": "Welcome"
-	},
 	"userProfile": {
 		"firstname": "שם פרטי",
 		"lastname": "שם משפחה"

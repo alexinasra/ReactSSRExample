@@ -12,7 +12,18 @@ import App from './App';
 
 const client = new ApolloClient({
   uri: '/adminconsoleql',
-  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          i18nTranslationKeys: {
+            keyArgs: ['namespace'],
+            merge: (existing, incoming) => incoming,
+          },
+        },
+      },
+    },
+  }).restore(window.__APOLLO_STATE__),
   ssrForceFetchDelay: 100,
 });
 

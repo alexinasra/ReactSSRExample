@@ -11,13 +11,78 @@ enum TranslationStatus {
 
 extend type Query {
   i18nNamespaces: [String!]!
-  i18nNamespaceKeys(ns: String!): [String]!
+  i18nTranslationKeys(namespace: String): [I18nTranslationKey]
+  i18nTranslationValues(namespace: String language: String): [I18nTranslationValue]
+  i18nTranslationValue(namespace: String language: String  key: String): I18nTranslationValue
 }
 
 extend type Mutation {
-  i18nCreateNamespace (ns: String!): TranslationStatus!
-  i18nDropNamespace (ns: String!): TranslationStatus!
-  i18nSetTranslation(key: String!, ns: String!, value: String!, lng: String): TranslationStatus!
-  i18nDropTranslation(key:String!, ns: String!): TranslationStatus
-  i18nClearTranslation(key: String!, ns: String!, lng: String!): TranslationStatus!
+  createI18nNamespace (namespace: String!): CreateI18nNamespacePayload
+  dropI18nNamespace (namespace: String!): DropI18nNamespacePayload
+
+  createI18nTranslation(input: CreateI18nTranslationInput): CreateI18nTranslationPayload
+  dropI18nTranslation(input: DropI18nTranslationInput): DropI18nTranslationPayload
+  updateI18nTranslation(input: UpdateI18nTranslationInput): UpdateI18nTranslationPayload
+}
+
+
+type CreateI18nNamespacePayload {
+  created: Boolean!
+  namespace: String
+  error: String
+}
+
+type DropI18nNamespacePayload {
+  dropped: Boolean!
+  namespace: String
+  error: String
+}
+
+input CreateI18nTranslationInput {
+  namespace: String!
+  key: String!
+}
+
+type CreateI18nTranslationPayload {
+  created: Boolean
+  translationKey: I18nTranslationKey
+  error: String
+}
+
+input DropI18nTranslationInput {
+  namespace: String!
+  key: String!
+}
+
+type DropI18nTranslationPayload {
+  dropped: Boolean
+  translationKey: I18nTranslationKey
+  error: String
+}
+
+input UpdateI18nTranslationInput {
+  language: String!
+  namespace: String!
+  key: String!
+  value: String!
+}
+
+type UpdateI18nTranslationPayload {
+  updated: Boolean
+  translationValues: [I18nTranslationValue!]
+  error: String
+}
+
+type I18nTranslationKey {
+  id: ID!
+  namespace: String!
+  key: String!
+}
+
+type I18nTranslationValue {
+  id: ID!
+  translationKey: I18nTranslationKey!
+  language: String!
+  value: String
+  actualValue: String
 }

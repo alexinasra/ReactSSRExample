@@ -1,8 +1,8 @@
 {
 	"mainNav": {
 		"editProfile": "تعديل الملف الشخصي",
-		"changePassword": "تغيير كلمة المرور",
-		"systemSettings": "أعدادات النظام"
+		"systemSettings": "أعدادات النظام",
+		"changePassword": "تغيير كلمة المرور"
 	},
 	"userProfile": {
 		"save": "أحفظ",

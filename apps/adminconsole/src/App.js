@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Switch, Route, Link as RouterLink } from 'react-router-dom';
+import {
+  Switch, Route, Link as RouterLink, Redirect,
+} from 'react-router-dom';
 
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
@@ -38,7 +40,7 @@ import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 import ForceLogin from '@react-ssrex/ui/build/ForceLogin';
 
 import HomePage from './pages/HomePage';
-import { TranslationsPage } from './pages/LanguageLocalePage';
+import TranslationsPage from './pages/Translations';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -51,7 +53,7 @@ const MainNav = () => (
       </ListItemIcon>
       <ListItemText primary="Overview" />
     </ListItem>
-    <ListItem button component={RouterLink} to="/locale-settings/translations">
+    <ListItem button component={RouterLink} to="/translations/common">
       <ListItemIcon>
         <DraftsIcon />
       </ListItemIcon>
@@ -128,7 +130,10 @@ export default function App() {
               <LayoutSideBar mainNav={<MainNav />} />
               <LayoutContentContainer>
                 <Switch>
-                  <Route path="/locale-settings/translations" exact>
+                  <Route path="/translations" exact>
+                    <Redirect to="/translations/common" />
+                  </Route>
+                  <Route path="/translations/:namespace">
                     <TranslationsPage />
                   </Route>
                   <Route path="/">
