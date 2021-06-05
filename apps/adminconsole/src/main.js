@@ -17,7 +17,7 @@ const client = new ApolloClient({
       Query: {
         fields: {
           i18nTranslationKeys: {
-            keyArgs: ['namespace'],
+            keyArgs: ['id', 'namespace'],
             merge: (existing, incoming) => incoming,
           },
         },

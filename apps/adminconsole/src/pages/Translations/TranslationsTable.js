@@ -56,6 +56,7 @@ query ($namespace: String) {
     short
     long
     native
+    dir
   }
   i18nTranslationKeys (namespace: $namespace) {
     id
@@ -81,7 +82,10 @@ export default function TranslationsTable() {
     error,
     loading,
     refetch,
-  } = useQuery(TRANSLATIONS_TABLE, { variables: { namespace } });
+  } = useQuery(TRANSLATIONS_TABLE, {
+    variables: { namespace },
+    fetchPolicy: 'cache-and-network',
+  });
   const { t } = useTranslation('Language', { useSuspense: false });
 
   if (loading) {
@@ -134,9 +138,11 @@ export default function TranslationsTable() {
                   translationLanguage="en"
                 >
                   {({ value }) => (
-                    <Typography>
-                      {value}
-                    </Typography>
+                    <bdi dir="ltr">
+                      <Typography>
+                        {value}
+                      </Typography>
+                    </bdi>
                   )}
                 </TranslationValue>
               </div>
@@ -153,9 +159,11 @@ export default function TranslationsTable() {
                       translationLanguage={l.short}
                     >
                       {({ value }) => (
-                        <Typography>
-                          {value}
-                        </Typography>
+                        <bdi dir={l.dir}>
+                          <Typography>
+                            {value}
+                          </Typography>
+                        </bdi>
                       )}
                     </TranslationValue>
                   </div>

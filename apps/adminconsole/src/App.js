@@ -7,7 +7,7 @@ import {
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
-
+import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
@@ -45,22 +45,26 @@ import TranslationsPage from './pages/Translations';
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
-const MainNav = () => (
-  <List>
-    <ListItem button component={RouterLink} to="/locale-settings">
-      <ListItemIcon>
-        <InboxIcon />
-      </ListItemIcon>
-      <ListItemText primary="Overview" />
-    </ListItem>
-    <ListItem button component={RouterLink} to="/translations/common">
-      <ListItemIcon>
-        <DraftsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Translations" />
-    </ListItem>
-  </List>
-);
+function MainNav() {
+  const { t } = useTranslation('AdminConsole', { useSuspense: false });
+  return (
+    <List>
+      <ListItem button component={RouterLink} to="/">
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary={t('MainNav.dashboard')} />
+      </ListItem>
+      <ListItem button component={RouterLink} to="/translations/common">
+        <ListItemIcon>
+          <DraftsIcon />
+        </ListItemIcon>
+        <ListItemText primary={t('MainNav.translations')} />
+      </ListItem>
+    </List>
+  );
+}
+
 const THEME_SETTINGS = gql`
 query {
   userInRole {

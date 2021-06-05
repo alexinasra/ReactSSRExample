@@ -54,9 +54,11 @@ export default function RemoveNamespace({
   return (
     <>
       <Tooltip title="remove selected namespace">
-        <IconButton disabled={namespace === 'common'} onClick={() => setOpen(true)}>
-          <Icon>remove</Icon>
-        </IconButton>
+        <span>
+          <IconButton disabled={namespace === 'common'} onClick={() => setOpen(true)}>
+            <Icon>remove</Icon>
+          </IconButton>
+        </span>
       </Tooltip>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>

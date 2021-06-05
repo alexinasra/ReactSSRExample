@@ -1,0 +1,9 @@
+{
+	"MainNav": {
+		"dashboard": "لوحة التحكم",
+		"translations": "الترجمات"
+	},
+	"Translations": {
+		"addNamespace": "أضف أسم مساحه جديد"
+	}
+}

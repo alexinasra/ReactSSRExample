@@ -54,29 +54,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Translations() {
   const classes = useStyles();
+  const { push } = useHistory();
+  const { namespace } = useParams();
   const [createKey] = useMutation(CREATE_KEY, {
     update(cache, { data: { createI18nTranslation } }) {
       cache.modify({
         fields: {
           i18nTranslationKeys(existingKeys = []) {
-            const translationKeyRef = cache.writeFragment({
-              data: createI18nTranslation.translationKey,
-              fragment: gql`
-                fragment NewTranslationKey on TranslationKey {
-                  id
-                  namespace
-                  key
-                }
-              `,
-            });
-            return [...existingKeys, translationKeyRef];
+            if (createI18nTranslation.translationKey.namespace === namespace) {
+              const translationKeyRef = cache.writeFragment({
+                data: createI18nTranslation.translationKey,
+                fragment: gql`
+                  fragment NewTranslationKey on I18nTranslationKey {
+                    id
+                    namespace
+                    key
+                  }
+                `,
+              });
+              return [...existingKeys, translationKeyRef];
+            }
+            return existingKeys;
           },
         },
       });
     },
   });
-  const { push } = useHistory();
-  const { namespace } = useParams();
   const [newKeyOpen, setNewKeyOpen] = React.useState(false);
   const [newKeyText, setNewKeyText] = React.useState('');
 

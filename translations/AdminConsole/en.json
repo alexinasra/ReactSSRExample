@@ -1,0 +1,11 @@
+{
+	"MainNav": {
+		"dashboard": "Dashboard",
+		"translations": "Translations"
+	},
+	"Translations": {
+		"addNamespace": "add a new namespace",
+		"removeNamespace": "remove selected namespace"
+	},
+	"www": "ewew"
+}
