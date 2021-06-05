@@ -37,7 +37,7 @@ import LayoutSideBarToggle from '@react-ssrex/ui/build/DashboardLayout/LayoutSid
 import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
 import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 
-import ForceLogin from '@react-ssrex/ui/build/ForceLogin';
+import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
 
 import HomePage from './pages/HomePage';
 import TranslationsPage from './pages/Translations';
@@ -116,7 +116,7 @@ export default function App() {
   }
 
   return (
-    <ForceLogin signinUrl="/auth/signin">
+    <ForceSignin signinUrl="/auth/signin">
       <LayoutContext.Provider value={{
         state,
         expandSidebar: () => dispatch(actions.expandSidebarAction()),
@@ -149,6 +149,6 @@ export default function App() {
           </ThemeProvider>
         </StylesProvider>
       </LayoutContext.Provider>
-    </ForceLogin>
+    </ForceSignin>
   );
 }

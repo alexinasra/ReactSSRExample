@@ -29,7 +29,7 @@ import LayoutSideBar from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBar';
 
 import LayoutContext, { LayoutDefaultState } from '@react-ssrex/ui/build/DashboardLayout/LayoutContext';
 import SideBarReducer, * as actions from '@react-ssrex/ui/build/DashboardLayout/SideBarReducer';
-import ForceLogin from '@react-ssrex/ui/build/ForceLogin';
+import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
 
 import LayoutSideBarToggle from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBarToggle';
 
@@ -125,7 +125,7 @@ export default function App() {
   }
 
   return (
-    <ForceLogin signinUrl="/auth/signin">
+    <ForceSignin signinUrl="/auth/signin">
       <LayoutContext.Provider value={{
         state,
         expandSidebar: () => dispatch(actions.expandSidebarAction()),
@@ -159,6 +159,6 @@ export default function App() {
           </ThemeProvider>
         </StylesProvider>
       </LayoutContext.Provider>
-    </ForceLogin>
+    </ForceSignin>
   );
 }
