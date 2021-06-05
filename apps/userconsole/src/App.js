@@ -125,7 +125,7 @@ export default function App() {
   }
 
   return (
-    <ForceLogin>
+    <ForceLogin signinUrl="/auth/signin">
       <LayoutContext.Provider value={{
         state,
         expandSidebar: () => dispatch(actions.expandSidebarAction()),
