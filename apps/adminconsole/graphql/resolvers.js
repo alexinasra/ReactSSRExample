@@ -124,12 +124,6 @@ module.exports = {
     }) => {
       return req.i18n.options.ns
     },
-    // i18nNamespaceKeys: async (root, { ns }, { req }) => {
-    //   const translationsRootDir = req.i18n.options.backend.translationsRootDir;
-    //   const obj_path = path.join(translationsRootDir, ns, "en");
-    //   const obj = require(obj_path);
-    //   return flattenkeys(obj);
-    // },
     i18nTranslationKeys: async (root, {
       namespace = 'common'
     }, {
