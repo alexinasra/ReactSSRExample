@@ -74,8 +74,19 @@ export default function AddNamespace() {
           />
         </CardContent>
         <CardActions>
-          <Button disabled={!value} onClick={handleAddClick}>{t('Translations.confirmAction')}</Button>
-          <Button onClick={handleClose}>{t('Translations.cancelAction')}</Button>
+          <Button
+            color="primary"
+            onClick={handleClose}
+          >
+            {t('Translations.cancelAction')}
+          </Button>
+          <Button
+            color="primary"
+            disabled={!value}
+            onClick={handleAddClick}
+          >
+            {t('Translations.confirmAction')}
+          </Button>
         </CardActions>
       </Dialog>
     </>

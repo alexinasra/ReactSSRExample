@@ -67,8 +67,12 @@ export default function RemoveNamespace({
           {t('Translations.removeAlert', { namespace })}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>{t('Translations.cancelAction')}</Button>
-          <Button onClick={handleAddClick}>{t('Translations.confirmAction')}</Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            {t('Translations.cancelAction')}
+          </Button>
+          <Button onClick={handleAddClick} color="primary">
+            {t('Translations.confirmAction')}
+          </Button>
         </DialogActions>
       </Dialog>
     </>
