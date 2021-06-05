@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   useHistory,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Dialog from '@material-ui/core/Dialog';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,6 +22,7 @@ mutation ($namespace: String!) {
 `;
 
 export default function AddNamespace() {
+  const { t } = useTranslation('AdminConsole', { useSuspense: false });
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
   const [createNamespace] = useMutation(CREATE_NS, {
@@ -57,7 +59,7 @@ export default function AddNamespace() {
   };
   return (
     <>
-      <Tooltip title="add a new namespace">
+      <Tooltip title={t('Translations.addNamespace')}>
         <IconButton onClick={() => setOpen(true)}>
           <Icon>add</Icon>
         </IconButton>
@@ -65,15 +67,15 @@ export default function AddNamespace() {
       <Dialog open={open} onClose={handleClose}>
         <CardContent>
           <TextField
-            label="Namespace"
+            label={t('Translations.namespace')}
             value={value}
             onChange={handleChangeValue}
             fullWidth
           />
         </CardContent>
         <CardActions>
-          <Button disabled={!value} onClick={handleAddClick}>Add</Button>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button disabled={!value} onClick={handleAddClick}>{t('Translations.confirmAction')}</Button>
+          <Button onClick={handleClose}>{t('Translations.cancelAction')}</Button>
         </CardActions>
       </Dialog>
     </>

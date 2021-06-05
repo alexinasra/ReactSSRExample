@@ -4,6 +4,9 @@
 		"translations": "الترجمات"
 	},
 	"Translations": {
-		"addNamespace": "أضف أسم مساحه جديد"
+		"addNamespace": "أضف أسم مساحه جديد",
+		"removeNamespace": "إزالة مساحة الاسم المحددة .",
+		"newKey": "مفتاح جديد",
+		"removeAlert": "هل أنت متأكد أنك تريد إزالة {{namespace}}."
 	}
 }

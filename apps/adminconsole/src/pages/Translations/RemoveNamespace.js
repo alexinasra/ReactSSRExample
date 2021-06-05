@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   useHistory,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -23,6 +24,7 @@ mutation ($namespace: String!) {
 export default function RemoveNamespace({
   namespace,
 }) {
+  const { t } = useTranslation('AdminConsole', { useSuspense: false });
   const [open, setOpen] = useState(false);
   const [dropNamespace] = useMutation(DROP_NS, {
     update(cache, { data }) {
@@ -53,7 +55,7 @@ export default function RemoveNamespace({
   };
   return (
     <>
-      <Tooltip title="remove selected namespace">
+      <Tooltip title={t('Translations.removeNamespace')}>
         <span>
           <IconButton disabled={namespace === 'common'} onClick={() => setOpen(true)}>
             <Icon>remove</Icon>
@@ -62,11 +64,11 @@ export default function RemoveNamespace({
       </Tooltip>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {`Are you sure you want to remove "${namespace}" namespace ?`}
+          {t('Translations.removeAlert', { namespace })}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>Cancel</Button>
-          <Button onClick={handleAddClick}>Confirm</Button>
+          <Button onClick={handleClose} autoFocus>{t('Translations.cancelAction')}</Button>
+          <Button onClick={handleAddClick}>{t('Translations.confirmAction')}</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -2,5 +2,11 @@
 	"userProfile": {
 		"firstname": "الأسم الشخصي",
 		"lastname": "أسم العائله"
+	},
+	"Actions": {
+		"confirm": "موافق",
+		"cancel": "ألغاء",
+		"remove": "أحذف",
+		"add": "أضف"
 	}
 }

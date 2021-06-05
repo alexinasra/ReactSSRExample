@@ -4,6 +4,9 @@
 		"translations": "תרגומים"
 	},
 	"Translations": {
-		"addNamespace": "הוסף שם מרחב חדש"
+		"addNamespace": "הוסף שם מרחב חדש",
+		"removeNamespace": "הסר את מרחב השמות שנבחר .",
+		"newKey": "מפתח חדש",
+		"removeAlert": "האם אתה בטוח שברצונך להסיר את {{namespace}}."
 	}
 }

@@ -2,5 +2,11 @@
 	"userProfile": {
 		"firstname": "שם פרטי",
 		"lastname": "שם משפחה"
+	},
+	"Actions": {
+		"confirm": "קבל",
+		"cancel": "ביטול",
+		"remove": "הסר",
+		"add": "הוסף"
 	}
 }

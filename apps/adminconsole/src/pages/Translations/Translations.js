@@ -6,6 +6,8 @@ import {
   useParams,
   useHistory,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import { useMutation, gql } from '@apollo/client';
 import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutBasePage';
 import Paper from '@material-ui/core/Paper';
@@ -53,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Translations() {
+  const { t } = useTranslation('AdminConsole', { useSuspense: false });
   const classes = useStyles();
   const { push } = useHistory();
   const { namespace } = useParams();
@@ -116,7 +119,7 @@ export default function Translations() {
               <Paper className={classes.toolbar}>
                 <div>
                   <Button onClick={handleDialogOpen}>
-                    New Key
+                    {t('Translations.newKey')}
                   </Button>
                 </div>
                 <div className={classes.flexGrow} />
@@ -141,10 +144,10 @@ export default function Translations() {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleDialogClose} color="primary">
-                Cancel
+                {t('Translations.cancelAction')}
               </Button>
               <Button onClick={handleDialogConfirm} color="primary">
-                Confirm
+                {t('Translations.confirmAction')}
               </Button>
             </DialogActions>
           </Dialog>
