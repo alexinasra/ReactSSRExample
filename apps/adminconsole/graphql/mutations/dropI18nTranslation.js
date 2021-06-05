@@ -2,14 +2,10 @@ const path = require('path');
 
 const utils = require('@react-ssrex/utils');
 const saveJson = utils.json.saveJson;
-const { deletePropertyPath} = utils.object;
+const { deletePropertyPath } = utils.object;
 const { I18nTranslationKey } = require('../types');
 
-module.exports = async function dropI18nTranslation (root, {
-  input
-}, {
-  req
-}) => {
+module.exports = async function dropI18nTranslation (root, { input }, { req }) {
   const {
     namespace,
     key,
