@@ -2,7 +2,7 @@ const path = require('path');
 
 const utils = require('@react-ssrex/utils');
 const saveJson = utils.json.saveJson;
-const { deepValue} = utils.object;
+const { deepValueUpdate } = utils.object;
 const { I18nTranslationKey } = require('../types');
 
 module.exports = async function createI18nTranslation (root, { input }, { req }) {
