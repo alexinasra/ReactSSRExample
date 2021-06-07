@@ -13,7 +13,7 @@ const mapNameToTheme = (themeName) => {
 
 export default function createTheme(themeName='default', mode = 'light', direction = 'ltr') {
   const theme = mapNameToTheme(themeName);
-  const modedPalette = mode === 'light' ? themeName.lightPalette : themeName.darkPalette;
+  const modedPalette = mode === 'light' ? theme.lightPalette : theme.darkPalette;
 
   return createMuiTheme({
     ...modedPalette,
