@@ -38,17 +38,11 @@ module.exports = function attach({app}) {
 
     } else {
 
-      const webpack = require('webpack');
-      const webpackConf0 = require('./webpack.node.production');
-      const webpackConf1 = require('./webpack.config.production');
+              const serverRenderer = require('./build/server').default;
+              app.use('/userconsole/public/', express.static(path.join(__dirname, 'build', 'public')));
+              app.use('/userconsole', serverRenderer({}));
 
-      const webpackCompiler = webpack([webpackConf0, webpackConf1], () => {
-        const serverRenderer = require('./build/server');
-        app.use('/userconsole', express.static(path.join(__dirname, 'build', 'public')));
-        app.use('/userconsole', serverRenderer({}));
-
-        resolve();
-      });
+              resolve();
     }
   });
 }

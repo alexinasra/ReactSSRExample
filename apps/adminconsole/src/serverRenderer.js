@@ -45,7 +45,7 @@ export default function serverRenderer({ clientStats, serverStats }) {
         sheets.collect(
           <I18nextProvider i18n={req.i18n}>
             <ApolloProvider client={client}>
-              <StaticRouter basename="/admin" context={context} location={req.url}>
+              <StaticRouter basename="/adminconsole" context={context} location={req.url}>
                 <App />
               </StaticRouter>
             </ApolloProvider>

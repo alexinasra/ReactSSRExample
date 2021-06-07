@@ -6,10 +6,15 @@ module.exports = {
   name: 'client',
   mode: 'production',
   target: 'web',
-  entry: path.join(__dirname, './src/main.js'),
+  entry: [
+    'core-js',
+    'regenerator-runtime/runtime',
+    path.join(__dirname, './src/main.js')
+  ],
   output: {
     path: path.resolve(__dirname, 'build', 'public'),
-    filename: 'main.js',
+    filename: '[name].js',
+    sourceMapFilename: '[name].js.map',
     publicPath: '/',
   },
   resolve: {

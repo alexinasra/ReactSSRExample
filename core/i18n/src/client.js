@@ -10,13 +10,12 @@ const defaultOptions = {
   namespacesUrl: '/translations/namespaces',
 };
 
-
 export async function setupI18n(options = {}, ...middlewares) {
   const opts = deepmerge(defaultOptions, options);
 
-  const languages = await fetch(opts.languagesUrl).then(resp => resp.json());
-  const namespaces = await fetch(opts.namespacesUrl).then(resp => resp.json());
-  const defaultLng = await fetch(opts.defaultLngUrl).then(resp => resp.json());
+  const languages = await fetch(opts.languagesUrl).then((resp) => resp.json());
+  const namespaces = await fetch(opts.namespacesUrl).then((resp) => resp.json());
+  const defaultLng = await fetch(opts.defaultLngUrl).then((resp) => resp.json());
   const mds = [...middlewares];
 
   for (let i = 0; i < mds.length; i += 1) {
@@ -61,7 +60,7 @@ export async function setupI18n(options = {}, ...middlewares) {
       handleChange(i18n.language);
       i18n.on('languageChanged', handleChange);
       return i18n;
-    })
+    });
 }
 
 export default i18n;

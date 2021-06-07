@@ -11,7 +11,7 @@ const utils = require('@react-ssrex/utils');
 const saveJson = utils.json.saveJson;
 const { initReactI18next } = require('react-i18next');
 
-require('es6-promise').polyfill();
+// require('es6-promise').polyfill();
 require('universal-fetch');
 module.exports = async function attach({
   app,
@@ -98,17 +98,21 @@ module.exports = async function attach({
       res.json(namespaces);
     });
 
-    const config = require('./webpack.config');
-    const compiler = webpack(config);
+
 
     // TODO: currentlly serving only development builds. figure out production use-case.
     return new Promise((resolve, reject) => {
-      compiler.watch({}, (err/*, stats*/) => {
-        if(err) {
-          return reject(err);
-        } 
-        resolve()
-      })
+      if(process.env.NODE_ENV === 'development') {
+        const config = require('./webpack.config');
+        const compiler = webpack(config);
+        compiler.watch({}, (err/*, stats*/) => {
+          if(err) {
+            return reject(err);
+          }
+        })
+      }
+
+      resolve();
     })
 
 }

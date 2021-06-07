@@ -38,15 +38,11 @@ module.exports = async function attach({ app }) {
 
   } else {
 
-    const webpack = require('webpack');
-    const webpackConf0 = require('./webpack.node.production');
-    const webpackConf1 = require('./webpack.config.production');
 
-    const webpackCompiler = webpack([webpackConf0, webpackConf1], () => {
-      const serverRenderer = require('./build/server');
-      app.use('/auth', express.static(path.join(__dirname, 'build', 'public')));
-      app.use('/auth', serverRenderer({}));
+          const serverRenderer = require('./build/server').default;
+          app.use('/auth/public/', express.static(path.join(__dirname, 'build', 'public')));
+          app.use('/auth', serverRenderer({}));
 
-    });
+
   }
 }

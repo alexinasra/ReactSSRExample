@@ -1,4 +1,3 @@
-
 import EventEmitter from 'events';
 import path from 'path';
 import express from 'express';
@@ -74,7 +73,9 @@ export default class Server extends EventEmitter {
     app.set('view engine', 'ejs');
     this.setupMiddlewares();
 
+        console.log('assets');
     await this.attachModule('assets', attachAssets);
+        console.log('i18n');
     await this.attachModule('i18n', attachI18n, {
       translationsDir: path.resolve("../../translations"),
       languages: ['en', 'ar', 'he'],
@@ -82,15 +83,18 @@ export default class Server extends EventEmitter {
       defaultNamespace: 'common'
     });
 
+    console.log('dbclient');
     const client = await mongoClient.connect()
     const database = await client.db(MongoDbConfig.db);
     app.use((req, res, next) => {
       req.mongoClient = client;
       next();
     })
+    console.log('graphql');
     await this.attachModule('graphql', attachGraphQL, {
       mongoClient: client,
     });
+    console.log('auth');
     await this.attachModule('auth', attachAuth);
     await this.attachModule('adminConsole', attachAdminConsole);
     await this.attachModule('userConsole', attachUserConsole);

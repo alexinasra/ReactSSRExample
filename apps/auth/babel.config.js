@@ -1,7 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  presets: ["@babel/preset-env", "@babel/preset-react"],
+  presets: [["@babel/preset-env", {
+      "useBuiltIns": false,
+    }],
+    "@babel/preset-react"],
   ignore: ["node_modules"],
   plugins: [
     [
@@ -16,6 +19,12 @@ module.exports = {
   ],
   env: {
     production: {
+      plugins: [
+        "@babel/plugin-transform-async-to-generator",
+        ["@babel/plugin-transform-runtime", {
+            "corejs": 2
+        }]
+      ],
       ignore: ["packages/*"],
     },
     development: {

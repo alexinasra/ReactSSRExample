@@ -24,7 +24,7 @@ module.exports = function attach({app}) {
         publicPath: webpackConf0.output.publicPath,
         index: false,
         serverSideRender: true,
-        writeToDisk: true,
+        // writeToDisk: true,
       });
       md.waitUntilValid(resolve);
       app.use(md);
@@ -37,17 +37,12 @@ module.exports = function attach({app}) {
 
     } else {
 
-      const webpack = require('webpack');
-      const webpackConf0 = require('./webpack.node.production');
-      const webpackConf1 = require('./webpack.config.production');
 
-      const webpackCompiler = webpack([webpackConf0, webpackConf1], () => {
-        const serverRenderer = require('./build/server');
+        const serverRenderer = require('./build/server').default;
         app.use(express.static(path.join(__dirname, 'build', 'public')));
         app.use('/', serverRenderer({}));
 
         resolve();
-      });
     }
   });
 }

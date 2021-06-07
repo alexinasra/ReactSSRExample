@@ -1,8 +1,14 @@
 
 module.exports = {
-  presets: ["@babel/preset-react", '@babel/preset-env'],
+  presets: ["@babel/preset-react", ["@babel/preset-env", {
+      "useBuiltIns": false,
+      "targets": {
+          "node": "current"
+        }
+    }]],
   exclude: [/node_modules/],
   plugins: [
+    "@babel/plugin-transform-runtime",
     // ['@babel/plugin-proposal-class-properties', { loose: true }],
     // ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
     // '@babel/plugin-transform-runtime',

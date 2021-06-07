@@ -16,7 +16,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build', 'public'),
     filename: '[name].js',
-    publicPath: '/admin',
+    publicPath: '/adminconsole',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.scss', '.css'],

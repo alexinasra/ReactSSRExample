@@ -5,7 +5,8 @@ module.exports = {
   name: 'client',
   mode: 'development',
   target: 'web',
-  entry: path.join(__dirname, './src/client.js'),
+  entry: [
+    path.join(__dirname, './src/client.js')],
   output: {
     path: __dirname,
     filename: 'client.js',
