@@ -83,6 +83,11 @@ class UsersDb {
     return user;
   }
 
+  getUsers = async () => {
+    const result = await this.collection.find();
+    return result.toArray();
+  }
+
 }
 
 module.exports = UsersDb;
