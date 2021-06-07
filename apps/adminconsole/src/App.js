@@ -38,6 +38,7 @@ import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
 import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 
 import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
+import AppLoading from '@react-ssrex/ui/build/AppLoading';
 
 import HomePage from './pages/HomePage';
 import TranslationsPage from './pages/Translations';
@@ -109,7 +110,7 @@ export default function App() {
   }, [data]);
 
   if (loading) {
-    return (<div> loading </div>);
+    return (<AppLoading />);
   }
   if (error) {
     return (<pre>{JSON.stringify(error, null, '\t')}</pre>);

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
@@ -56,8 +56,7 @@ mutation ($firstname: String!, $lastname: String!, $email: String!, $password: S
 
 export default function SignUp() {
   const classes = useStyles();
-  const history = useHistory();
-  const { t, ready } = useTranslation('Auth', { useSuspense: false });
+  const { t } = useTranslation('Auth', { useSuspense: false });
 
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [firstname, setFirstname] = useState('');
@@ -67,7 +66,6 @@ export default function SignUp() {
   const [inputError, setInputError] = useState(false);
   const [
     signup,
-    { loading, data, error },
   ] = useMutation(SIGN_UP);
 
   const signUp = (e) => {
@@ -80,30 +78,26 @@ export default function SignUp() {
         password,
 
       },
+    }).then(({ data }) => {
+      if (!data) return;
+      switch (data.signup.error) {
+        case AuthStatusCode.DuplicateSignin: // allready in
+          window.location.href = '/';
+          break;
+        case AuthStatusCode.IncorrectPassword: // incorrect password
+          setInputError('Bad Password');
+          break;
+        case AuthStatusCode.UserNotFound: // user not found
+          setInputError('User Not Found');
+          break;
+        default:
+          window.location.href = '/';
+      }
     });
   };
-  useEffect(() => {
-    if (!data) return;
-    switch (data.signup.error) {
-      case AuthStatusCode.DuplicateSignin: // allready in
-        window.location.href = '/';
-        break;
-      case AuthStatusCode.IncorrectPassword: // incorrect password
-        setInputError('Bad Password');
-        break;
-      case AuthStatusCode.UserNotFound: // user not found
-        setInputError('User Not Found');
-        break;
-      default:
-        window.location.href = '/';
-    }
-  }, [data, history]);
-  if (!ready) {
-    return false;
-  }
 
   return (
-    <AuthPage error={error} loading={loading} className={classes.paper} maxWidth="xs">
+    <AuthPage className={classes.paper} maxWidth="xs">
       {inputError && (
       <Alert severity="warning">{inputError}</Alert>
       )}

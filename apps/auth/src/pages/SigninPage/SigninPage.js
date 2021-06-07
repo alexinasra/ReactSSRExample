@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import {
   Link as RouterLink, useLocation,
@@ -56,17 +56,13 @@ mutation SigninWithEmail($email: String!, $password: String!){
 export default function SignIn() {
   const query = useQuery();
   const classes = useStyles();
-  const { t, ready } = useTranslation('Auth', { useSuspense: false });
-  if (!ready) {
-    return false;
-  }
-
+  const { t } = useTranslation('Auth', { useSuspense: false });
   const [inputError, setInputError] = useState(false);
 
   const [
     signin,
-    { loading, data, error },
   ] = useMutation(SIGN_IN);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -87,28 +83,26 @@ export default function SignIn() {
         email,
         password,
       },
+    }).then(({ data }) => {
+      if (!data) return;
+      switch (data.signin.error) {
+        case AuthStatusCode.DuplicateSignin: // allready in
+          window.location.href = '/';
+          break;
+        case AuthStatusCode.IncorrectPassword: // incorrect password
+          setInputError(t('Error.IncorrectPassword'));
+          break;
+        case AuthStatusCode.UserNotFound: // user not found
+          setInputError(t('Error.UserNotFound'));
+          break;
+        default:
+          window.location.href = query.redirectto || '/';
+      }
     });
   };
 
-  useEffect(() => {
-    if (!data) return;
-    switch (data.signin.error) {
-      case AuthStatusCode.DuplicateSignin: // allready in
-        window.location.href = '/';
-        break;
-      case AuthStatusCode.IncorrectPassword: // incorrect password
-        setInputError(t('Error.IncorrectPassword'));
-        break;
-      case AuthStatusCode.UserNotFound: // user not found
-        setInputError(t('Error.UserNotFound'));
-        break;
-      default:
-        window.location.href = query.redirectto || '/';
-    }
-  }, [data, query]);
-
   return (
-    <AuthPage error={error} loading={loading} className={classes.paper} maxWidth="xs">
+    <AuthPage className={classes.paper} maxWidth="xs">
       {inputError && (
       <Alert severity="warning">{inputError}</Alert>
       )}
@@ -149,7 +143,6 @@ export default function SignIn() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          disabled={loading}
         >
           {t('SigninButton.text')}
         </Button>

@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -26,23 +25,13 @@ const useStyles = makeStyles(() => ({
 export default function AuthPage({
   children,
   className,
-  error,
-  loading,
 }) {
   const classes = useStyles();
-  let display = children;
-
-  if (loading) {
-    display = (<div className={classes.progress}><CircularProgress /></div>);
-  }
-  if (error) {
-    display = (<pre>{JSON.stringify(error, null, 4)}</pre>);
-  }
   return (
     <Container maxWidth="sm" className={clsx(classes.root, className)}>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          {display}
+          {children}
         </CardContent>
       </Card>
     </Container>

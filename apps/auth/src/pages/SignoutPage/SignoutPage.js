@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
-import AuthPage from '../../layout/AuthPage';
+import AppLoading from '@react-ssrex/ui/build/AppLoading';
 
 function useRedirectTo() {
   const params = new URLSearchParams(useLocation().search);
@@ -20,7 +20,6 @@ export default function SignoutPage() {
 
   const [
     signout,
-    { error, loading },
   ] = useMutation(SIGN_OUT);
   useEffect(() => {
     signout().then(() => {
@@ -28,6 +27,6 @@ export default function SignoutPage() {
     });
   }, [signout]);
   return (
-    <AuthPage error={error} loading={loading}>Signing out ...</AuthPage>
+    <AppLoading>Signing out ...</AppLoading>
   );
 }

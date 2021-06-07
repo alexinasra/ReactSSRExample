@@ -30,6 +30,7 @@ import LayoutSideBar from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBar';
 import LayoutContext, { LayoutDefaultState } from '@react-ssrex/ui/build/DashboardLayout/LayoutContext';
 import SideBarReducer, * as actions from '@react-ssrex/ui/build/DashboardLayout/SideBarReducer';
 import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
+import AppLoading from '@react-ssrex/ui/build/AppLoading';
 
 import LayoutSideBarToggle from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBarToggle';
 
@@ -118,7 +119,7 @@ export default function App() {
   }, [data]);
 
   if (loading) {
-    return (<div> loading </div>);
+    return (<AppLoading />);
   }
   if (error) {
     return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
