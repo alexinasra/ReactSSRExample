@@ -10,6 +10,8 @@ enum TranslationStatus {
 }
 
 extend type Query {
+  users:[User!]
+
   i18nNamespaces: [String!]!
   i18nTranslationKeys(namespace: String): [I18nTranslationKey]
   i18nTranslationValues(namespace: String language: String): [I18nTranslationValue]
