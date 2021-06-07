@@ -21,8 +21,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import Icon from '@material-ui/core/Icon';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 
 import LayoutContainer from '@react-ssrex/ui/build/DashboardLayout/LayoutContainer';
@@ -41,7 +40,8 @@ import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
 import AppLoading from '@react-ssrex/ui/build/AppLoading';
 
 import HomePage from './pages/HomePage';
-import TranslationsPage from './pages/Translations';
+import Translations from './pages/Translations';
+import Users from './pages/Users';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -52,13 +52,19 @@ function MainNav() {
     <List>
       <ListItem button component={RouterLink} to="/">
         <ListItemIcon>
-          <InboxIcon />
+          <Icon>dashboard</Icon>
         </ListItemIcon>
         <ListItemText primary={t('MainNav.dashboard')} />
       </ListItem>
+      <ListItem button component={RouterLink} to="/users">
+        <ListItemIcon>
+          <Icon>people</Icon>
+        </ListItemIcon>
+        <ListItemText primary={t('MainNav.users')} />
+      </ListItem>
       <ListItem button component={RouterLink} to="/translations/common">
         <ListItemIcon>
-          <DraftsIcon />
+          <Icon>drafts</Icon>
         </ListItemIcon>
         <ListItemText primary={t('MainNav.translations')} />
       </ListItem>
@@ -135,11 +141,14 @@ export default function App() {
               <LayoutSideBar mainNav={<MainNav />} />
               <LayoutContentContainer>
                 <Switch>
+                  <Route path="/users" exact>
+                    <Users />
+                  </Route>
                   <Route path="/translations" exact>
                     <Redirect to="/translations/common" />
                   </Route>
                   <Route path="/translations/:namespace">
-                    <TranslationsPage />
+                    <Translations />
                   </Route>
                   <Route path="/">
                     <HomePage />
