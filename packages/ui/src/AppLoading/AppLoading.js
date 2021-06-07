@@ -1,47 +1,36 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    height: '100%',
+    height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   },
-  paper: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  progress: {
+    padding: theme.spacing(2),
 
-    [theme.breakpoints.down('sm')]: {
-      height: '300',
-      width: '300px'
-    },
-    [theme.breakpoints.up('md')]: {
-      height: '500px',
-      width: '500px',
-    },
-    [theme.breakpoints.up('lr')]: {
-      height: '640px',
-      width: '640px',
-    },
   }
 }), 'AppLoading');
 
 
-export default function AppLoading() {
+export default function AppLoading({ children, loadingVariant, loadingValue }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <CircularProgress />
-      </Paper>
+      <div class={classes.progress}>
+        <CircularProgress variant={loadingVariant} value={loadingValue}/>
+      </div>
+      <div>
+        {children}
+      </div>
     </div>
   )
 }
