@@ -1,7 +1,9 @@
-import * as defaultThemePalette from './default';
-import * as deepOrangeThemePalette from './deepOrange';
+import defaultTheme from './default';
+import deepOrangeTheme from './deepOrange';
 
 export {
-  defaultThemePalette,
-  deepOrangeThemePalette,
+  defaultTheme,
+  deepOrangeTheme,
 };
+
+export default defaultTheme;

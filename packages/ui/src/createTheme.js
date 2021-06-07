@@ -1,18 +1,19 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { defaultThemePalette, deepOrangeThemePalette } from './themes';
+import defaultTheme from './themes/default';
+import deepOrangeTheme from './themes/deepOrange';
 
 const mapNameToTheme = (themeName) => {
   switch (themeName) {
     case 'deepOrange':
-      return deepOrangeThemePalette;
+      return deepOrangeTheme;
     default:
-      return defaultThemePalette;
+      return defaultTheme;
   }
 }
 
-export default function createTheme(theme='default', mode = 'light', direction = 'ltr') {
-  const themePalette = mapNameToTheme(theme);
-  const modedPalette = mode === 'light' ? themePalette.lightPalette : themePalette.darkPalette;
+export default function createTheme(themeName='default', mode = 'light', direction = 'ltr') {
+  const theme = mapNameToTheme(themeName);
+  const modedPalette = mode === 'light' ? themeName.lightPalette : themeName.darkPalette;
 
   return createMuiTheme({
     ...modedPalette,

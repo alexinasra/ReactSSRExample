@@ -1,7 +1,9 @@
 import lightPalette from './lightPalette';
 import darkPalette from './darkPalette';
 
-export {
+const defaultTheme = {
   lightPalette,
   darkPalette,
-};
+}
+
+export default defaultTheme;
