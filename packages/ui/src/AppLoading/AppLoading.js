@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
     width: '100%',
     height: '100vh',
     display: 'flex',
@@ -25,7 +26,7 @@ export default function AppLoading({ children, loadingVariant, loadingValue }) {
 
   return (
     <div className={classes.root}>
-      <div class={classes.progress}>
+      <div className={classes.progress}>
         <CircularProgress variant={loadingVariant} value={loadingValue}/>
       </div>
       <div>
