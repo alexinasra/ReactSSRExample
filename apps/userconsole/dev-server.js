@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const cors = require('cors');
 
+const { MongoClient, ObjectId } = require('mongodb');
+const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 // Services
 const attachAssets = require('@react-ssrex/assets/attach');
 const attachGraphQL = require('@react-ssrex/graphql/attach');
@@ -26,6 +28,12 @@ global.ROOT_DIR = path.resolve(__dirname, '../..');
 
 //Application Confituration
 (async () => {
+  const connectionUrl = `mongodb://${MongoDbConfig.host}:${MongoDbConfig.port}?${Object.keys(MongoDbConfig.options).map(key => key + '=' + MongoDbConfig.options[key]).join('&')}`
+  const mongoClient = new MongoClient(connectionUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+  const client = await mongoClient.connect()
+  const database = await client.db(MongoDbConfig.db);
 
   // set the view engine to ejs
   app.set('view engine', 'ejs');
@@ -53,7 +61,7 @@ global.ROOT_DIR = path.resolve(__dirname, '../..');
     defaultNamespace: 'common'
   });
 
-  await attachGraphQL({ app });
+  await attachGraphQL({ app, mongoClient: client, mongoDatabase: database });
   await attachAuth({ app }); //Dashboard depends on auth module
   await attachUserConsole({ app });
   app.listen(3030, () => {
