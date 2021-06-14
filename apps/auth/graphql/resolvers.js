@@ -60,7 +60,7 @@ const resolvers = {
     },
     signin: async function signinWithEmail(root, { input: { email, password } }, { req, UsersDb, generateId }) {
       try {
-        const result = await UsersDb.login(email, password);
+        const { user } = await UsersDb.login(email, password);
 
         await (new Promise(function(resolve, reject) {
           req.login(user, (err)=> {
@@ -69,7 +69,7 @@ const resolvers = {
           });
         }));
         return {
-          user: result.user
+          user
         };
       } catch (e) {
         if (e instanceof DbLoginUserNotFoundError) {
