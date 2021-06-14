@@ -21,7 +21,7 @@ export default function AuthStatus() {
             {(userInRole)
               ? (
                 <>
-                  <Link href="/userconsole">{`${userInRole.firstname} ${userInRole.lastname}`}</Link>
+                  <Link href="/userconsole"  color="inherit">{`${userInRole.firstname} ${userInRole.lastname}`}</Link>
                   <Button href="/auth/signout">
                     <Suspense fallback="Sign Out">
                       <Translation>
