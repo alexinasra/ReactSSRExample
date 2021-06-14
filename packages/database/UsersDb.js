@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 const bcrypt = require('bcrypt');
 const { text } = require('@react-ssrex/utils');
 const errors = require('./DbError');
+const ObjectId = require('mongodb').ObjectId;
 
 function simplePasswordHash(password) {
   return bcrypt.hash(password, 14);
@@ -16,7 +17,6 @@ class UsersDb {
   constructor(database) {
     this.database = database;
     this.collection = database.collection('users');
-    this.sessionCollection = database.collection('user_login_session');
   }
 
   static with(database) {
@@ -30,7 +30,7 @@ class UsersDb {
       email,
       activationCode: text.generateString(6),
       activated: false,
-      hash
+      hash,
       // default values
       // ...
     });
@@ -57,7 +57,7 @@ class UsersDb {
     }
   }
   changePassword = async (userId, password, newPassword, attempt = 0) => {
-    const user = await this.collection.findOne({ _id: userId });
+    const user = await this.collection.findOne({ _id: new ObjectId(userId) });
     if (user) {
       const success = await simplePasswordCompare(password, user.hash);
       if (success) {
@@ -78,8 +78,8 @@ class UsersDb {
 
   }
   update = async (userId, batch) => {
-    const result = await this.collection.findOneAndUpdate({ _id: userId }, { '$set': batch });
-    const user = await this.collection.findOne({ _id: userId });
+    const result = await this.collection.findOneAndUpdate({ _id:  new ObjectId(userId) }, { '$set': batch });
+    const user = await this.collection.findOne({ _id:  new ObjectId(userId) });
     return user;
   }
 
@@ -88,6 +88,12 @@ class UsersDb {
     return result.toArray();
   }
 
+  get = async (userId) => {
+    const user = await this.collection.findOne({ _id:  new ObjectId(userId)});
+    
+    delete user.hash;
+    return user;
+  }
 }
 
 module.exports = UsersDb;

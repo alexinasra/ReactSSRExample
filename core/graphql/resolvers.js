@@ -3,38 +3,35 @@ const { GraphQLUpload } = require('graphql-modules');
 const resolvers = {
   Mutation: {
     setThemeName: async (root, { themeName }, { req, UsersDb, generateId }) => {
-      console.log(themeName)
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
       const user = await UsersDb.update(generateId(userId), {
         themeSettings: {
-          ...req.session.userInRole.themeSettings,
+          ...req.user.themeSettings,
           name: themeName
         }
       })
-      req.session.userInRole = user;
       return user;
     },
     setThemeMode: async (root, { themeMode }, { req, UsersDb, generateId }) => {
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
       const user = await UsersDb.update(generateId(userId), {
         themeSettings: {
-          ...req.session.userInRole.themeSettings,
+          ...req.user.themeSettings,
           mode: themeMode
         }
       })
-      req.session.userInRole = user;
+
       return user;
     },
     toggleThemeMode: async (root, args, { req, UsersDb, generateId }) => {
-      const userId = req.session.userInRole._id;
-      const themeMode = req.session.userInRole.themeSettings.mode !== 'light'? 'light' : 'dark';
+      const userId = req.user._id;
+      const themeMode = req.user.themeSettings.mode !== 'light'? 'light' : 'dark';
       const user = await UsersDb.update(generateId(userId), {
         themeSettings: {
-          ...req.session.userInRole.themeSettings,
+          ...req.user.themeSettings,
           mode: themeMode
         }
       })
-      req.session.userInRole = user;
       return user;
     }
   },

@@ -22,7 +22,9 @@ const STATUS_CODE = {
 
 const resolvers = {
   Query: {
-    userInRole: (root, args, { req }) => (req.session.userInRole),
+    userInRole: (root, args, { req }) => {
+      return req.user;
+    },
   },
   Mutation: {
     signup: async function registerUser(root, { input }, { req, UsersDb, generateId }) {
@@ -40,10 +42,16 @@ const resolvers = {
         _id: userId,
         profilePicture: userDir.getProfilePictureUrl(userId.toString(), 'default_profile_picture.png'),
       }
+
       try {
         const user = await UsersDb.create(userData, input.email, input.password);
         await UsersDb.login(input.email, input.password)
-        req.session.userInRole = user;
+        await (new Promise(function(resolve, reject) {
+          req.login(user, (err)=> {
+            if(err) return reject(err);
+            resolve();
+          });
+        }));
         return { user };
       } catch (e) {
         // TODO: check for other errors.
@@ -53,8 +61,13 @@ const resolvers = {
     signin: async function signinWithEmail(root, { input: { email, password } }, { req, UsersDb, generateId }) {
       try {
         const result = await UsersDb.login(email, password);
-        req.session.userInRole = result.user
 
+        await (new Promise(function(resolve, reject) {
+          req.login(user, (err)=> {
+            if(err) return reject(err);
+            resolve();
+          });
+        }));
         return {
           user: result.user
         };
@@ -70,29 +83,28 @@ const resolvers = {
             error: STATUS_CODE.IncorrectPassword
           };
         } else  {
+          console.log(e)
           return {
             error: STATUS_CODE.ServerError,
           };
         }
       }
     },
-    signout: (root, args, { req }) => {
-      if (!req.session.userInRole) {
-        return resolve({ error: STATUS_CODE.UnauthenticatedUser })
+    signout: async (root, args, { req }) => {
+      if (!req.user) {
+        return { error: STATUS_CODE.UnauthenticatedUser }
       }
-      req.session.userInRole = null;
+
+      req.logout();
       return { error: null }
     },
     changePassword: async function (root, { password, newPassword }, { req, UsersDb, generateId }) {
-      if (!req.session.userInRole) {
+      if (!req.user) {
         return { error: STATUS_CODE.UnauthenticatedUser };
       }
 
       try {
-        const result = await UsersDb.changePassword(generateId(req.session.userInRole._id), password, newPassword);
-        req.session.userInRole = {
-          ...result.user
-        }
+        const result = await UsersDb.changePassword(generateId(req.user._id), password, newPassword);
 
         return {
           error : null

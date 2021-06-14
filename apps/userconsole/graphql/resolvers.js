@@ -11,7 +11,7 @@ module.exports = {
   },
   User: {
     profilePictures: async function (root, args, { req }) {
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
 
       try {
         const arr = await userDir.getProfilePictures(userId);
@@ -25,31 +25,30 @@ module.exports = {
   Mutation: {
     updateProfilePicture: async (root, { url }, { req, UsersDb, generateId }) => {
 
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
       const user = await UsersDb.update(generateId(userId), {
         profilePicture: url
       })
       return user;
     },
     uploadProfilePicture: async function (root, { file }, { req, UsersDb, generateId }) {
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
       const { createReadStream, filename, mimetype, encoding } = await file;
       await userDir.addProfilePicture(userId, createReadStream(), filename);
-      console.log(req.session)
       const user = await UsersDb.update(generateId(userId), {
         profilePicture: userDir.getProfilePictureUrl(userId, filename)
       })
       return user;
     },
     setPreferedLanguage: async function (root, { lng }, { req, UsersDb, generateId }) {
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
       const user = await UsersDb.update(generateId(userId), {
         preferedLanguage: lng
       });
       return user;
     },
     updateUserProfile: async function (root, { input }, { req, UsersDb, generateId }) {
-      const userId = req.session.userInRole._id;
+      const userId = req.user._id;
       const user = await UsersDb.update(generateId(userId), {
         ...input
       });

@@ -1,17 +1,27 @@
 require('graphql-import-node');
-
+const passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
 const { ObjectId } = require('mongodb');
 const { createApplication, createModule } = require('graphql-modules');
 const { graphqlHTTP } = require('express-graphql');
 const { ApolloServer } = require('apollo-server-express');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
+const DbError = require('@react-ssrex/database/DbError');
 const UsersDb = require('@react-ssrex/database/UsersDb');
 
 const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 
-module.exports = async function attach({ app, mongoClient, mongoDatabase }) {
+module.exports = async function attach({ app, mongoClient, mongoDatabase, UsersDb }) {
+  const contextFn = (c) => ({
+    ...c,
+    mongoClient,
+    mongoDatabase,
+    UsersDb,
+    generateId: (idStr) => new ObjectId(idStr),
+  });
+
   const rootModule = createModule({
     id: 'root',
     typeDefs: rootSchema,
@@ -44,56 +54,54 @@ module.exports = async function attach({ app, mongoClient, mongoDatabase }) {
     typeDefs: require('@react-ssrex/webapp/graphql/schema.graphql'),
     resolvers: require('@react-ssrex/webapp/graphql/resolvers'),
   });
-  const db = await mongoClient.db(MongoDbConfig.db);
-  const usersDb = UsersDb.with(db);
-
-  const contextFn = (c) => ({
-    ...c,
-    mongoClient,
-    UsersDb: usersDb,
-    generateId: (idStr) => new ObjectId(idStr),
-  });
 
   const authApp = await createApplication({
     modules: [rootModule, i18nModule, authModule]
   })
 
   const authSchema = authApp.createSchemaForApollo();
-  (new ApolloServer({
+  const authQlServer = new ApolloServer({
     schema: authSchema,
     context: contextFn,
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
-  })).applyMiddleware({app, path: '/authql'});
+  });
+  await authQlServer.start();
+  authQlServer.applyMiddleware({app, path: '/authql'});
 
   const adminConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, adminConsoleModule]
   })
   const adminConsoleSchema = await adminConsoleApp.createSchemaForApollo();
 
-  (new ApolloServer({
+  const adminQLServer = new ApolloServer({
     schema: adminConsoleSchema,
     context: contextFn,
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
-  })).applyMiddleware({app, path: '/adminconsoleql'});
+  });
+  await adminQLServer.start();
+  adminQLServer.applyMiddleware({app, path: '/adminconsoleql'});
 
   const userConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, userConsoleModule]
   })
   const userConsoleSchema = userConsoleApp.createSchemaForApollo();
-  (new ApolloServer({
+  const userQlServer = new ApolloServer({
     schema: userConsoleSchema,
     context: contextFn,
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
-  })).applyMiddleware({app, path: '/userconsoleql'});
-
+  });
+  await userQlServer.start();
+  userQlServer.applyMiddleware({app, path: '/userconsoleql'});
 
   const webappConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, webappModule]
   })
   const webAppSchema = webappConsoleApp.createSchemaForApollo();
-  (new ApolloServer({
+  const webappQlServer = new ApolloServer({
     schema: webAppSchema,
     context: contextFn,
     uploads: { maxFileSize: 10000000, maxFiles: 20 },
-  })).applyMiddleware({app, path: '/webappql'});
+  });
+  await webappQlServer.start();
+  webappQlServer.applyMiddleware({app, path: '/webappql'});
 };
