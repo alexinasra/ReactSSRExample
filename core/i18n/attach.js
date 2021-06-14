@@ -49,16 +49,16 @@ module.exports = async function attach({
       },
       detection: {
         // order and from where user language should be detected
-        order: ['querystring','session'],
-        caches: ['session'],
+        order: ['querystring','cookie'],
+        //caches: ['session'],
         lookupQuerystring: 'lng',
         lookupCookie: 'i18next',
         lookupHeader: 'accept-language',
         lookupSession: 'lng',
         lookupFromPathIndex: 0,
         // optional expire and domain for set cookie
-        cookieExpirationDate: new Date(),
-        cookieDomain: 'localhost',
+        // cookieExpirationDate: new Date(),
+        // cookieDomain: 'localhost',
         //cookieSecure: true // if need secure cookie
 
       },
@@ -109,10 +109,10 @@ module.exports = async function attach({
           if(err) {
             return reject(err);
           }
+          resolve();
         })
       }
 
-      resolve();
     })
 
 }
