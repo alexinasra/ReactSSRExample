@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import AppPage from '../../layout/AppPage';
+import LayoutBasePage from '@react-ssrex/ui/build/WebappLayout/LayoutBasePage';
 
 export default function ErrorPage({
   code,
@@ -8,7 +8,7 @@ export default function ErrorPage({
   children,
 }) {
   return (
-    <AppPage>
+    <LayoutBasePage>
       <Grid container>
         <Grid item xs={3}>
           {code}
@@ -20,6 +20,6 @@ export default function ErrorPage({
           {children}
         </Grid>
       </Grid>
-    </AppPage>
+    </LayoutBasePage>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import AppPage from '../../layout/AppPage';
+import LayoutBasePage from '@react-ssrex/ui/build/WebappLayout/LayoutBasePage';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
 export default function HomePage() {
   const classes = useStyles();
   return (
-    <AppPage className={classes.root}>
+    <LayoutBasePage className={classes.root}>
       index
-    </AppPage>
+    </LayoutBasePage>
   );
 }
