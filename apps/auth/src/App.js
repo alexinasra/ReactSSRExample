@@ -10,9 +10,11 @@ import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 import createTheme from '@react-ssrex/ui/build/createTheme';
+import AuthReport from '@react-ssrex/ui/build/AuthReport';
 
 import AuthContainer from './layout/AuthContainer';
 
+import Home from './pages/Home';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import SignoutPage from './pages/SignoutPage';
@@ -58,23 +60,30 @@ function App() {
   return (
     <StylesProvider jss={jss}>
       <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-        <AuthContainer>
-          <Switch>
-            <Route path="/signup" exact>
-              <SignupPage />
-            </Route>
-            <Route path="/signin" exact>
-              <SigninPage />
-            </Route>
-            <Route path="/signout" exact>
-              <SignoutPage />
-            </Route>
-            <Route path="/change-password" exact>
-              <PasswordReset />
-            </Route>
-            <Redirect to="/signin" />
-          </Switch>
-        </AuthContainer>
+        <AuthReport>
+          {({ userInRole }) => (
+            <AuthContainer>
+              <Switch>
+                <Route path="/signup" exact>
+                  {userInRole ? <Redirect to="/" /> : <SignupPage />}
+                </Route>
+                <Route path="/signin" exact>
+                  {userInRole ? <Redirect to="/" /> : <SigninPage />}
+                </Route>
+                <Route path="/signout" exact>
+                  <SignoutPage />
+                </Route>
+                <Route path="/change-password" exact>
+                  <PasswordReset />
+                </Route>
+                <Route path="/" exact>
+                  <Home />
+                </Route>
+                <Redirect to="/signin" />
+              </Switch>
+            </AuthContainer>
+          )}
+        </AuthReport>
       </ThemeProvider>
     </StylesProvider>
   );
