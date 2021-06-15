@@ -1,39 +1,22 @@
 const { GraphQLUpload } = require('graphql-modules');
-
+const mutations = require('./mutations');
 const resolvers = {
-  Mutation: {
-    setThemeName: async (root, { themeName }, { req, UsersDb, generateId }) => {
-      const userId = req.user._id;
-      const user = await UsersDb.update(generateId(userId), {
-        themeSettings: {
-          ...req.user.themeSettings,
-          name: themeName
-        }
-      })
-      return user;
-    },
-    setThemeMode: async (root, { themeMode }, { req, UsersDb, generateId }) => {
-      const userId = req.user._id;
-      const user = await UsersDb.update(generateId(userId), {
-        themeSettings: {
-          ...req.user.themeSettings,
-          mode: themeMode
-        }
-      })
-
-      return user;
-    },
-    toggleThemeMode: async (root, args, { req, UsersDb, generateId }) => {
-      const userId = req.user._id;
-      const themeMode = req.user.themeSettings.mode !== 'light'? 'light' : 'dark';
-      const user = await UsersDb.update(generateId(userId), {
-        themeSettings: {
-          ...req.user.themeSettings,
-          mode: themeMode
-        }
-      })
-      return user;
+  Query: {
+    themeSettings: (root, args, { req }) => {
+      if(req.user) {
+        req.session.themeSettings = req.user.themeSettings;
+      }
+      if(!req.session.themeSettings) {
+        req.session.themeSettings = {
+          name: 'default',
+          mode: 'light'
+        };
+      }
+      return req.session.themeSettings;
     }
+  },
+  Mutation: {
+    ...mutations,
   },
   Upload: GraphQLUpload,
   User: {

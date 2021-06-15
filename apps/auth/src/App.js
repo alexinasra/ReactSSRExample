@@ -22,12 +22,9 @@ const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const THEME_SETTINGS = gql`
 query {
-  userInRole {
-    id
-    themeSettings {
-      name,
-      mode,
-    }
+  themeSettings {
+    name,
+    mode,
   }
 }
 `;
@@ -47,10 +44,10 @@ function App() {
     });
   }, [i18n]);
   const theme = React.useMemo(() => {
-    if (data && data.userInRole) {
+    if (data && data.themeSettings) {
       return {
-        themeName: data.userInRole.themeSettings.name,
-        themeMode: data.userInRole.themeSettings.mode,
+        themeName: data.themeSettings.name,
+        themeMode: data.themeSettings.mode,
       };
     }
     return {

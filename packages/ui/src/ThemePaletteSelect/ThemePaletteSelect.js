@@ -9,17 +9,24 @@ import Icon from '@material-ui/core/Icon';
 const SET_THEME_NAME = gql`
   mutation ($themeName: String!) {
     setThemeName(themeName: $themeName) {
-      id
-      themeSettings {
-        name
-        mode
-      }
+      name
+      mode
     }
   }
 `;
 export default function ThemePaletteSelect() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [setThemeName] = useMutation(SET_THEME_NAME);
+  const [setThemeName] = useMutation(SET_THEME_NAME, {
+    update(cache, { data: { setThemeName } }) {
+      cache.modify({
+        fields: {
+          themeSettings(settings) {
+            return setThemeName;
+          }
+        }
+      })
+    }
+  });
   const handleOpenThemes = (e) => setAnchorEl(e.currentTarget);
   const handleCloseThemes = () => setAnchorEl(null);
   const selectItem = (themeName) => () => {

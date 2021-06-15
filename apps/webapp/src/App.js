@@ -17,6 +17,9 @@ import LayoutContentContainer from '@react-ssrex/ui/build/WebappLayout/LayoutCon
 import LayoutAppBar from '@react-ssrex/ui/build/WebappLayout/LayoutAppBar';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 
+import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
+import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
+
 import HomePage from './pages/HomePage';
 import { PageNotFound } from './pages/ErrorPage';
 
@@ -25,12 +28,9 @@ const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const THEME_SETTINGS = gql`
 query {
-  userInRole {
-    id
-    themeSettings {
-      name,
-      mode,
-    }
+  themeSettings {
+    name,
+    mode,
   }
 }
 `;
@@ -51,10 +51,10 @@ function App() {
     });
   }, [i18n]);
   const theme = React.useMemo(() => {
-    if (data && data.userInRole) {
+    if (data && data.themeSettings) {
       return {
-        themeName: data.userInRole.themeSettings.name,
-        themeMode: data.userInRole.themeSettings.mode,
+        themeName: data.themeSettings.name,
+        themeMode: data.themeSettings.mode,
       };
     }
     return {
@@ -66,7 +66,11 @@ function App() {
     <StylesProvider jss={jss}>
       <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
         <LayoutContainer>
-          <LayoutAppBar />
+          <LayoutAppBar>
+
+            <ThemeModeToggle />
+            <ThemePaletteSelect />
+          </LayoutAppBar>
           <LayoutContentContainer>
             <Switch>
               <Route path="/" exact>

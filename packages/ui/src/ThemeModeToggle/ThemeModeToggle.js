@@ -8,17 +8,24 @@ import Icon from '@material-ui/core/Icon';
 const TGL_THEME_MODE = gql`
   mutation{
     toggleThemeMode {
-      id
-      themeSettings {
-        name
-        mode
-      }
+      name
+      mode
     }
   }
 `;
 export default function ThemeModeToggle() {
   const theme = useTheme()
-  const [toggleThemeMode] = useMutation(TGL_THEME_MODE);
+  const [toggleThemeMode] = useMutation(TGL_THEME_MODE, {
+    update(cache, { data: { toggleThemeMode } }) {
+      cache.modify({
+        fields: {
+          themeSettings(settings) {
+            return toggleThemeMode;
+          }
+        }
+      })
+    }
+  });
   return (
     <IconButton onClick={toggleThemeMode} color="inherit">
       <Icon>

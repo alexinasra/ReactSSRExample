@@ -1,11 +1,12 @@
 
 type Query {
   application: Application!,
+  themeSettings: Theme!
 }
 type Mutation {
-  setThemeName(themeName: String!): User!
-  setThemeMode(themeMode: String!): User!
-  toggleThemeMode: User!
+  setThemeName(themeName: String!): Theme!
+  setThemeMode(themeMode: String!): Theme!
+  toggleThemeMode: Theme!
 }
 
 type Application {
