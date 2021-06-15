@@ -114,7 +114,8 @@ export default function App() {
       };
     }
     return {
-      ...LayoutDefaultState,
+      themeName: 'default',
+      themeMode: 'light',
     };
   }, [data]);
 

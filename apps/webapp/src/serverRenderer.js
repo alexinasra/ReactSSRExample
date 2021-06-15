@@ -13,14 +13,8 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 
 import {
   ServerStyleSheets,
-  StylesProvider,
-  ThemeProvider,
-  jssPreset,
 } from '@material-ui/core/styles';
 
-import { create } from 'jss';
-import rtl from 'jss-rtl';
-import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';
 
 export default function serverRenderer({ clientStats, serverStats }) {
@@ -39,7 +33,6 @@ export default function serverRenderer({ clientStats, serverStats }) {
     });
     const lng = req.query.lng || req.i18n.languages[0];
     const dir = req.i18n.dir(lng);
-    const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
     getDataFromTree(App).then((content) => {
       const initialState = client.extract();
@@ -49,13 +42,9 @@ export default function serverRenderer({ clientStats, serverStats }) {
       const body = ReactDOMServer.renderToString(
         sheets.collect(
           <ApolloProvider client={client}>
-            <ThemeProvider theme={createTheme('default', 'light', dir)}>
-              <StylesProvider jss={jss}>
-                <StaticRouter context={context} location={req.url}>
-                  <App />
-                </StaticRouter>
-              </StylesProvider>
-            </ThemeProvider>
+            <StaticRouter context={context} location={req.url}>
+              <App />
+            </StaticRouter>
           </ApolloProvider>,
 
         ),

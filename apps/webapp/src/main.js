@@ -7,19 +7,9 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
-import {
-  ThemeProvider,
-  StylesProvider,
-  jssPreset,
-} from '@material-ui/core/styles';
-import i18n, { setupI18n } from '@react-ssrex/i18n/client';
-import createTheme from '@react-ssrex/ui/build/createTheme';
-import App from './App';
 
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+import i18n, { setupI18n } from '@react-ssrex/i18n/client';
+import App from './App';
 
 const client = new ApolloClient({
   uri: '/webappql',
@@ -28,28 +18,12 @@ const client = new ApolloClient({
 });
 
 function renderApp(RenderedApp) {
-  function Main() {
-    React.useEffect(() => {
-      const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles) {
-        jssStyles.parentElement.removeChild(jssStyles);
-      }
-    }, []);
-
-    return (
-      <ThemeProvider theme={createTheme('default', 'light', document.direction)}>
-        <RenderedApp />
-      </ThemeProvider>
-    );
-  }
   const rootElm = document.getElementById('react-root');
   if (rootElm) {
     ReactDom.hydrate(
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <StylesProvider jss={jss}>
-            <Main />
-          </StylesProvider>
+          <RenderedApp />
         </BrowserRouter>
       </ApolloProvider>,
       rootElm,
