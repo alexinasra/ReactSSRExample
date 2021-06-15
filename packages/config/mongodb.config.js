@@ -5,6 +5,7 @@ module.exports = {
   port: 27017,
   db: "react-ssrex",
   options: {
-    poolSize: (process.env.NODE_ENV === 'development')? 5 : 20
+    poolSize: (process.env.NODE_ENV === 'development')? 5 : 20,
+    useUnifiedTopology: true
   }
 }
