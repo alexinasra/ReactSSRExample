@@ -57,7 +57,10 @@ class UsersDb {
     }
   }
   changePassword = async (userId, password, newPassword, attempt = 0) => {
-    const user = await this.collection.findOne({ _id: new ObjectId(userId) });
+    if(typeof userId === "string") {
+      userId = new ObjectId(userId);
+    }
+    const user = await this.collection.findOne({ _id: userId });
     if (user) {
       const success = await simplePasswordCompare(password, user.hash);
       if (success) {
@@ -78,8 +81,11 @@ class UsersDb {
 
   }
   update = async (userId, batch) => {
-    const result = await this.collection.findOneAndUpdate({ _id:  new ObjectId(userId) }, { '$set': batch });
-    const user = await this.collection.findOne({ _id:  new ObjectId(userId) });
+    if(typeof userId === "string") {
+      userId = new ObjectId(userId);
+    }
+    const result = await this.collection.findOneAndUpdate({ _id:  userId }, { '$set': batch });
+    const user = await this.collection.findOne({ _id:  userId });
     return user;
   }
 
@@ -89,8 +95,11 @@ class UsersDb {
   }
 
   get = async (userId) => {
-    const user = await this.collection.findOne({ _id:  new ObjectId(userId)});
-    
+    if(typeof userId === "string") {
+      userId = new ObjectId(userId);
+    }
+    const user = await this.collection.findOne({ _id:  userId });
+
     delete user.hash;
     return user;
   }

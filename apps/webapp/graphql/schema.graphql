@@ -1,9 +1,3 @@
-
-extend type Mutation {
-  editUserProfile(userId: String!,editForm: EditUserForm!): User!
-}
-
-input EditUserForm {
-  firstname: String!
-  lastname: String!
+extend type Query {
+  _webapp: Boolean
 }

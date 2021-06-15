@@ -1,23 +1,7 @@
 const { GraphQLUpload } = require('graphql-modules');
-const mutations = require('./mutations');
 const resolvers = {
-  Query: {
-    themeSettings: (root, args, { req }) => {
-      if(req.user) {
-        req.session.themeSettings = req.user.themeSettings;
-      }
-      if(!req.session.themeSettings) {
-        req.session.themeSettings = {
-          name: 'default',
-          mode: 'light'
-        };
-      }
-      return req.session.themeSettings;
-    }
-  },
-  Mutation: {
-    ...mutations,
-  },
+  Query: require('./queries'),
+  Mutation: require('./mutations'),
   Upload: GraphQLUpload,
   User: {
     id: (root) => root['_id'],
@@ -33,7 +17,7 @@ const resolvers = {
       return "/public/defaults/default-profile-picture.png";
     },
     themeSettings: ({ themeSettings }) => {
-      return themeSettings ? themeSettings : ({
+      return themeSettings || ({
         name: 'default',
         mode: 'light'
       })

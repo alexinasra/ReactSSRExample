@@ -6,9 +6,6 @@ const userDir = require('./user-dir');
 
 
 module.exports = {
-  Query: {
-
-  },
   User: {
     profilePictures: async function (root, args, { req }) {
       const userId = req.user._id;
@@ -22,37 +19,5 @@ module.exports = {
       }
     },
   },
-  Mutation: {
-    updateProfilePicture: async (root, { url }, { req, UsersDb }) => {
-
-      const userId = req.user._id;
-      const user = await UsersDb.update(userId, {
-        profilePicture: url
-      })
-      return user;
-    },
-    uploadProfilePicture: async function (root, { file }, { req, UsersDb }) {
-      const userId = req.user._id;
-      const { createReadStream, filename, mimetype, encoding } = await file;
-      await userDir.addProfilePicture(userId.toString(), createReadStream(), filename);
-      const user = await UsersDb.update(userId.toString(), {
-        profilePicture: userDir.getProfilePictureUrl(userId.toString(), filename)
-      })
-      return user;
-    },
-    setPreferedLanguage: async function (root, { lng }, { req, UsersDb }) {
-      const userId = req.user._id;
-      const user = await UsersDb.update(userId, {
-        preferedLanguage: lng
-      });
-      return user;
-    },
-    updateUserProfile: async function (root, { input }, { req, UsersDb }) {
-      const userId = req.user._id;
-      const user = await UsersDb.update(userId, {
-        ...input
-      });
-      return user;
-    }
-  }
+  Mutation: require('./mutations'),
 }
