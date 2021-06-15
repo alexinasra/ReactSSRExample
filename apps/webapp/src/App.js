@@ -11,6 +11,7 @@ import {
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import LayoutContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContainer';
 import LayoutAppBar from '@react-ssrex/ui/build/WebappLayout/LayoutAppBar';
@@ -63,6 +64,7 @@ function App() {
   }, [data]);
   return (
     <StylesProvider jss={jss}>
+      <CssBaseline />
       <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
         <LayoutContainer>
           <LayoutAppBar />
