@@ -75,7 +75,7 @@ export default function LayoutSideBar({ mainNav, secondaryNav}) {
         >
           <div className={clsx(classes.toolbarIcon, !expandedSidebar && classes.alignStart)}>
             <RouterLink className={classes.logoLink} to="/">
-              <img className={classes.logoImg} src="/assets/logo.png" alt="lookfor.ae" />
+              <img className={classes.logoImg} src={`/assets/logo${!expandedSidebar && !localExpand ? '-compact' : ''}.png`} alt="lookfor.ae" />
             </RouterLink>
           </div>
           <Divider />
