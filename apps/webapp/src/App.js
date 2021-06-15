@@ -11,9 +11,9 @@ import {
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
-import CssBaseline from '@material-ui/core/CssBaseline';
 
 import LayoutContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContainer';
+import LayoutContentContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContentContainer';
 import LayoutAppBar from '@react-ssrex/ui/build/WebappLayout/LayoutAppBar';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 
@@ -64,21 +64,22 @@ function App() {
   }, [data]);
   return (
     <StylesProvider jss={jss}>
-      <CssBaseline />
       <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
         <LayoutContainer>
           <LayoutAppBar />
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route path="/404">
-              <PageNotFound />
-            </Route>
-            <Route>
-              <PageNotFound />
-            </Route>
-          </Switch>
+          <LayoutContentContainer>
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
+              <Route path="/404">
+                <PageNotFound />
+              </Route>
+              <Route>
+                <PageNotFound />
+              </Route>
+            </Switch>
+          </LayoutContentContainer>
         </LayoutContainer>
       </ThemeProvider>
     </StylesProvider>
