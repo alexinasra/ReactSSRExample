@@ -1,6 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
+import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 const useStyles = makeStyles(() => ({
@@ -23,6 +26,10 @@ export default function AuthContainer({ children }) {
       <Container className={classes.contentContainer}>
         {children}
       </Container>
+      <div>
+        <ThemeModeToggle />
+        <ThemePaletteSelect />
+      </div>
     </Container>
   );
 }
