@@ -6,7 +6,7 @@ import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100vh',
@@ -14,6 +14,9 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   contentContainer: {
+  },
+  themeButton: {
+    margin: theme.spacing(1),
   },
 }));
 
@@ -27,8 +30,8 @@ export default function AuthContainer({ children }) {
         {children}
       </Container>
       <div>
-        <ThemeModeToggle />
-        <ThemePaletteSelect />
+        <ThemeModeToggle className={classes.themeButton} fab />
+        <ThemePaletteSelect className={classes.themeButton} fab />
       </div>
     </Container>
   );

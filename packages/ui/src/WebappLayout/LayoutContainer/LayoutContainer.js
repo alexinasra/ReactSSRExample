@@ -2,8 +2,11 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
+import LayoutContentContainer from '../LayoutContentContainer';
+import LayoutAppBar from '../LayoutAppBar';
+import LayoutBottomBar from '../LayoutBottomBar';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
@@ -15,7 +18,11 @@ export default function LayoutContainer({
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {children}
+      <LayoutAppBar />
+      <LayoutContentContainer>
+        {children}
+      </LayoutContentContainer>
+      <LayoutBottomBar />
     </div>
   );
 }

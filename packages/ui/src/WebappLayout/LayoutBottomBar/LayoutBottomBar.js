@@ -9,15 +9,14 @@ import ThemePaletteSelect from '../../ThemePaletteSelect';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    background: 'transparent',
     top: 'auto',
     bottom: 0,
-    height: 46,
     justifyContent: 'end'
   },
   toolbar: {
     flexGrow: 1,
     display: 'flex',
-    zoom: 0.7
   },
   toolbarGrow: {
     flexGrow: 1
@@ -34,8 +33,8 @@ export default function LayoutBottomBar({children}) {
       <Toolbar className={classes.toolbar}>
         <div className={classes.toolbarGrow} />
         <div>
-          <ThemeModeToggle />
-          <ThemePaletteSelect />
+          <ThemeModeToggle color="primary" />
+          <ThemePaletteSelect color="primary" />
         </div>
         <div className={classes.toolbarGrow}>
           {children}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { gql, useMutation } from '@apollo/client';
-
 import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 
 const TGL_THEME_MODE = gql`
@@ -13,7 +13,12 @@ const TGL_THEME_MODE = gql`
     }
   }
 `;
-export default function ThemeModeToggle() {
+
+export default function ThemeModeToggle({
+  fab,
+  color,
+  className,
+}) {
   const theme = useTheme()
   const [toggleThemeMode] = useMutation(TGL_THEME_MODE, {
     update(cache, { data: { toggleThemeMode } }) {
@@ -26,11 +31,12 @@ export default function ThemeModeToggle() {
       })
     }
   });
+  const Component = fab ? Fab : IconButton;
   return (
-    <IconButton onClick={toggleThemeMode} color="inherit">
+    <Component color={color} className={className} onClick={toggleThemeMode}>
       <Icon>
         {theme.palette.type === 'light' ? 'dark_mode' : 'light_mode'}
       </Icon>
-    </IconButton>
+    </Component>
   );
 }
