@@ -2,7 +2,7 @@ const { createWriteStream, createReadStream, mkdirSync, readdirSync } = require(
 const path = require("path");
 
 
-const rootDir = path.join(__dirname, "../../../uploads/user_data/")
+const rootDir = path.join(__dirname, "../../uploads/user_data/")
 const rootUrl = '/uploads/user_data';
 const defaultProfilePicture = require.resolve('@react-ssrex/assets/public/defaults/default-profile-picture.png');
 

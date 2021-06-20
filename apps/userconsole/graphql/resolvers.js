@@ -1,8 +1,4 @@
-const path = require("path");
-const { createWriteStream, mkdirSync, readdirSync } = require("fs");
-
-const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
-const userDir = require('./user-dir');
+const userDir = require('@react-ssrex/utils').userDir;
 
 
 module.exports = {

@@ -1,3 +1,6 @@
+const userDir = require('@react-ssrex/utils').userDir;
+const { createWriteStream, mkdirSync, readdirSync } = require("fs");
+
 module.exports = async function uploadProfilePicture(root, { file }, { req, UsersDb }) {
   const userId = req.user._id;
   const { createReadStream, filename, mimetype, encoding } = await file;

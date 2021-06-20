@@ -1,3 +1,4 @@
+const userDir = require('@react-ssrex/utils').userDir;
 
 module.exports = async function signup(root, { input }, { req, UsersDb, generateId }) {
   const userId = generateId();
@@ -5,7 +6,8 @@ module.exports = async function signup(root, { input }, { req, UsersDb, generate
     //create home directory
     await userDir.createHomeDir(userId.toString());
   } catch (e) {
-    return { error: STATUS_CODE.ServerError, }
+    console.log(e);
+    return { error: 'ServerError', }
   }
 
   const userData = {
@@ -26,6 +28,7 @@ module.exports = async function signup(root, { input }, { req, UsersDb, generate
     }));
     return { user };
   } catch (e) {
+    console.log(e);
     // TODO: check for other errors.
     return { error: 'ServerError', }
   }
