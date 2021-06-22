@@ -1,19 +1,42 @@
 require('graphql-import-node');
-const passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
-const { ObjectId } = require('mongodb');
-const { createApplication, createModule } = require('graphql-modules');
-const { graphqlHTTP } = require('express-graphql');
-const { ApolloServer } = require('apollo-server-express');
+const passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy;
+const {
+  ObjectId
+} = require('mongodb');
+const {
+  createApplication,
+  createModule
+} = require('graphql-modules');
+const {
+  graphqlHTTP
+} = require('express-graphql');
+const {
+  ApolloServer,
+} = require('apollo-server-express');
+const {
+  SubscriptionServer
+} = require('subscriptions-transport-ws');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
 const DbError = require('@react-ssrex/database/DbError');
 const UsersDb = require('@react-ssrex/database/UsersDb');
 
+const {
+  execute,
+  subscribe
+} = require('graphql');
 const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 
-module.exports = async function attach({ app, mongoClient, mongoDatabase, UsersDb }) {
+module.exports = async function attach({
+  app,
+  server,
+  mongoClient,
+  mongoDatabase,
+  UsersDb
+}) {
+
   const contextFn = (c) => ({
     ...c,
     mongoClient,
@@ -55,6 +78,22 @@ module.exports = async function attach({ app, mongoClient, mongoDatabase, UsersD
     resolvers: require('@react-ssrex/webapp/graphql/resolvers'),
   });
 
+
+  const wsApp = await createApplication({
+    modules: [rootModule, i18nModule, authModule, userConsoleModule, webappModule, adminConsoleModule]
+  })
+
+  const wsSchema = wsApp.createSchemaForApollo();
+  // Set up the WebSocket for handling GraphQL subscriptions
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema: wsSchema
+  }, {
+    server,
+    path: '/subscriptions',
+  });
+
   const authApp = await createApplication({
     modules: [rootModule, i18nModule, authModule]
   })
@@ -63,23 +102,49 @@ module.exports = async function attach({ app, mongoClient, mongoDatabase, UsersD
   const authQlServer = new ApolloServer({
     schema: authSchema,
     context: contextFn,
-    uploads: { maxFileSize: 10000000, maxFiles: 20 },
+    subscriptions: {
+      path: '/subscriptions',
+    },
+    playground: {
+      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
+    },
+    uploads: {
+      maxFileSize: 10000000,
+      maxFiles: 20
+    },
   });
   await authQlServer.start();
-  authQlServer.applyMiddleware({app, path: '/authql'});
+  authQlServer.applyMiddleware({
+    app,
+    path: '/authql'
+  });
 
   const adminConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, adminConsoleModule]
   })
   const adminConsoleSchema = await adminConsoleApp.createSchemaForApollo();
 
+
   const adminQLServer = new ApolloServer({
     schema: adminConsoleSchema,
     context: contextFn,
-    uploads: { maxFileSize: 10000000, maxFiles: 20 },
+    subscriptions: {
+      path: '/subscriptions',
+    },
+    playground: {
+      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
+    },
+    uploads: {
+      maxFileSize: 10000000,
+      maxFiles: 20
+    },
   });
   await adminQLServer.start();
-  adminQLServer.applyMiddleware({app, path: '/adminconsoleql'});
+  adminQLServer.applyMiddleware({
+    app,
+    path: '/adminconsoleql',
+    subscriptionsPath: '/adminconsoleql'
+  });
 
   const userConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, userConsoleModule]
@@ -88,10 +153,22 @@ module.exports = async function attach({ app, mongoClient, mongoDatabase, UsersD
   const userQlServer = new ApolloServer({
     schema: userConsoleSchema,
     context: contextFn,
-    uploads: { maxFileSize: 10000000, maxFiles: 20 },
+    subscriptions: {
+      path: '/subscriptions',
+    },
+    playground: {
+      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
+    },
+    uploads: {
+      maxFileSize: 10000000,
+      maxFiles: 20
+    },
   });
   await userQlServer.start();
-  userQlServer.applyMiddleware({app, path: '/userconsoleql'});
+  userQlServer.applyMiddleware({
+    app,
+    path: '/userconsoleql'
+  });
 
   const webappConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, webappModule]
@@ -100,8 +177,20 @@ module.exports = async function attach({ app, mongoClient, mongoDatabase, UsersD
   const webappQlServer = new ApolloServer({
     schema: webAppSchema,
     context: contextFn,
-    uploads: { maxFileSize: 10000000, maxFiles: 20 },
+    subscriptions: {
+      path: '/subscriptions',
+    },
+    playground: {
+      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
+    },
+    uploads: {
+      maxFileSize: 10000000,
+      maxFiles: 20
+    },
   });
   await webappQlServer.start();
-  webappQlServer.applyMiddleware({app, path: '/webappql'});
+  webappQlServer.applyMiddleware({
+    app,
+    path: '/webappql'
+  });
 };

@@ -5,6 +5,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 const MongoDBStore = require('connect-mongodb-session')(session);
+const {
+  createServer
+} = require('http');
+
 
 import cors from 'cors';
 
@@ -36,6 +40,7 @@ const mongoClient = new MongoClient(connectionUrl, { useNewUrlParser: true, useU
 
 
 const app = express();
+const server = createServer(app);
 export default class Server extends EventEmitter {
 
   constructor(options = {}){
@@ -132,7 +137,7 @@ export default class Server extends EventEmitter {
   }
   attachModule = async (moduleName, attachable, options = {}) => {
     try {
-      await attachable({ app: app, ...options });
+      await attachable({ app, server, ...options });
     } catch (e){
       console.log(e)
       throw new ServerError(`Unable to load @react-ssrex/${moduleName}.`);
@@ -162,9 +167,10 @@ export default class Server extends EventEmitter {
     await this.attachModule('userConsole', attachUserConsole);
     await this.attachModule('webapp', attachWebApp);
 
-    app.listen(3030, () => {
+
+    server.listen(3030, () => {
       console.log('Server Started');
-      this.emit('server-ready');
+      server.emit('listening', server);
     })
   }
 }

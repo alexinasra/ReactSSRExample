@@ -1,4 +1,8 @@
 /* eslint-disable */
+const {
+  createServer
+} = require('http');
+
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -100,7 +104,7 @@ const app = express();
 
   app.use(passport.initialize());
   app.use(passport.session());
-
+  const server = createServer(app);
   await attachI18n({
     app,
     translationsDir: path.resolve("../../translations"),
@@ -110,10 +114,13 @@ const app = express();
   })
   await attachGraphQL({
     app,
+    server,
     mongoClient: client,
     mongoDatabase: database,
     UsersDb : usersDb
   })
-  console.log('starting server')
-  app.listen({host: "localhost", port:3030});
+  server.listen(3030, () => {
+    console.log('starting server')
+    server.emit('listening', server);
+  });
 })();

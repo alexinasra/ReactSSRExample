@@ -8,12 +8,12 @@
     "start": "cross-env NODE_ENV=development babel-node --config-file ./babel.config.js test-server.js"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.2.5",
     "@react-ssrex/auth": "^1.0.0",
     "@react-ssrex/config": "^1.0.0",
     "@react-ssrex/database": "^1.0.0",
     "@react-ssrex/i18n": "^1.0.0",
     "@react-ssrex/utils": "^1.0.0",
-    "@graphql-tools/load-files": "^6.2.5",
     "apollo-link-state": "^0.4.2",
     "apollo-server": "^2.19.2",
     "apollo-server-express": "^2.19.2",
@@ -29,7 +29,9 @@
     "i18next-http-middleware": "^3.1.0",
     "nodemon": "^2.0.7",
     "raw-loader": "^4.0.2",
-    "rethinkdb": "^2.4.2"
+    "rethinkdb": "^2.4.2",
+    "subscriptions-transport-ws": "^0.9.19",
+    "ws": "^7.5.0"
   },
   "devDependencies": {
     "i18next-fs-backend": "^1.0.8"
