@@ -27,6 +27,16 @@ extend type Mutation {
   updateI18nTranslation(input: UpdateI18nTranslationInput): UpdateI18nTranslationPayload
 }
 
+type Subscription {
+  incommingLog: Log
+}
+
+type Log {
+  level: String!
+  message:String!
+  module: String
+  service: String
+}
 
 type CreateI18nNamespacePayload {
   created: Boolean!
