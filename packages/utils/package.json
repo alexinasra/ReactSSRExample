@@ -11,5 +11,8 @@
     "@babel/register": "^7.10.5",
     "chai": "^4.2.0",
     "mocha": "^8.1.2"
+  },
+  "dependencies": {
+    "winston": "^3.3.3"
   }
 }
