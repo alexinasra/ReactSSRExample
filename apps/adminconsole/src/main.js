@@ -3,15 +3,40 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDom from 'react-dom';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import {
+  ApolloProvider, ApolloClient, InMemoryCache, split, HttpLink,
+} from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 import App from './App';
 
+const httpLink = new HttpLink({
+  uri: 'http://localhost:3030/adminconsoleql',
+});
+
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:3030/subscriptions',
+  options: {
+    reconnect: true,
+  },
+});
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition'
+      && definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
+);
 const client = new ApolloClient({
-  uri: '/adminconsoleql',
+  link: splitLink,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

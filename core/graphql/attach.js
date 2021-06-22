@@ -81,7 +81,7 @@ module.exports = async function attach({
 
   const wsApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, userConsoleModule, webappModule, adminConsoleModule]
-  })
+  });
 
   const wsSchema = wsApp.createSchemaForApollo();
   // Set up the WebSocket for handling GraphQL subscriptions
