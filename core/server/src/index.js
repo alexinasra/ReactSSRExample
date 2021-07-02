@@ -1,7 +1,13 @@
+const path = require('path');
+const Server = require('./Server');
 
-import path from 'path';
 
-import Server from './Server.js';
+// Applications
+const attachAuth = require('@react-ssrex/auth');
+const attachAdminConsole = require('@react-ssrex/adminconsole');
+const attachUserConsole = require('@react-ssrex/userconsole');
+const attachWebApp = require('@react-ssrex/webapp');
+
 /*
   * Global Variables
 */
@@ -11,8 +17,15 @@ global.ROOT_DIR = path.resolve(__dirname, '../..');
 
 //Application Confituration
 (async () => {
-  const server = new Server();
-
-  await server.start();
-
+  const server = new Server([
+    '@react-ssrex/auth',
+    '@react-ssrex/adminconsole',
+    '@react-ssrex/userconsole',
+    '@react-ssrex/webapp',
+  ]);
+  try {
+    await server.start();
+  } catch(e) {
+    console.error(e);
+  }
 })();

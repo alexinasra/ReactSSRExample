@@ -1,13 +1,19 @@
 
 type Query {
-  application: Application!,
+  application: Application!
   themeSettings: Theme!
+  notifications: [Notification]
 }
 type Mutation {
   setThemeName(themeName: String!): Theme!
   setThemeMode(themeMode: String!): Theme!
   toggleThemeMode: Theme!
 }
+
+type Subscription {
+  newNotification: Notification
+}
+
 
 type Application {
   name: String!
@@ -29,4 +35,10 @@ type User {
   activated: Boolean!
   preferedLanguage: String
   themeSettings: Theme!
+}
+
+type Notification {
+  id: String
+  publisher: String
+  message: String
 }

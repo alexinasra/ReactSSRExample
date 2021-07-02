@@ -23,7 +23,7 @@ class UsersDb {
     return new UsersDb(database);
   }
 
-  create = async (user, email, password) => {
+  async create (user, email, password) {
     const hash = await simplePasswordHash(password);
     const result = await this.collection.insertOne({
       ...user,
@@ -38,7 +38,7 @@ class UsersDb {
     return result.ops[0];
   }
 
-  login = async (email, password, attempt = 0) => {
+  async login (email, password, attempt = 0) {
     const user = await this.collection.findOne({ email });
     if (user) {
       const success = await simplePasswordCompare(password, user.hash);
@@ -56,7 +56,7 @@ class UsersDb {
       throw new errors.DbLoginUserNotFoundError(email);
     }
   }
-  changePassword = async (userId, password, newPassword, attempt = 0) => {
+  async changePassword (userId, password, newPassword, attempt = 0) {
     if(typeof userId === "string") {
       userId = new ObjectId(userId);
     }
@@ -80,7 +80,7 @@ class UsersDb {
     }
 
   }
-  update = async (userId, batch) => {
+  async update (userId, batch) {
     if(typeof userId === "string") {
       userId = new ObjectId(userId);
     }
@@ -89,12 +89,12 @@ class UsersDb {
     return user;
   }
 
-  getUsers = async () => {
+  async getUsers () {
     const result = await this.collection.find();
     return result.toArray();
   }
 
-  get = async (userId) => {
+  async get (userId) {
     if(typeof userId === "string") {
       userId = new ObjectId(userId);
     }

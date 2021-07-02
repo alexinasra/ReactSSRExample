@@ -64,6 +64,7 @@
     "webpack-cli": "^4.3.1",
     "webpack-dev-middleware": "^4.0.3",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-hot-server-middleware": "^0.6.1"
+    "webpack-hot-server-middleware": "^0.6.1",
+    "ws": "^7.5.1"
   }
 }

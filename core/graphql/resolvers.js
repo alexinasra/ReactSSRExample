@@ -1,8 +1,18 @@
 const { GraphQLUpload } = require('graphql-modules');
+const { GraphQLScalarType, Kind } = require('graphql');
+
 const resolvers = {
   Query: require('./queries'),
   Mutation: require('./mutations'),
+  Subscription: {
+    newNotification : {
+      subscribe: (root, args, { pubSub }) => pubSub.asyncIterator('NEW_NOTIFICATION')
+    }
+  },
   Upload: GraphQLUpload,
+  Notification: {
+    id: (root) => root['_id'],
+  },
   User: {
     id: (root) => root['_id'],
 
@@ -22,7 +32,7 @@ const resolvers = {
         mode: 'light'
       })
     }
-  }
+  },
 };
 
 module.exports = resolvers;

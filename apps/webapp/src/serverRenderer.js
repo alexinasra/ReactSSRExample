@@ -3,12 +3,18 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router';
+
 import {
   ApolloClient,
   InMemoryCache,
-  HttpLink,
+  createHttpLink,
+  split, HttpLink,
   ApolloProvider,
 } from '@apollo/client';
+import ws from 'ws';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+
 import { getDataFromTree } from '@apollo/client/react/ssr';
 
 import {
@@ -19,10 +25,35 @@ import App from './App';
 
 export default function serverRenderer({ clientStats, serverStats }) {
   return (req, res, next) => {
+    const lng = req.query.lng || req.i18n.languages[0];
+    const dir = req.i18n.dir(lng);
+    const httpLink = new HttpLink({
+      uri: 'http://localhost:3030/webappql',
+    });
+
+    const wsLink = new WebSocketLink({
+      uri: 'ws://localhost:3030/subscriptions',
+      options: {
+        reconnect: true,
+      },
+      webSocketImpl: ws,
+    });
+    const splitLink = split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+        return (
+          definition.kind === 'OperationDefinition'
+          && definition.operation === 'subscription'
+        );
+      },
+      wsLink,
+      httpLink,
+    );
+
     const client = new ApolloClient({
       ssrMode: true,
       link: new HttpLink({
-        uri: '/webappql',
+        link: splitLink,
         fetch,
         credentials: 'include',
         headers: {
@@ -31,9 +62,6 @@ export default function serverRenderer({ clientStats, serverStats }) {
       }),
       cache: new InMemoryCache(),
     });
-    const lng = req.query.lng || req.i18n.languages[0];
-    const dir = req.i18n.dir(lng);
-
     getDataFromTree(App).then((content) => {
       const initialState = client.extract();
 

@@ -29,9 +29,10 @@ const {
 const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 
-module.exports = async function attach({
+module.exports = async function setup({
   app,
   server,
+  pubSub,
   mongoClient,
   mongoDatabase,
   UsersDb
@@ -39,6 +40,7 @@ module.exports = async function attach({
 
   const contextFn = (c) => ({
     ...c,
+    pubSub,
     mongoClient,
     mongoDatabase,
     UsersDb,
@@ -48,7 +50,7 @@ module.exports = async function attach({
   const rootModule = createModule({
     id: 'root',
     typeDefs: rootSchema,
-    resolvers,
+    resolvers: resolvers,
   });
 
   const i18nModule = createModule({
@@ -88,9 +90,12 @@ module.exports = async function attach({
   new SubscriptionServer({
     execute,
     subscribe,
-    schema: wsSchema
+    keepAlive: 1200,
+    schema: wsSchema,
+    onConnect: (params, socket, context) => contextFn({})
   }, {
     server,
+    context: contextFn,
     path: '/subscriptions',
   });
 

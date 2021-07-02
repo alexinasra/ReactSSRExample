@@ -1,3 +1,4 @@
 module.exports = {
-  themeSettings: require('./themeSettings')
+  themeSettings: require('./themeSettings'),
+  notifications: require('./notifications'),
 }

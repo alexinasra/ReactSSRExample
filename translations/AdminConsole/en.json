@@ -2,7 +2,8 @@
 	"MainNav": {
 		"dashboard": "Dashboard",
 		"translations": "Translations",
-		"users": "Users Management"
+		"users": "Users Management",
+		"logs": "Logs"
 	},
 	"Translations": {
 		"addNamespace": "add a new namespace",

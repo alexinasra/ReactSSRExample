@@ -1,6 +1,6 @@
 
 
-export default class ServerError extends Error {
+class ServerError extends Error {
   constructor(message) {
     super(message);
     // Ensure the name of this error is the same as the class name
@@ -11,3 +11,5 @@ export default class ServerError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
+
+module.exports = ServerError;

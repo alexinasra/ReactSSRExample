@@ -10,15 +10,17 @@ const webpack = require('webpack');
 const utils = require('@react-ssrex/utils');
 const saveJson = utils.json.saveJson;
 const { initReactI18next } = require('react-i18next');
-
-// require('es6-promise').polyfill();
-require('universal-fetch');
-module.exports = async function attach({
-  app,
-  translationsDir="translations",
+const {
+  translationsDir,
   languages,
   defaultLanguage,
   defaultNamespace
+} = require('@react-ssrex/config/i18n.config')
+
+// require('es6-promise').polyfill();
+require('universal-fetch');
+module.exports = async function setup({
+  app
 }) {
   const _defaultSearchOptions = {
     order: 'ASC',

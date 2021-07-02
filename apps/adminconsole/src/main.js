@@ -49,6 +49,8 @@ const client = new ApolloClient({
       },
     },
   }).restore(window.__APOLLO_STATE__),
+  ssrMode: true,
+  connectToDevTools: true,
   ssrForceFetchDelay: 100,
 });
 

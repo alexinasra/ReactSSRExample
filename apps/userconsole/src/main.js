@@ -3,9 +3,13 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDom from 'react-dom';
+
 import {
-  ApolloProvider, ApolloClient, InMemoryCache, GraphQLUpload,
+  ApolloProvider, ApolloClient, GraphQLUpload, InMemoryCache, split, HttpLink,
 } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+
 import { createUploadLink } from 'apollo-upload-client';
 
 import { initReactI18next } from 'react-i18next';
@@ -14,11 +18,31 @@ import { BrowserRouter } from 'react-router-dom';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 import App from './App';
 
+const httpLink = createUploadLink({
+  uri: 'http://localhost:3030/userconsoleql',
+});
+
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:3030/subscriptions',
+  options: {
+    reconnect: true,
+  },
+});
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition'
+      && definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
+);
 const client = new ApolloClient({
-  link: createUploadLink({
-    uri: '/userconsoleql',
-  }),
+  link: splitLink,
   cache: new InMemoryCache({ Upload: GraphQLUpload }).restore(window.__APOLLO_STATE__),
+  ssrMode: true,
   ssrForceFetchDelay: 100,
 });
 

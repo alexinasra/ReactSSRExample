@@ -25,17 +25,7 @@ extend type Mutation {
   createI18nTranslation(input: CreateI18nTranslationInput): CreateI18nTranslationPayload
   dropI18nTranslation(input: DropI18nTranslationInput): DropI18nTranslationPayload
   updateI18nTranslation(input: UpdateI18nTranslationInput): UpdateI18nTranslationPayload
-}
-
-type Subscription {
-  incommingLog: Log
-}
-
-type Log {
-  level: String!
-  message:String!
-  module: String
-  service: String
+  publishSystemNotification(input: String): Notification
 }
 
 type CreateI18nNamespacePayload {
