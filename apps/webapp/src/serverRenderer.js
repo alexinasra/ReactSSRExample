@@ -8,12 +8,14 @@ import {
   ApolloClient,
   InMemoryCache,
   createHttpLink,
-  split, HttpLink,
+  split,
+  HttpLink,
   ApolloProvider,
 } from '@apollo/client';
 import ws from 'ws';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import fetch from 'node-fetch';
 
 import { getDataFromTree } from '@apollo/client/react/ssr';
 
@@ -29,12 +31,16 @@ export default function serverRenderer({ clientStats, serverStats }) {
     const dir = req.i18n.dir(lng);
     const httpLink = new HttpLink({
       uri: 'http://localhost:3030/webappql',
+      fetchOptions: {
+        credentials: 'include',
+      },
+      fetch,
     });
 
     const wsLink = new WebSocketLink({
       uri: 'ws://localhost:3030/subscriptions',
       options: {
-        reconnect: true,
+        reconnect: false,
       },
       webSocketImpl: ws,
     });
@@ -54,11 +60,6 @@ export default function serverRenderer({ clientStats, serverStats }) {
       ssrMode: true,
       link: new HttpLink({
         link: splitLink,
-        fetch,
-        credentials: 'include',
-        headers: {
-          cookie: req.header('Cookie'),
-        },
       }),
       cache: new InMemoryCache(),
     });

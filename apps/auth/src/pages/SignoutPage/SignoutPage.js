@@ -23,6 +23,7 @@ export default function SignoutPage() {
   ] = useMutation(SIGN_OUT);
   useEffect(() => {
     signout().then(() => {
+      localStorage.clear();
       window.location.href = redirectTo;
     });
   }, [signout]);

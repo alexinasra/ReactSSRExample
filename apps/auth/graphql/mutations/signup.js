@@ -1,4 +1,5 @@
 const userDir = require('@react-ssrex/utils').userDir;
+const jwt = require('jsonwebtoken');
 
 module.exports = async function signup(root, { input }, { req, UsersDb, generateId }) {
   const userId = generateId();
@@ -26,7 +27,8 @@ module.exports = async function signup(root, { input }, { req, UsersDb, generate
         resolve();
       });
     }));
-    return { user };
+    const token = jwt.sign({ userId: user._id }, 'TOP_SECRET');
+    return { user, token };
   } catch (e) {
     console.log(e);
     // TODO: check for other errors.

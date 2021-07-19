@@ -6,12 +6,28 @@ const resolvers = {
   Mutation: require('./mutations'),
   Subscription: {
     newNotification : {
-      subscribe: (root, args, { pubSub }) => pubSub.asyncIterator('NEW_NOTIFICATION')
+      subscribe: (root, args, { pubSub,req }) => pubSub.asyncIterator('NEW_NOTIFICATION')
     }
   },
   Upload: GraphQLUpload,
   Notification: {
     id: (root) => root['_id'],
+    checked: async (root, args, { req, mongoDatabase, UsersDb, ...rest }) => {
+      let user = req.user;
+
+      if (!user) {
+          return false
+      }
+
+      const collection = mongoDatabase.collection('notification_recipients');
+      const result = await collection.findOne({
+        $and: [
+          { notificationId: root._id },
+          { userId: user._id }
+        ]
+      });
+      return !!result;
+    }
   },
   User: {
     id: (root) => root['_id'],

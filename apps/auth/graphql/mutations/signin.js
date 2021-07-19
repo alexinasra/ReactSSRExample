@@ -4,8 +4,9 @@ const {
   DbChangePasswordBadPasswordError,
   DbChangePasswordUserNotFoundError,
 } = require('@react-ssrex/database/DbError');
+const jwt = require('jsonwebtoken');
 
-module.exports = async function signin(root, { input: { email, password } }, { req, UsersDb, generateId }) {
+module.exports = async function signin(root, { input: { email, password } }, { req, res, UsersDb, generateId }) {
   try {
 
     const { user } = await UsersDb.login(email, password);
@@ -18,8 +19,10 @@ module.exports = async function signin(root, { input: { email, password } }, { r
         resolve();
       });
     }));
+    const token = jwt.sign({ userId: user._id }, 'TOP_SECRET');
     return {
-      user
+      user,
+      token
     };
   } catch (e) {
     if (e instanceof DbLoginUserNotFoundError) {

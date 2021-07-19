@@ -10,13 +10,11 @@ module.exports = async function toggleThemeMode(root, args, { req, UsersDb, gene
         mode: themeMode
       }
     })
-    req.session.themeSettings = user.themeSettings;
     return user.themeSettings;
   }
 
-  req.session.themeSettings = {
-    ...req.session.themeSettings,
-    mode: req.session.themeSettings.mode !== 'light'? 'light' : 'dark'
+  return {
+    name: 'default',
+    mode: 'light'
   };
-  return req.session.themeSettings;
 }

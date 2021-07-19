@@ -20,6 +20,7 @@ input SignupInput {
 }
 type SignupPayload {
   user: User
+  token: String
   error: String
 }
 
@@ -29,6 +30,7 @@ input SigninInput {
 }
 type SigninPayload {
   user: User
+  token: String
   error: String
 }
 

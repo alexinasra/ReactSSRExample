@@ -8,11 +8,13 @@ type Mutation {
   setThemeName(themeName: String!): Theme!
   setThemeMode(themeMode: String!): Theme!
   toggleThemeMode: Theme!
+  checkNotifications(notificationIds: [String!]!): CheckNotificationsPayload
 }
 
 type Subscription {
-  newNotification: Notification
+  newNotification(token: String): Notification
 }
+
 
 
 type Application {
@@ -41,4 +43,8 @@ type Notification {
   id: String
   publisher: String
   message: String
+  checked: Boolean
+}
+type CheckNotificationsPayload {
+  checked: [Notification]
 }

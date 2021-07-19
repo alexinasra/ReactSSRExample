@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import {
-  Link as RouterLink, useLocation,
+  Link as RouterLink,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Alert from '@material-ui/lab/Alert';
@@ -35,9 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 const SIGN_IN = gql`
 mutation SigninWithEmail($email: String!, $password: String!){
   signin(input: {
@@ -48,13 +45,14 @@ mutation SigninWithEmail($email: String!, $password: String!){
       id
       firstname
     }
+    token
     error
   }
 }
 `;
 
 export default function SignIn() {
-  const query = useQuery();
+  // const query = useQuery();
   const classes = useStyles();
   const { t } = useTranslation('Auth', { useSuspense: false });
   const [inputError, setInputError] = useState(false);
@@ -95,8 +93,10 @@ export default function SignIn() {
         case AuthStatusCode.UserNotFound: // user not found
           setInputError(t('Error.UserNotFound'));
           break;
-        default:
-          window.location.href = query.redirectto || '/';
+        default: {
+          localStorage.setItem('token', data.signin.token);
+          window.location.href = '/';
+        }
       }
     });
   };

@@ -28,7 +28,7 @@ export default function HomePage() {
     <LayoutBasePage className={classes.root}>
       <Card>
         <CardContent>
-          testing card
+          Home Page
         </CardContent>
       </Card>
     </LayoutBasePage>

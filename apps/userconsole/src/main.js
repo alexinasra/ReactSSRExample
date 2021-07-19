@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 import {
-  ApolloProvider, ApolloClient, GraphQLUpload, InMemoryCache, split, HttpLink,
+  ApolloProvider, ApolloClient, GraphQLUpload, InMemoryCache, split, concat, HttpLink, ApolloLink,
 } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -21,11 +21,25 @@ import App from './App';
 const httpLink = createUploadLink({
   uri: 'http://localhost:3030/userconsoleql',
 });
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : null,
+    },
+  }));
+
+  return forward(operation);
+});
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:3030/subscriptions',
   options: {
     reconnect: true,
+    connectionParams: {
+      Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : null,
+    },
   },
 });
 const splitLink = split(
@@ -37,7 +51,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink,
+  concat(authMiddleware, httpLink),
 );
 const client = new ApolloClient({
   link: splitLink,

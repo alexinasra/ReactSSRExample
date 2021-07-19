@@ -1,6 +1,4 @@
 require('graphql-import-node');
-const passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy;
 const {
   ObjectId
 } = require('mongodb');
@@ -32,20 +30,37 @@ const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 module.exports = async function setup({
   app,
   server,
+  passport,
   pubSub,
   mongoClient,
   mongoDatabase,
   UsersDb
 }) {
 
-  const contextFn = (c) => ({
-    ...c,
-    pubSub,
-    mongoClient,
-    mongoDatabase,
-    UsersDb,
-    generateId: (idStr) => new ObjectId(idStr),
-  });
+  const contextFn = async (c) => {
+    const user = await new Promise(function(resolve, reject) {
+      passport.authenticate(
+        'jwt-token',
+        { session: false },
+        (err, user, info) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(user);
+        }
+      )(c.req);
+    });
+    c.req.user = user;
+
+    return {
+      ...c,
+      pubSub,
+      mongoClient,
+      mongoDatabase,
+      UsersDb,
+      generateId: (idStr) => new ObjectId(idStr),
+    };
+  };
 
   const rootModule = createModule({
     id: 'root',
@@ -92,13 +107,18 @@ module.exports = async function setup({
     subscribe,
     keepAlive: 1200,
     schema: wsSchema,
-    onConnect: (params, socket, context) => contextFn({})
+    onConnect: (params, socket, context) => {
+      const req = socket.upgradeReq
+      req.headers.authorization = params.Authorization;
+      return contextFn({
+        ...context,
+        req
+      })
+    }
   }, {
     server,
-    context: contextFn,
     path: '/subscriptions',
   });
-
   const authApp = await createApplication({
     modules: [rootModule, i18nModule, authModule]
   })
@@ -110,9 +130,7 @@ module.exports = async function setup({
     subscriptions: {
       path: '/subscriptions',
     },
-    playground: {
-      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
-    },
+    // playground: false,
     uploads: {
       maxFileSize: 10000000,
       maxFiles: 20
@@ -136,9 +154,7 @@ module.exports = async function setup({
     subscriptions: {
       path: '/subscriptions',
     },
-    playground: {
-      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
-    },
+    // playground: false,
     uploads: {
       maxFileSize: 10000000,
       maxFiles: 20
@@ -161,9 +177,7 @@ module.exports = async function setup({
     subscriptions: {
       path: '/subscriptions',
     },
-    playground: {
-      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
-    },
+    // playground: false,
     uploads: {
       maxFileSize: 10000000,
       maxFiles: 20
@@ -185,9 +199,7 @@ module.exports = async function setup({
     subscriptions: {
       path: '/subscriptions',
     },
-    playground: {
-      subscriptionEndpoint: 'ws://localhost:3030/subscriptions',
-    },
+    // playground: false,
     uploads: {
       maxFileSize: 10000000,
       maxFiles: 20

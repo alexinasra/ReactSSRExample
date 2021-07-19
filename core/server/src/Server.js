@@ -1,11 +1,9 @@
 const EventEmitter = require('events');
 const path = require('path');
 const express = require('express');
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { logger } = require('@react-ssrex/utils');
-const MongoDBStore = require('connect-mongodb-session')(session);
 
 const { RedisPubSub } = require('graphql-redis-subscriptions');
 const Redis = require('ioredis');
@@ -29,6 +27,11 @@ const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 const passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
 
+const JWTstrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
+const jwt = require('jsonwebtoken');
+
+const expressJwt = require("express-jwt");
 const DbError = require('@react-ssrex/database/DbError');
 const UsersDb = require('@react-ssrex/database/UsersDb');
 
@@ -86,6 +89,18 @@ module.exports = class Server extends EventEmitter {
       req.mongoClient = this.client;
       next();
     })
+
+      // Set cors and bodyParser middlewares
+      app.use('*', cors({
+        origin: "*",
+        credentials: true
+      }));
+      app.use(cookieParser());
+      app.use(bodyParser.json());
+      app.use(bodyParser.urlencoded({
+        extended: false
+      }));
+
     passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
@@ -94,7 +109,11 @@ module.exports = class Server extends EventEmitter {
         try {
           const {
             user
-          } = await this.usersDb.login(email, password, 0)
+          } = await this.usersDb.login(email, password, 0);
+
+
+          // const token = jwt.sign({ userId: user._id }, 'TOP_SECRET');
+          // user.token = token;
           return done(null, user);
         } catch (e) {
           if (e instanceof DbError.DbLoginUserNotFoundError || e instanceof DbError.DbLoginBadPasswordError) {
@@ -106,6 +125,23 @@ module.exports = class Server extends EventEmitter {
         }
       }
     ));
+
+    passport.use('jwt-token', new JWTstrategy({
+        secretOrKey: 'TOP_SECRET',
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        // issuer: 'accounts.examplesoft.com',
+        // audience: 'yoursite.net'
+      },
+      async (token, done) => {
+        try {
+          const user = await this.usersDb.get(token.userId);
+          return done(null, user);
+        } catch (e) {
+          done(e);
+        }
+      }
+    ));
+
     passport.serializeUser((user, done) => {
       if (user)
         done(null, user._id.toString());
@@ -124,39 +160,7 @@ module.exports = class Server extends EventEmitter {
       }
     });
 
-    // Set cors and bodyParser middlewares
-    app.use('*', cors({
-      origin: "*",
-      credentials: true
-    }));
-
-    const store = new MongoDBStore({
-      uri: connectionUrl,
-      connectionOptions: MongoDbConfig.options,
-      databaseName: MongoDbConfig.db,
-      collection: 'user_session',
-
-    });
-    store.on('error', (error) => {
-      // Also get an error here
-      this.log.error(error.message)
-    });
-    app.use(session({
-      secret: 'keyboard cat',
-      store: store,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-      },
-    }));
-    app.use(cookieParser());
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-      extended: false
-    }));
     app.use(passport.initialize());
-    app.use(passport.session());
 
     app.use('/uploads', express.static('../../uploads'));
     setupAssets({ app });
@@ -164,6 +168,7 @@ module.exports = class Server extends EventEmitter {
     await setupGraphql({
       app,
       server,
+      passport,
       pubSub,
       mongoClient: this.client,
       mongoDatabase: this.database,

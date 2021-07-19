@@ -9,13 +9,11 @@ module.exports = async function setThemeMode(root, { themeMode }, { req, UsersDb
         mode: themeMode
       }
     });
-    req.session.themeSettings = user.themeSettings;
     return user.themeSettings;
   }
 
-  req.session.themeSettings = {
-    ...req.session.themeSettings,
-    mode: themeMode
+  return {
+    name: 'default',
+    mode: 'light'
   }
-  return req.session.themeSettings
 }

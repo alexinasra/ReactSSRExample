@@ -6,8 +6,5 @@ module.exports = async function signout(root, args, { req }) {
   }
 
   req.logout();
-  if (req.session.themeSettings) {
-    delete req.session.themeSettings
-  }
   return { error: null }
 }

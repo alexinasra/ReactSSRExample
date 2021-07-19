@@ -9,13 +9,11 @@ module.exports = async function setThemeName (root, { themeName }, { req, UsersD
         name: themeName
       }
     })
-    req.session.themeSettings = user.themeSettings;
     return user.themeSettings;
   }
 
-  req.session.themeSettings = {
-    ...req.session.themeSettings,
-    name: themeName
+  return {
+    name: 'default',
+    mode: 'light'
   }
-  return req.session.themeSettings
 }

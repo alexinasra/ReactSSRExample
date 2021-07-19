@@ -49,6 +49,7 @@ mutation ($firstname: String!, $lastname: String!, $email: String!, $password: S
      firstname
      lastname
    }
+   token
    error
  }
 }
@@ -91,6 +92,8 @@ export default function SignUp() {
           setInputError('User Not Found');
           break;
         default:
+          console.log(data);
+          localStorage.setItem('token', data.signup.token);
           window.location.href = '/';
       }
     });

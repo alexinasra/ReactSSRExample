@@ -1,12 +1,9 @@
 module.exports = function themeSettings (root, args, { req }) {
-  if(req.user) {
-    req.session.themeSettings = req.user.themeSettings;
-  }
-  if(!req.session.themeSettings) {
-    req.session.themeSettings = {
+  if(!req.user || (req.user && !req.user.themeSettings)) {
+    return {
       name: 'default',
       mode: 'light'
     };
   }
-  return req.session.themeSettings;
+  return req.user.themeSettings;
 }
