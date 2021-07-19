@@ -134,7 +134,7 @@ module.exports = class Server extends EventEmitter {
       },
       async (token, done) => {
         try {
-          const user = await this.usersDb.get(token.userId);
+          const user = await this.usersDb.get(token.sub.userId);
           return done(null, user);
         } catch (e) {
           done(e);

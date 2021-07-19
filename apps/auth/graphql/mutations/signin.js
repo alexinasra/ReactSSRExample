@@ -19,7 +19,14 @@ module.exports = async function signin(root, { input: { email, password } }, { r
         resolve();
       });
     }));
-    const token = jwt.sign({ userId: user._id }, 'TOP_SECRET');
+    const token = jwt.sign({
+      name: `${user.firstname} ${user.lastname}`,
+      given_name: user.firstname,
+      family_name: user.lastname,
+      picture: user.profilePicture,
+      email: user.email,
+      sub: { userId: user._id }
+    }, 'TOP_SECRET', { expiresIn: '1y' });
     return {
       user,
       token
