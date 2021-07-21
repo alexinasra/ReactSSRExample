@@ -4,7 +4,8 @@
 	},
 	"WebappLayout": {
 		"nav": {
-			"userConsole": "ألأعدادات الشخصيه"
+			"userConsole": "ألأعدادات الشخصيه",
+			"logout": "$t(Auth:SignoutButton.text)"
 		}
 	}
 }

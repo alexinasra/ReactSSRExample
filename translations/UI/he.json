@@ -4,7 +4,8 @@
 	},
 	"WebappLayout": {
 		"nav": {
-			"userConsole": "הגדרות אשיים"
+			"userConsole": "הגדרות אשיים",
+			"logout": "$t(Auth:SignoutButton.text)"
 		}
 	}
 }
