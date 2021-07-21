@@ -1,8 +1,10 @@
 import primaryColor from '@material-ui/core/colors/blue';
-import secondaryColor from '@material-ui/core/colors/lightBlue';
+import secondaryColor from '@material-ui/core/colors/lightGreen';
 
 const darkPalette = {
   palette: {
+    id: 'default',
+    name: 'Default',
     type: 'dark',
     primary: {
       ...primaryColor,

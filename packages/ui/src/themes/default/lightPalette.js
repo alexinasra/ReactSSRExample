@@ -1,8 +1,10 @@
 import primaryColor from '@material-ui/core/colors/blue';
-import secondaryColor from '@material-ui/core/colors/lightBlue';
+import secondaryColor from '@material-ui/core/colors/lightGreen';
 
 const lightPalette = {
   palette: {
+    id: 'default',
+    name: 'Default',
     type: 'light',
     primary: {
       ...primaryColor,

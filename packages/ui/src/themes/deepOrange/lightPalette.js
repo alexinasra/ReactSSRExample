@@ -3,6 +3,8 @@ import secondaryColor from '@material-ui/core/colors/blue';
 
 const lightPalette = {
   palette: {
+    id: 'deepOrange',
+    name: 'Deep Orange',
     type: 'light',
     primary: {
       ...primaryColor,
