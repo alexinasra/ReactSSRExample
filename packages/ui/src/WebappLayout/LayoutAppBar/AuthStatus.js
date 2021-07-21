@@ -1,34 +1,69 @@
 import React from 'react';
 import Suspense from '@react-ssrex/ui/build/Suspense';
 import { Translation } from 'react-i18next';
+import Badge from '@material-ui/core/Badge';
 import Link from '@material-ui/core/Link';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+
+import Typography from '@material-ui/core/Typography';
+
 import AuthReport from '../../AuthReport';
 
-const useStyles = makeStyles(() => ({
+import AuthDrawer from './AuthDrawer';
+import Notifications from '../../Notifications';
+
+const useStyles = makeStyles((theme) => ({
   root: {},
+  authStatus: {
+    display: 'flex',
+    alignItems: 'center',
+  }
 }));
+
 
 export default function AuthStatus() {
   const classes = useStyles();
+  const [drawerTabId, setDrawerTabId] = React.useState(false);
 
+  const handleDrawerTabChange = (tabId) => () => {
+    setDrawerTabId(tabId)
+  }
+  const handleDrawerTabClose = () => {
+    setDrawerTabId(false);
+  }
   return (
     <AuthReport>
       {({ userInRole }) => (
         <div className={classes.root}>
-          <div className={classes.AuthStatus}>
-            {(userInRole)
-              ? (
+          <div className={classes.authStatus}>
+            {userInRole ? (
                 <>
-                  <Link href="/userconsole"  color="inherit">{`${userInRole.firstname} ${userInRole.lastname}`}</Link>
-                  <Button href="/auth/signout">
-                    <Suspense fallback="Sign Out">
-                      <Translation>
-                        {(t) => t('Auth:SignoutButton.text')}
-                      </Translation>
-                    </Suspense>
-                  </Button>
+                  <Notifications>
+                    {({notifications}) => (
+                      <IconButton onClick={handleDrawerTabChange('notifications')}>
+                        <Badge
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        badgeContent={notifications.filter(n => !n.checked).length > 99 ? "+99" : notifications.filter(n => !n.checked).length}
+                        color="secondary"
+                        >
+                          <Icon>notifications</Icon>
+                        </Badge>
+                      </IconButton>
+                    )}
+                  </Notifications>
+                  <IconButton onClick={handleDrawerTabChange('menu')}>
+                    <Icon>menu</Icon>
+                  </IconButton>
+                  <AuthDrawer
+                    tabId={drawerTabId}
+                    onTabChange={handleDrawerTabChange}
+                    onClose={handleDrawerTabClose} />
                 </>
               ) : (
                 <>

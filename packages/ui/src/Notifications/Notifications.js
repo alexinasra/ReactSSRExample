@@ -1,7 +1,5 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 
 const NOTIFICATIONS_Q = gql`
@@ -24,8 +22,23 @@ subscription {
   }
 }
 `;
-export default function Notifications(){
+
+const CHK_NOTIFICATION_M = gql`
+mutation CheckNotifications($notificationIds: [String!]!){
+  checkNotifications(notificationIds: $notificationIds) {
+    checked {
+      id
+      message
+      publisher
+      checked
+    }
+  }
+}
+`;
+export default function Notifications({ children }){
   const { data, error, loading, subscribeToMore } = useQuery(NOTIFICATIONS_Q);
+  const [checkNotifications] = useMutation(CHK_NOTIFICATION_M);
+
   subscribeToMore({
     document: NOTIFICATIONS_S,
     updateQuery( prev, { subscriptionData }) {
@@ -37,18 +50,14 @@ export default function Notifications(){
       return Object.assign({} , prev, { notifications: [ ...prev.notifications, newFeedItem]});
     }
   })
-  return (
-    <List>
-      {loading && (
-        <ListItem>Loading ...</ListItem>
-      )}
-      {!loading && error && (
-        <ListItem>Error</ListItem>
-      )}
-      {!loading && data && data.notifications.map(n => (
-        <ListItem key={n.id}>{n.message}</ListItem>
-      ))}
-
-    </List>
-  );
+  return children({
+    checkNotifications: () => {
+      checkNotifications({
+        variables: {
+          notificationIds: data.notifications.filter(n => !n.checked).map(n => n.id)
+        }
+      })
+    },
+    notifications: data? [...data.notifications] : []
+  });
 }
