@@ -17,12 +17,18 @@ import blue from '@material-ui/core/colors/blue';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  menuItemContent: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   defaultIcon: {
+    margin: `auto ${theme.spacing()}px`,
     backgroundColor: blue[500],
     borderRadius: '50%'
   },
   deepOrangeIcon: {
+    margin: `auto ${theme.spacing()}px`,
     backgroundColor: deepOrange[500],
     borderRadius: '50%'
   },
@@ -68,12 +74,16 @@ export default function ThemePaletteSelect({
       onChange={selectItem}
     >
       <MenuItem value={defaultTheme.lightPalette.palette.id}>
+        <div className={classes.menuItemContent}>
           <Icon className={classes.defaultIcon}>palette</Icon>
           {defaultTheme.lightPalette.palette.name}
+        </div>
       </MenuItem>
       <MenuItem value={deepOrangeTheme.lightPalette.palette.id}>
+        <div className={classes.menuItemContent}>
           <Icon className={classes.deepOrangeIcon}>palette</Icon>
           {deepOrangeTheme.lightPalette.palette.name}
+        </div>
       </MenuItem>
     </Select>
   );
