@@ -1,5 +1,11 @@
 {
 	"RedirectDelay": {
 		"message": "Click here to sign in."
+	},
+	"WebappLayout": {
+		"nav": {
+			"userConsole": "User Settings",
+			"logout": "$t(Auth:SignoutButton.text)"
+		}
 	}
 }

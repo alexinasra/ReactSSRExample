@@ -1,5 +1,10 @@
 {
 	"RedirectDelay": {
 		"message": "לחץ כאן כדי להתחבר."
+	},
+	"WebappLayout": {
+		"nav": {
+			"userConsole": "הגדרות אשיים"
+		}
 	}
 }

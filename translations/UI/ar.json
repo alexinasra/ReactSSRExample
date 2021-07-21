@@ -1,5 +1,10 @@
 {
 	"RedirectDelay": {
 		"message": "انقر هنا لتسجيل الدخول."
+	},
+	"WebappLayout": {
+		"nav": {
+			"userConsole": "ألأعدادات الشخصيه"
+		}
 	}
 }
