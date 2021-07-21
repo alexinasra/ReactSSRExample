@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { gql, useMutation } from '@apollo/client';
 import IconButton from '@material-ui/core/IconButton';
-import Fab from '@material-ui/core/Fab';
+import Switch from '@material-ui/core/Switch';
 import Icon from '@material-ui/core/Icon';
 
 const TGL_THEME_MODE = gql`
@@ -15,8 +15,6 @@ const TGL_THEME_MODE = gql`
 `;
 
 export default function ThemeModeToggle({
-  fab,
-  color,
   className,
 }) {
   const theme = useTheme()
@@ -31,12 +29,12 @@ export default function ThemeModeToggle({
       })
     }
   });
-  const Component = fab ? Fab : IconButton;
   return (
-    <Component color={color} className={className} onClick={toggleThemeMode}>
-      <Icon>
-        {theme.palette.type === 'light' ? 'dark_mode' : 'light_mode'}
-      </Icon>
-    </Component>
+    <Switch
+      checked={theme.palette.type === 'light'}
+      className={className}
+      onChange={toggleThemeMode}
+      checkedIcon={<Icon fontSize="small">light_mode</Icon>}
+      icon={<Icon fontSize="small">dark_mode</Icon>} />
   );
 }
