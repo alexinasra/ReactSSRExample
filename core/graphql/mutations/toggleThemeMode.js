@@ -1,15 +1,10 @@
 
 
-module.exports = async function toggleThemeMode(root, args, { req, UsersDb, generateId }) {
-  if(req.user) {
-    const userId = req.user._id;
-    const themeMode = req.user.themeSettings.mode !== 'light'? 'light' : 'dark';
-    const user = await UsersDb.update(generateId(userId), {
-      themeSettings: {
-        ...req.user.themeSettings,
-        mode: themeMode
-      }
-    })
+module.exports = async function toggleThemeMode(root, args, { req: { user } }) {
+  if(user) {
+    const themeMode = user.themeSettings.mode !== 'light'? 'light' : 'dark';
+    user.themeSettings.mode = themeMode;
+    await user.save();
     return user.themeSettings;
   }
 

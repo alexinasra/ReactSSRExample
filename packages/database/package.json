@@ -7,5 +7,8 @@
     "@react-ssrex/utils": "^1.0.0",
     "bcrypt": "^5.0.1",
     "mongodb": "^3.6.6"
+  },
+  "peerDependencies": {
+    "mongoose": "^5.13.3"
   }
 }

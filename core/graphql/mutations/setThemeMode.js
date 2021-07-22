@@ -1,14 +1,9 @@
 
 
-module.exports = async function setThemeMode(root, { themeMode }, { req, UsersDb, generateId }) {
-  if(req.user) {
-    const userId = req.user._id;
-    const user = await UsersDb.update(generateId(userId), {
-      themeSettings: {
-        ...req.user.themeSettings,
-        mode: themeMode
-      }
-    });
+module.exports = async function setThemeMode(root, { themeMode }, { req: { user } }) {
+  if(user) {
+    user.themeSettings.mode = themeMode;
+    await user.save();
     return user.themeSettings;
   }
 

@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { logger } = require('@react-ssrex/utils');
-
+const mongoose = require('mongoose');
 const { RedisPubSub } = require('graphql-redis-subscriptions');
 const Redis = require('ioredis');
 const RedisOptions = require('@react-ssrex/config/redis.config');
@@ -12,6 +12,7 @@ const RedisOptions = require('@react-ssrex/config/redis.config');
 const setupAssets = require('@react-ssrex/assets');
 const setupI18n = require('@react-ssrex/i18n');
 const setupGraphql = require('@react-ssrex/graphql');
+const User = require('@react-ssrex/database/models/User');
 
 const {
   createServer
@@ -33,16 +34,10 @@ const jwt = require('jsonwebtoken');
 
 const expressJwt = require("express-jwt");
 const DbError = require('@react-ssrex/database/DbError');
-const UsersDb = require('@react-ssrex/database/UsersDb');
 
 const ServerError = require('./ServerError');
 
 const connectionUrl = `mongodb://${MongoDbConfig.host}:${MongoDbConfig.port}?${Object.keys(MongoDbConfig.options).map(key => key + '=' + MongoDbConfig.options[key]).join('&')}`
-const mongoClient = new MongoClient(connectionUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
 
 const app = express();
 const server = createServer(app);
@@ -71,35 +66,28 @@ module.exports = class Server extends EventEmitter {
 
   setupMiddlewares = async () => {
     this.log.info('connecting to database server', { connectionUrl});
-    this.client = await mongoClient.connect()
-    this.log.info('selecting database', { db: MongoDbConfig.db} );
-    this.database = await this.client.db(MongoDbConfig.db);
-
-    this.usersDb = UsersDb.with(this.database);
-
-
-    process.on('SIGINT', () => {
-      this.client.close(() => {
-        this.log.info('closing mongodb connection');
-        process.exit(0);
-      });
+    await mongoose.connect(connectionUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      dbName: 'react-ssrex'
     });
 
-    app.use((req, res, next) => {
-      req.mongoClient = this.client;
-      next();
-    })
+    process.on('SIGINT', async () => {
+      await mongoose.disconnect();
+      this.log.info('closing mongodb connection');
+      process.exit(0);
+    });
 
-      // Set cors and bodyParser middlewares
-      app.use('*', cors({
-        origin: "*",
-        credentials: true
-      }));
-      app.use(cookieParser());
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({
-        extended: false
-      }));
+    // Set cors and bodyParser middlewares
+    app.use('*', cors({
+      origin: "*",
+      credentials: true
+    }));
+    app.use(cookieParser());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+      extended: false
+    }));
 
     passport.use(new LocalStrategy({
         usernameField: 'email',
@@ -107,13 +95,7 @@ module.exports = class Server extends EventEmitter {
       },
       async (email, password, done) => {
         try {
-          const {
-            user
-          } = await this.usersDb.login(email, password, 0);
-
-
-          // const token = jwt.sign({ userId: user._id }, 'TOP_SECRET');
-          // user.token = token;
+          const user = await User.emailSignin(email, password, req);
           return done(null, user);
         } catch (e) {
           if (e instanceof DbError.DbLoginUserNotFoundError || e instanceof DbError.DbLoginBadPasswordError) {
@@ -134,7 +116,7 @@ module.exports = class Server extends EventEmitter {
       },
       async (token, done) => {
         try {
-          const user = await this.usersDb.get(token.sub.userId);
+          const user = await User.findById(token.sub.userId).exec();
           return done(null, user);
         } catch (e) {
           done(e);
@@ -151,7 +133,7 @@ module.exports = class Server extends EventEmitter {
       if (id) {
         (async () => {
           try {
-            const user = await this.usersDb.get(id);
+            const user = await User.findById(id);
             return done(null, user);
           } catch (e) {
             done(e);
@@ -170,9 +152,6 @@ module.exports = class Server extends EventEmitter {
       server,
       passport,
       pubSub,
-      mongoClient: this.client,
-      mongoDatabase: this.database,
-      UsersDb: this.usersDb
     })
   }
   attachModule = async (moduleName, attachable) => {
@@ -183,9 +162,6 @@ module.exports = class Server extends EventEmitter {
       await attachable({
         app,
         server,
-        mongoClient: this.client,
-        mongoDatabase: this.database,
-        UsersDb: this.usersDb
       });
     } catch (e) {
 

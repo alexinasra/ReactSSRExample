@@ -18,7 +18,6 @@ const {
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
 const DbError = require('@react-ssrex/database/DbError');
-const UsersDb = require('@react-ssrex/database/UsersDb');
 
 const {
   execute,
@@ -32,9 +31,6 @@ module.exports = async function setup({
   server,
   passport,
   pubSub,
-  mongoClient,
-  mongoDatabase,
-  UsersDb
 }) {
 
   const contextFn = async (c) => {
@@ -55,9 +51,6 @@ module.exports = async function setup({
     return {
       ...c,
       pubSub,
-      mongoClient,
-      mongoDatabase,
-      UsersDb,
       generateId: (idStr) => new ObjectId(idStr),
     };
   };

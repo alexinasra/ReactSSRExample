@@ -1,7 +1,5 @@
-module.exports = async function updateUserProfile(root, { input }, { req, UsersDb }) {
-  const userId = req.user._id;
-  const user = await UsersDb.update(userId, {
-    ...input
-  });
+module.exports = async function updateUserProfile(root, { input }, { req: { user } }) {
+  user.set(input);
+  await user.save();
   return user;
 }

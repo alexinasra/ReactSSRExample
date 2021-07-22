@@ -1,29 +1,9 @@
-module.exports = async function (root, { notificationIds }, { req, mongoDatabase, generateId }) {
-  const collection = mongoDatabase.collection('notification_recipients');
-  const notificationsCollection = mongoDatabase.collection('notifications');
-  const user = req.user;
+const Notification = require('@react-ssrex/database/models/Notification');
+const NotificationRecipient = require('@react-ssrex/database/models/NotificationRecipient');
 
-  const notifications = await Promise.all(await notificationIds.map(async (notificationId) => {
-    let result =  await collection.findOne({
-      $and: [
-        { notificationId: generateId(notificationId) },
-        { userId: user._id },
-      ]
-    });
-
-    if (result) {
-      return result;
-    }
-
-    result = await collection.insertOne({
-      notificationId: generateId(notificationId),
-      userId: user._id
-    });
-
-
-    return await notificationsCollection.findOne({ _id: generateId(notificationId) })
-  }));
-
+module.exports = async function (root, { notificationIds }, { req  }) {
+  await NotificationRecipient.checkNotifications(req.user._id, notificationIds);
+  const notifications = await Notification.find().where({ _id: { $in: notificationIds}}).exec();
   return {
     checked: notifications
   };

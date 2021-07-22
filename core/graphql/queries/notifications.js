@@ -1,5 +1,6 @@
+const Notification = require('@react-ssrex/database/models/Notification');
+
 module.exports = async function (root, args, {
-  mongoDatabase,
   req
 }) {
   if (!req.user) {
@@ -18,9 +19,7 @@ module.exports = async function (root, args, {
       }
     ]
   }
-  const subscriptions = req.user.subscriptions || [];
-  const collection = mongoDatabase.collection('notifications');
-  const notifications = await collection.find({ publisher: { $in: ['system', ...subscriptions]}});
 
-  return notifications.toArray();
+  const notifications = Notification.find().forUser(req.user._id);
+  return notifications;
 }

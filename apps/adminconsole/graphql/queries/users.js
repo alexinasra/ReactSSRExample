@@ -1,4 +1,6 @@
+const User = require('@react-ssrex/database/models/User');
 
-module.exports = async function i18nNamespaces (root, args, { req, UsersDb }) {
-  return UsersDb.getUsers();
+module.exports = async function users () {
+  const users = await User.find({}).exec();
+  return users;
 }
