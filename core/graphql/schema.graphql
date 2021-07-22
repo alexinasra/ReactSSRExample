@@ -12,7 +12,7 @@ type Mutation {
 }
 
 type Subscription {
-  newNotification(token: String): Notification
+  newNotification: Notification
 }
 
 

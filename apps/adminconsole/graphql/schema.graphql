@@ -10,8 +10,8 @@ enum TranslationStatus {
 }
 
 extend type Query {
-  users:[User!]
-
+  users: [User!]
+  systemNotifications: [Notification!]
   i18nNamespaces: [String!]!
   i18nTranslationKeys(namespace: String): [I18nTranslationKey]
   i18nTranslationValues(namespace: String language: String): [I18nTranslationValue]
@@ -27,6 +27,10 @@ extend type Mutation {
   updateI18nTranslation(input: UpdateI18nTranslationInput): UpdateI18nTranslationPayload
   publishSystemNotification(input: String): Notification
 }
+extend type Subscription {
+  newSystemNotification: Notification
+}
+
 
 type CreateI18nNamespacePayload {
   created: Boolean!

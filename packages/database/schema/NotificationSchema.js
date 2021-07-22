@@ -25,5 +25,8 @@ const notificationSchema = new Schema({
 notificationSchema.query.forUser = function (userId) {
   return this.where({ for: userId});
 }
+notificationSchema.query.byPublisher = function (publisher) {
+  return this.where({ publisher });
+}
 
 module.exports = notificationSchema;

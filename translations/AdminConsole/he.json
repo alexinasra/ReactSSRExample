@@ -2,7 +2,8 @@
 	"MainNav": {
 		"dashboard": "לוח מחוונים",
 		"translations": "תרגומים",
-		"users": "ניהול משתמשים"
+		"users": "ניהול משתמשים",
+		"systemNotifications": "התראות המערכת"
 	},
 	"Translations": {
 		"addNamespace": "הוסף שם מרחב חדש",

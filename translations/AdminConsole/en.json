@@ -3,7 +3,8 @@
 		"dashboard": "Dashboard",
 		"translations": "Translations",
 		"users": "Users Management",
-		"logs": "Logs"
+		"logs": "Logs",
+		"systemNotifications": "System Notifications"
 	},
 	"Translations": {
 		"addNamespace": "add a new namespace",

@@ -33,7 +33,7 @@ module.exports = async function signup(root, { input: {
         for: [user._id],
       });
 
-      pubSub.publish('NEW_NOTIFICATION',{ newNotification: notification });
+      pubSub.publish('NEW_NOTIFICATION', { notification });
     }, 3600);
 
     const token = jwt.sign({

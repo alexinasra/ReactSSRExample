@@ -2,7 +2,8 @@
 	"MainNav": {
 		"dashboard": "لوحة التحكم",
 		"translations": "الترجمات",
-		"users": "إدارة المستخدمين"
+		"users": "إدارة المستخدمين",
+		"systemNotifications": "إشعارات النظام"
 	},
 	"Translations": {
 		"addNamespace": "أضف أسم مساحه جديد",

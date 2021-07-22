@@ -42,6 +42,7 @@ import AppLoading from '@react-ssrex/ui/build/AppLoading';
 import HomePage from './pages/HomePage';
 import Translations from './pages/Translations';
 import Users from './pages/Users';
+import SystemNotifications from './pages/SystemNotifications';
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -56,9 +57,15 @@ function MainNav() {
         </ListItemIcon>
         <ListItemText primary={t('MainNav.dashboard')} />
       </ListItem>
-      <ListItem button component={RouterLink} to="/users">
+      <ListItem button component={RouterLink} to="/system-notifications">
         <ListItemIcon>
           <Icon>people</Icon>
+        </ListItemIcon>
+        <ListItemText primary={t('MainNav.systemNotifications')} />
+      </ListItem>
+      <ListItem button component={RouterLink} to="/users">
+        <ListItemIcon>
+          <Icon>notifications</Icon>
         </ListItemIcon>
         <ListItemText primary={t('MainNav.users')} />
       </ListItem>
@@ -140,6 +147,9 @@ export default function App() {
                 <Switch>
                   <Route path="/users" exact>
                     <Users />
+                  </Route>
+                  <Route path="/system-notifications" exact>
+                    <SystemNotifications />
                   </Route>
                   <Route path="/translations" exact>
                     <Redirect to="/translations/common" />

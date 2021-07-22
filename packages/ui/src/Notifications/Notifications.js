@@ -39,17 +39,19 @@ export default function Notifications({ children }){
   const { data, error, loading, subscribeToMore } = useQuery(NOTIFICATIONS_Q);
   const [checkNotifications] = useMutation(CHK_NOTIFICATION_M);
 
-  subscribeToMore({
-    document: NOTIFICATIONS_S,
-    updateQuery( prev, { subscriptionData }) {
-      if (!subscriptionData.data) return prev;
-      const newFeedItem = subscriptionData.data.newNotification;
-      if(prev.notifications.find((o) => o.id === newFeedItem.id)) {
-        return prev;
+  React.useEffect(() => {
+    subscribeToMore({
+      document: NOTIFICATIONS_S,
+      updateQuery( prev, { subscriptionData }) {
+        if (!subscriptionData.data) return prev;
+        const newFeedItem = subscriptionData.data.newNotification;
+        if(prev.notifications.find((o) => o.id === newFeedItem.id)) {
+          return prev;
+        }
+        return Object.assign({} , prev, { notifications: [ ...prev.notifications, newFeedItem]});
       }
-      return Object.assign({} , prev, { notifications: [ ...prev.notifications, newFeedItem]});
-    }
-  })
+    })
+  }, [])
   return children({
     checkNotifications: () => {
       checkNotifications({
