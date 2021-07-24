@@ -19,7 +19,7 @@ import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 import App from './App';
 
 const httpLink = createUploadLink({
-  uri: 'http://localhost:3030/userconsoleql',
+  uri: `http://${window.location.hostname}:3030/userconsoleql`,
 });
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
@@ -34,7 +34,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:3030/subscriptions',
+  uri: `ws://${window.location.hostname}:3030/subscriptions`,
   options: {
     reconnect: true,
     connectionParams: {

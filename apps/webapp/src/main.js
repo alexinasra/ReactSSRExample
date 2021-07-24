@@ -18,7 +18,7 @@ import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 import App from './App';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:3030/webappql',
+  uri: `http://${window.location.hostname}:3030/webappql`,
 });
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
@@ -33,7 +33,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:3030/subscriptions',
+  uri: `ws://${window.location.hostname}:3030/subscriptions`,
   options: {
     reconnect: true,
     connectionParams: {
