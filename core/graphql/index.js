@@ -17,7 +17,14 @@ const {
 } = require('subscriptions-transport-ws');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
+const permissions = require('./permissions');
+const authPermissions = require('@react-ssrex/auth/graphql/permissions');
+const userConsolePermissions = require('@react-ssrex/userconsole/graphql/permissions');
+const adminConsolePermissions = require('@react-ssrex/adminconsole/graphql/permissions');
+const webappPermissions = require('@react-ssrex/webapp/graphql/permissions');
+
 const useragent = require('express-useragent');
+const { applyMiddleware } = require('graphql-middleware');
 const {
   execute,
   subscribe
@@ -109,7 +116,14 @@ module.exports = async function setup({
     modules: [rootModule, i18nModule, authModule, userConsoleModule, webappModule, adminConsoleModule]
   });
 
-  const wsSchema = wsApp.createSchemaForApollo();
+  const wsSchema = applyMiddleware(
+    wsApp.createSchemaForApollo(),
+    permissions,
+    authPermissions,
+    userConsolePermissions,
+    adminConsolePermissions,
+    webappPermissions
+  );
   // Set up the WebSocket for handling GraphQL subscriptions
   new SubscriptionServer({
     execute,
@@ -132,7 +146,11 @@ module.exports = async function setup({
     modules: [rootModule, i18nModule, authModule]
   })
 
-  const authSchema = authApp.createSchemaForApollo();
+  const authSchema = applyMiddleware(
+    authApp.createSchemaForApollo(),
+    permissions,
+    authPermissions
+  )
   const authQlServer = new ApolloServer({
     schema: authSchema,
     context: contextFn,
@@ -154,8 +172,13 @@ module.exports = async function setup({
   const adminConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, adminConsoleModule]
   })
-  const adminConsoleSchema = await adminConsoleApp.createSchemaForApollo();
 
+  const adminConsoleSchema = applyMiddleware(
+    adminConsoleApp.createSchemaForApollo(),
+    permissions,
+    authPermissions,
+    adminConsolePermissions
+  )
 
   const adminQLServer = new ApolloServer({
     schema: adminConsoleSchema,
@@ -179,7 +202,14 @@ module.exports = async function setup({
   const userConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, userConsoleModule]
   })
-  const userConsoleSchema = userConsoleApp.createSchemaForApollo();
+
+  const userConsoleSchema = applyMiddleware(
+    userConsoleApp.createSchemaForApollo(),
+    permissions,
+    authPermissions,
+    userConsolePermissions
+  )
+
   const userQlServer = new ApolloServer({
     schema: userConsoleSchema,
     context: contextFn,
@@ -201,7 +231,12 @@ module.exports = async function setup({
   const webappConsoleApp = await createApplication({
     modules: [rootModule, i18nModule, authModule, webappModule]
   })
-  const webAppSchema = webappConsoleApp.createSchemaForApollo();
+  const webAppSchema = applyMiddleware(
+    webappConsoleApp.createSchemaForApollo(),
+    permissions,
+    authPermissions,
+    webappPermissions
+  )
   const webappQlServer = new ApolloServer({
     schema: webAppSchema,
     context: contextFn,
