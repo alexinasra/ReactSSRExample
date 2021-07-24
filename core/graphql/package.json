@@ -26,6 +26,7 @@
     "graphql-import-node": "^0.0.4",
     "graphql-modules": "^1.2.1",
     "graphql-redis-subscriptions": "^2.4.0",
+    "graphql-shield": "^7.5.0",
     "graphql-subscriptions": "^1.2.1",
     "graphql-tools": "^7.0.2",
     "i18next-express-middleware": "^2.0.0",
