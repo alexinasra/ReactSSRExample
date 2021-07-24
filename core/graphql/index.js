@@ -17,8 +17,7 @@ const {
 } = require('subscriptions-transport-ws');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
-const DbError = require('@react-ssrex/database/DbError');
-
+const useragent = require('express-useragent');
 const {
   execute,
   subscribe
@@ -32,7 +31,6 @@ module.exports = async function setup({
   passport,
   pubSub,
 }) {
-
   const contextFn = async (c) => {
     const user = await new Promise(function(resolve, reject) {
       passport.authenticate(
@@ -46,7 +44,25 @@ module.exports = async function setup({
         }
       )(c.req);
     });
-    c.req.user = user;
+
+    const ip = c.req.headers['x-forwarded-for'] ||
+         c.req.socket.remoteAddress ||
+         null;
+    const ua = c.req.headers['user-agent'];
+    const uaObj = useragent.parse(ua);
+
+    c.req.useragent = uaObj;
+    c.req.userip = ip;
+
+    // TODO: make security check to validate the user identity (with ip to country or geo location, useragent or by othe means).
+
+    if(user) {
+      // TODO: figure out how to manage session and track online users.
+      // one solution is to periodically check for users lastAccess.
+      user.lastAccess = Date.now();
+      await user.save();
+      c.req.user = user;
+    }
 
     return {
       ...c,

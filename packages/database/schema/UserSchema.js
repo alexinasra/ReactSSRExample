@@ -49,6 +49,7 @@ const userSchema = new Schema({
     name: Types.String,
     mode: Types.String
   },
+  lastAccess: Types.Date,
 });
 
 userSchema.query.byEmail = function(email) {
