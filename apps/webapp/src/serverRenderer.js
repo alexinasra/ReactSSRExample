@@ -16,6 +16,7 @@ import ws from 'ws';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import fetch from 'node-fetch';
+import { I18nextProvider } from 'react-i18next';
 
 import { getDataFromTree } from '@apollo/client/react/ssr';
 
@@ -70,11 +71,13 @@ export default function serverRenderer({ clientStats, serverStats }) {
       const context = {};
       const body = ReactDOMServer.renderToString(
         sheets.collect(
-          <ApolloProvider client={client}>
-            <StaticRouter context={context} location={req.url}>
-              <App />
-            </StaticRouter>
-          </ApolloProvider>,
+          <I18nextProvider i18n={req.i18n}>
+            <ApolloProvider client={client}>
+              <StaticRouter context={context} location={req.url}>
+                <App />
+              </StaticRouter>
+            </ApolloProvider>
+          </I18nextProvider>,
 
         ),
       );
