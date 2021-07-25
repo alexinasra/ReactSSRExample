@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import Button from '@material-ui/core/Button';
-import Suspense from '@react-ssrex/ui/build/Suspense';
 import { Translation } from 'react-i18next';
 
 import Drawer from '@material-ui/core/Drawer';

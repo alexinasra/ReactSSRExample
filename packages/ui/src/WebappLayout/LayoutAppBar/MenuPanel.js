@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Suspense from '@react-ssrex/ui/build/Suspense';
 import { Translation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
