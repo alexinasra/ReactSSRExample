@@ -1,10 +1,10 @@
 
 
-module.exports = async function setThemeMode(root, { themeMode }, { req: { user } }) {
-  if(user) {
-    user.themeSettings.mode = themeMode;
-    await user.save();
-    return user.themeSettings;
+module.exports = async function setThemeMode(root, { themeMode }, { session }) {
+  if(session) {
+    session.themeSettings.mode = themeMode;
+    await session.save();
+    return session.themeSettings;
   }
 
   return {

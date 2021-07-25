@@ -17,6 +17,11 @@ import { BrowserRouter } from 'react-router-dom';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 import App from './App';
 
+const token = localStorage.getItem('token');
+
+if (!token) {
+  window.location.href = '/auth/guest-signin';
+}
 const httpLink = new HttpLink({
   uri: `http://${window.location.hostname}:3030/webappql`,
 });
@@ -25,7 +30,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : null,
+      authorization: token ? `Bearer ${token}` : null,
     },
   }));
 
@@ -37,7 +42,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : null,
+      Authorization: token ? `Bearer ${token}` : null,
     },
   },
 });

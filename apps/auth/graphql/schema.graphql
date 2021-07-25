@@ -7,6 +7,7 @@ extend type Query {
 extend type Mutation {
   signup(input: SignupInput!): SignupPayload
   signin(input: SigninInput): SigninPayload
+  guestSignin: GuestSigninPayload
   signout: SignoutPayload
   changePassword(input: ChangePasswordInput): ChangePasswordPayload
 }
@@ -30,6 +31,10 @@ input SigninInput {
 }
 type SigninPayload {
   user: User
+  token: String
+  error: String
+}
+type GuestSigninPayload {
   token: String
   error: String
 }

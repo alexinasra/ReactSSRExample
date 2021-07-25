@@ -13,7 +13,7 @@ const setupAssets = require('@react-ssrex/assets');
 const setupI18n = require('@react-ssrex/i18n');
 const setupGraphql = require('@react-ssrex/graphql');
 const User = require('@react-ssrex/database/models/User');
-
+const Session = require('@react-ssrex/database/models/Session');
 const {
   createServer
 } = require('http');
@@ -116,13 +116,23 @@ module.exports = class Server extends EventEmitter {
       },
       async (token, done) => {
         try {
-          const user = await User.findById(token.sub.userId).exec();
-          return done(null, user);
+          const { userId, sessionId } = token.sub;
+          let user = false;
+          if (!sessionId) {
+            return done(new Error('no session initialized!'));
+          }
+          const session = await Session.findById(sessionId).exec();
+          if (userId) {
+            user = await User.findById(userId).exec();
+          }
+
+          return done(null, { session, user });
         } catch (e) {
           done(e);
         }
       }
     ));
+
 
     passport.serializeUser((user, done) => {
       if (user)

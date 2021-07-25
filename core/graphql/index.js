@@ -25,6 +25,9 @@ const webappPermissions = require('@react-ssrex/webapp/graphql/permissions');
 
 const useragent = require('express-useragent');
 const { applyMiddleware } = require('graphql-middleware');
+
+
+
 const {
   execute,
   subscribe
@@ -39,15 +42,15 @@ module.exports = async function setup({
   pubSub,
 }) {
   const contextFn = async (c) => {
-    const user = await new Promise(function(resolve, reject) {
+    const { user, session } = await new Promise(function(resolve, reject) {
       passport.authenticate(
         'jwt-token',
         { session: false },
-        (err, user, info) => {
+        (err, data, info) => {
           if (err) {
             return reject(err);
           }
-          resolve(user);
+          resolve(data);
         }
       )(c.req);
     });
@@ -73,6 +76,11 @@ module.exports = async function setup({
 
     return {
       ...c,
+      session,
+      user,
+      ip,
+      userAgent: uaObj,
+      userAgentSource: ua,
       pubSub,
       generateId: (idStr) => new ObjectId(idStr),
     };

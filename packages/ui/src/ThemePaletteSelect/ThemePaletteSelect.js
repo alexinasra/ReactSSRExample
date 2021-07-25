@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { gql, useMutation } from '@apollo/client';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -49,6 +48,7 @@ export default function ThemePaletteSelect({
 }) {
   const theme = useTheme();
   const classes = useStyles();
+
   const [setThemeName] = useMutation(SET_THEME_NAME, {
     update(cache, { data: { setThemeName } }) {
       cache.modify({

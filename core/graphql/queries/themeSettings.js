@@ -1,9 +1,9 @@
-module.exports = function themeSettings (root, args, { req }) {
-  if(!req.user || (req.user && !req.user.themeSettings)) {
+module.exports = function themeSettings (root, args, { session }) {
+  if(!session || (!session && !session.themeSettings)) {
     return {
       name: 'default',
       mode: 'light'
     };
   }
-  return req.user.themeSettings;
+  return session.themeSettings;
 }

@@ -1,10 +1,10 @@
 
 
-module.exports = async function setThemeName (root, { themeName }, { req: { user } }) {
-  if(user) {
-    user.themeSettings.name = themeName;
-    await user.save();
-    return user.themeSettings;
+module.exports = async function setThemeName (root, { themeName }, { session }) {
+  if(session) {
+    session.themeSettings.name = themeName;
+    await session.save();
+    return session.themeSettings;
   }
 
   return {

@@ -94,8 +94,11 @@ export default function SignIn() {
           setInputError(t('Error.UserNotFound'));
           break;
         default: {
+          console.log(data);
           localStorage.setItem('token', data.signin.token);
-          window.location.href = '/';
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 300);
         }
       }
     });
