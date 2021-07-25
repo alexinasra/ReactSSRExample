@@ -1,15 +1,14 @@
 const userDir = require('@react-ssrex/utils').userDir;
 const User = require('@react-ssrex/database/models/User');
 const Notification = require('@react-ssrex/database/models/Notification');
-const jwt = require('jsonwebtoken');
-
+const signin = require('./signin');
 module.exports = async function signup(root, { input: {
   email,
   password,
   firstname,
   lastname
-} }, { req, pubSub }) {
-
+} }, ctx) {
+  const { req, pubSub } = ctx;
   try {
     const user = new User();
     user.email = email;
@@ -36,15 +35,7 @@ module.exports = async function signup(root, { input: {
       pubSub.publish('NEW_NOTIFICATION', { notification });
     }, 3600);
 
-    const token = jwt.sign({
-      name: `${user.firstname} ${user.lastname}`,
-      given_name: user.firstname,
-      family_name: user.lastname,
-      picture: user.profilePicture,
-      email: user.email,
-      sub: { userId: user._id }
-    }, 'TOP_SECRET', { expiresIn: '1y' });
-    return { user, token };
+    return signin(root, { input: { email, password } }, ctx);
   } catch (e) {
     console.log(e);
     return { error: 'ServerError', }
