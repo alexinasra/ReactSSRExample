@@ -1,24 +1,25 @@
 const { shield, rule, and, or, allow, deny } = require('graphql-shield');
+const { isAuthenticated, isGuest, isUser } = require('@react-ssrex/graphql/rules');
 
 const permissions = shield({
   Query: {
-    users: allow,
-    systemNotifications: allow,
-    i18nNamespaces: allow,
-    i18nTranslationKeys: allow,
-    i18nTranslationValues: allow,
-    i18nTranslationValue: allow,
+    users: isUser,
+    systemNotifications: isUser,
+    i18nNamespaces: isUser,
+    i18nTranslationKeys: isUser,
+    i18nTranslationValues: isUser,
+    i18nTranslationValue: isUser,
   },
   Mutation: {
-    createI18nNamespace: allow,
-    dropI18nNamespace: allow,
-    createI18nTranslation: allow,
-    dropI18nTranslation: allow,
-    updateI18nTranslation: allow,
-    publishSystemNotification: allow,
+    createI18nNamespace: isUser,
+    dropI18nNamespace: isUser,
+    createI18nTranslation: isUser,
+    dropI18nTranslation: isUser,
+    updateI18nTranslation: isUser,
+    publishSystemNotification: isUser,
   },
   Subscription: {
-    newSystemNotification: allow,
+    newSystemNotification: isUser,
   }
 })
 

@@ -1,11 +1,12 @@
 const { shield, rule, and, or, allow, deny } = require('graphql-shield');
+const { isAuthenticated, isGuest, isUser } = require('@react-ssrex/graphql/rules');
 
 const permissions = shield({
   Mutation: {
-    uploadProfilePicture: allow,
-    updateProfilePicture: allow,
-    setPreferedLanguage: allow,
-    updateUserProfile: allow,
+    uploadProfilePicture: isUser,
+    updateProfilePicture: isUser,
+    setPreferedLanguage: isUser,
+    updateUserProfile: isUser,
   }
 })
 

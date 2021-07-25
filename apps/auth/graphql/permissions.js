@@ -1,14 +1,16 @@
-const { shield, rule, and, or, allow, deny } = require('graphql-shield');
+const { shield, rule, not, and, or, allow, deny } = require('graphql-shield');
+const { isAuthenticated, isGuest, isUser } = require('@react-ssrex/graphql/rules');
 
 const permissions = shield({
   Query: {
     userInRole: allow,
   },
   Mutation: {
-    signup: allow,
-    signin: allow,
-    signout: allow,
-    changePassword: allow,
+    signup: isGuest,
+    signin: isGuest,
+    guestSignin: not(isAuthenticated),
+    signout: isUser,
+    changePassword: isUser,
   }
 })
 
