@@ -1,6 +1,5 @@
 import React from 'react';
-import Suspense from '@react-ssrex/ui/build/Suspense';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Badge from '@material-ui/core/Badge';
 import Link from '@material-ui/core/Link';
 import Icon from '@material-ui/core/Icon';
@@ -26,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AuthStatus() {
   const classes = useStyles();
+  const { t } = useTranslation('Auth', {
+    useSuspense: false
+  });
   const [drawerTabId, setDrawerTabId] = React.useState(false);
 
   const handleDrawerTabChange = (tabId) => () => {
@@ -68,18 +70,10 @@ export default function AuthStatus() {
               ) : (
                 <>
                   <Button href="/auth/signin">
-                    <Suspense fallback="Sign In">
-                      <Translation>
-                        {(t) => t('Auth:SigninButton.text')}
-                      </Translation>
-                    </Suspense>
+                      {t('SigninButton.text', { defaultValue: 'Sign In' })}
                   </Button>
                   <Button href="/auth/signup">
-                    <Suspense fallback="Sign Up">
-                      <Translation>
-                        {(t) => t('Auth:SignupButton.text')}
-                      </Translation>
-                    </Suspense>
+                      {t('SignupButton.text', { defaultValue: 'Sign Up' })}
                   </Button>
                 </>
               )}
