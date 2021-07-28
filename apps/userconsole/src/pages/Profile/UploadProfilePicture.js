@@ -16,9 +16,6 @@ export default function UploadProfilePicture() {
   const handleFileChage = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // console.log(file);
-      // const formData = new FormData();
-      // formData.append('file', file, file.filename);
       uploadProfilePicture({ variables: { file } });
     }
   };
