@@ -20,6 +20,8 @@ function collect(value, previous) {
 }
 
 program.version(pkg.version);
+program.option('-h', '--host <domain>', 'host name', 'localhost');
+program.option('-p', '--port <port>', 'port', '3030');
 program.option('--disable-auth', 'disable auth');
 program.option('--disable-admin', 'disable adminconsole');
 program.option('--disable-user', 'disable userconsole');
@@ -43,7 +45,7 @@ program.parse(process.argv);
   if(!options.disableWebapp) {
     modules.push('@react-ssrex/webapp')
   }
-  const server = new Server(modules);
+  const server = new Server(modules, options);
   try {
     await server.start();
   } catch(e) {

@@ -17,7 +17,7 @@ const {
 } = require('subscriptions-transport-ws');
 const rootSchema = require('./schema.graphql');
 const resolvers = require('./resolvers');
-const permissions = require('./permissions');
+const rootPermissions = require('./permissions');
 const authPermissions = require('@react-ssrex/auth/graphql/permissions');
 const userConsolePermissions = require('@react-ssrex/userconsole/graphql/permissions');
 const adminConsolePermissions = require('@react-ssrex/adminconsole/graphql/permissions');
@@ -39,7 +39,7 @@ module.exports = async function setup({
   app,
   server,
   passport,
-  pubSub,
+  options,
 }) {
   const contextFn = async (c) => {
     const { user, session } = await new Promise(function(resolve, reject) {
@@ -120,15 +120,23 @@ module.exports = async function setup({
   });
 
 
+  const modules = [rootModule, i18nModule, authModule];
+  const permissions = [rootPermissions, authPermissions];
+  if (!options.disableAdmin) {
+    modules.push(adminConsoleModule);
+    permissions.push(adminConsolePermissions);
+  }
+  if (!options.disableUser) {
+    modules.push(userConsoleModule);
+    permissions.push(userConsolePermissions);
+  }
+  if (!options.disableWebapp) {
+    modules.push(webappModule);
+    permissions.push(webappPermissions);
+  }
+
   const wsApp = await createApplication({
-    modules: [
-      rootModule,
-      i18nModule,
-      authModule,
-      userConsoleModule,
-      webappModule,
-      adminConsoleModule
-    ]
+    modules
   });
 
   const wsSchema = applyMiddleware(
@@ -157,20 +165,11 @@ module.exports = async function setup({
     server,
     path: '/subscriptions',
   });
-  const authApp = await createApplication({
-    modules: [rootModule, i18nModule, authModule]
-  })
+
 
 
   const qlAppEndpoint = await createApplication({
-    modules: [
-      rootModule,
-      i18nModule,
-      authModule,
-      userConsoleModule,
-      webappModule,
-      adminConsoleModule
-    ]
+    modules
   })
   const qlSchema = applyMiddleware(
     qlAppEndpoint.createSchemaForApollo(),
@@ -186,7 +185,6 @@ module.exports = async function setup({
     subscriptions: {
       path: '/subscriptions',
     },
-    // playground: false,
     uploads: {
       maxFileSize: 10000000,
       maxFiles: 20

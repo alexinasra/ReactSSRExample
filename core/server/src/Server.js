@@ -51,13 +51,14 @@ module.exports = class Server extends EventEmitter {
   constructor(attachables, options = {}) {
     super();
     this.host = options.host || 'localhost';
-    this.port = options.port || 3030;
+    this.port = parseInt(options.port) || 3030;
     this.log = logger.child({
       module: '@react-ssrex/server',
       at: 'Server Class'
     });
 
     this.attachables = attachables;
+    this.options = options;
   }
 
   get mongoClient() {
@@ -162,6 +163,7 @@ module.exports = class Server extends EventEmitter {
       server,
       passport,
       pubSub,
+      options: this.options
     })
   }
   attachModule = async (moduleName, attachable) => {
@@ -172,6 +174,7 @@ module.exports = class Server extends EventEmitter {
       await attachable({
         app,
         server,
+        options: this.options
       });
     } catch (e) {
 
