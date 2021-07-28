@@ -121,7 +121,14 @@ module.exports = async function setup({
 
 
   const wsApp = await createApplication({
-    modules: [rootModule, i18nModule, authModule, userConsoleModule, webappModule, adminConsoleModule]
+    modules: [
+      rootModule,
+      i18nModule,
+      authModule,
+      userConsoleModule,
+      webappModule,
+      adminConsoleModule
+    ]
   });
 
   const wsSchema = applyMiddleware(
@@ -154,42 +161,27 @@ module.exports = async function setup({
     modules: [rootModule, i18nModule, authModule]
   })
 
-  const authSchema = applyMiddleware(
-    authApp.createSchemaForApollo(),
-    permissions,
-    authPermissions
-  )
-  const authQlServer = new ApolloServer({
-    schema: authSchema,
-    context: contextFn,
-    subscriptions: {
-      path: '/subscriptions',
-    },
-    // playground: false,
-    uploads: {
-      maxFileSize: 10000000,
-      maxFiles: 20
-    },
-  });
-  await authQlServer.start();
-  authQlServer.applyMiddleware({
-    app,
-    path: '/authql'
-  });
 
-  const adminConsoleApp = await createApplication({
-    modules: [rootModule, i18nModule, authModule, adminConsoleModule]
+  const qlAppEndpoint = await createApplication({
+    modules: [
+      rootModule,
+      i18nModule,
+      authModule,
+      userConsoleModule,
+      webappModule,
+      adminConsoleModule
+    ]
   })
-
-  const adminConsoleSchema = applyMiddleware(
-    adminConsoleApp.createSchemaForApollo(),
+  const qlSchema = applyMiddleware(
+    qlAppEndpoint.createSchemaForApollo(),
     permissions,
+    webappPermissions,
     authPermissions,
-    adminConsolePermissions
+    userConsolePermissions,
+    adminConsolePermissions,
   )
-
-  const adminQLServer = new ApolloServer({
-    schema: adminConsoleSchema,
+  const qlServer = new ApolloServer({
+    schema: qlSchema,
     context: contextFn,
     subscriptions: {
       path: '/subscriptions',
@@ -200,66 +192,9 @@ module.exports = async function setup({
       maxFiles: 20
     },
   });
-  await adminQLServer.start();
-  adminQLServer.applyMiddleware({
+  await qlServer.start();
+  qlServer.applyMiddleware({
     app,
-    path: '/adminconsoleql',
-    subscriptionsPath: '/adminconsoleql'
-  });
-
-  const userConsoleApp = await createApplication({
-    modules: [rootModule, i18nModule, authModule, userConsoleModule]
-  })
-
-  const userConsoleSchema = applyMiddleware(
-    userConsoleApp.createSchemaForApollo(),
-    permissions,
-    authPermissions,
-    userConsolePermissions
-  )
-
-  const userQlServer = new ApolloServer({
-    schema: userConsoleSchema,
-    context: contextFn,
-    subscriptions: {
-      path: '/subscriptions',
-    },
-    // playground: false,
-    uploads: {
-      maxFileSize: 10000000,
-      maxFiles: 20
-    },
-  });
-  await userQlServer.start();
-  userQlServer.applyMiddleware({
-    app,
-    path: '/userconsoleql'
-  });
-
-  const webappConsoleApp = await createApplication({
-    modules: [rootModule, i18nModule, authModule, webappModule]
-  })
-  const webAppSchema = applyMiddleware(
-    webappConsoleApp.createSchemaForApollo(),
-    permissions,
-    authPermissions,
-    webappPermissions
-  )
-  const webappQlServer = new ApolloServer({
-    schema: webAppSchema,
-    context: contextFn,
-    subscriptions: {
-      path: '/subscriptions',
-    },
-    // playground: false,
-    uploads: {
-      maxFileSize: 10000000,
-      maxFiles: 20
-    },
-  });
-  await webappQlServer.start();
-  webappQlServer.applyMiddleware({
-    app,
-    path: '/webappql'
+    path: '/graphql'
   });
 };

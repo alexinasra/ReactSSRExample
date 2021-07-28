@@ -45,10 +45,7 @@ const userSchema = new Schema({
   },
   profilePicture: Types.String,
   preferedLanguage: Types.String,
-  themeSettings: {
-    name: Types.String,
-    mode: Types.String
-  },
+
   lastAccess: Types.Date,
 });
 

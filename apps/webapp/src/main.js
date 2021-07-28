@@ -10,7 +10,7 @@ import {
 import main from '@react-ssrex/ui/build/main';
 import App from './App';
 
-const graphqlUrl = `http://${window.location.hostname}:3030/webappql`;
+const graphqlUrl = `http://${window.location.hostname}:3030/graphql`;
 const graphqlSubscriptionUrl = `ws://${window.location.hostname}:3030/subscriptions`;
 const apolloCache = new InMemoryCache();
 (async function (rootElement) {
