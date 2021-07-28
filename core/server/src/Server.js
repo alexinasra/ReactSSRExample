@@ -69,7 +69,7 @@ module.exports = class Server extends EventEmitter {
     await mongoose.connect(connectionUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      dbName: 'react-ssrex'
+      dbName: MongoDbConfig.db
     });
 
     process.on('SIGINT', async () => {
