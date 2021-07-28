@@ -123,15 +123,15 @@ module.exports = async function setup({
 
   const modules = [rootModule, i18nModule, authModule];
   const permissions = [rootPermissions, authPermissions];
-  if (!options.disableAdmin) {
+  if (options.qlServer || !options.disableAdmin) {
     modules.push(adminConsoleModule);
     permissions.push(adminConsolePermissions);
   }
-  if (!options.disableUser) {
+  if (options.qlServer || !options.disableUser) {
     modules.push(userConsoleModule);
     permissions.push(userConsolePermissions);
   }
-  if (!options.disableWebapp) {
+  if (options.qlServer || !options.disableWebapp) {
     modules.push(webappModule);
     permissions.push(webappPermissions);
   }
