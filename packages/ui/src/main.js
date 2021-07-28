@@ -7,6 +7,7 @@ import {
 
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { createUploadLink } from 'apollo-upload-client'
 
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -22,7 +23,7 @@ export default async function main({
   basename,
 }) {
 
-  const httpLink = new HttpLink({
+  const httpLink = new createUploadLink({
     uri: graphqlUrl,
   });
 
