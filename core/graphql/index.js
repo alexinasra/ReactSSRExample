@@ -39,6 +39,7 @@ module.exports = async function setup({
   app,
   server,
   passport,
+  pubSub,
   options,
 }) {
   const contextFn = async (c) => {
