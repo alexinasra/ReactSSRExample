@@ -7,10 +7,12 @@ const notificationRecipientSchema = Schema({
   userId: {
     type: Types.ObjectId,
     required: true,
+    ref: 'User',
   },
   notificationId: {
     type: Types.ObjectId,
     required: true,
+    ref: 'Notification',
   },
 });
 

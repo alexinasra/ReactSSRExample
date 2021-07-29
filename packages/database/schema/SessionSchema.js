@@ -11,7 +11,10 @@ const sessionSchema = new Schema({
     type: Types.String,
     required: true,
   },
-  userId: Types.ObjectId,
+  userId: {
+    type: Types.ObjectId,
+    ref: 'User'
+  },
   signinAttempts: {
     type: Types.Number,
     default: 0
