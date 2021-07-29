@@ -1,0 +1,9 @@
+{
+	"user": {
+		"wellcome": "Wellcome {{user}}, \n enjoy your time.",
+		"ban": "you are banned"
+	},
+	"system": {
+		"shotdown": "system shotdown shortly"
+	}
+}
