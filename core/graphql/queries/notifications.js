@@ -1,9 +1,9 @@
 const Notification = require('@react-ssrex/database/models/Notification');
 
 module.exports = async function (root, args, {
-  req
+  user
 }) {
-  if (!req.user) {
+  if (!user) {
     return [
       {
         _id: 'wellcome1',
@@ -20,6 +20,7 @@ module.exports = async function (root, args, {
     ]
   }
 
-  const notifications = Notification.find().forUser(req.user._id);
+  const notifications = await Notification.getUnchecked(user._id);
+  console.log(notifications)
   return notifications;
 }
