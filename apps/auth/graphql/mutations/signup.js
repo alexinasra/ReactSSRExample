@@ -28,7 +28,7 @@ module.exports = async function signup(root, { input: {
     setTimeout(async () => {
       const notification = await Notification.create({
         publisher: 'system',
-        message: `Welcome ${firstname} ${lastname}.`,
+        message: req.t('Notifications:user.wellcome', { user: `${firstname} ${lastname}` }),
         for: [user._id],
       });
 
