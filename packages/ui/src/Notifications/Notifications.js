@@ -53,10 +53,10 @@ export default function Notifications({ children }){
     })
   }, [])
   return children({
-    checkNotifications: () => {
+    checkNotifications: (notifications) => {
       checkNotifications({
         variables: {
-          notificationIds: data.notifications.filter(n => !n.checked).map(n => n.id)
+          notificationIds: notifications ?? data.notifications.filter(n => !n.checked).map(n => n.id)
         }
       })
     },
