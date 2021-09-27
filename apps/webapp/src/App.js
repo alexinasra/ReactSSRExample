@@ -5,21 +5,14 @@ import {
 import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
-  StylesProvider,
-  jssPreset,
-} from '@mui/styles';
+} from '@mui/material/styles';
 import i18n from '@react-ssrex/i18n/client';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
 
 import LayoutContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContainer';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 
 import HomePage from './pages/HomePage';
 import { PageNotFound } from './pages/ErrorPage';
-
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const THEME_SETTINGS = gql`
 query {
@@ -49,26 +42,24 @@ function App() {
     if (data && data.themeSettings) {
       return createTheme(data.themeSettings.name, data.themeSettings.mode, direction);
     }
-    return createTheme(undefined, undefined, direction);
+    return createTheme('default', 'light', direction);
   }, [data, direction]);
   return (
-    <StylesProvider jss={jss}>
-      <ThemeProvider theme={theme}>
-        <LayoutContainer>
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route path="/404">
-              <PageNotFound />
-            </Route>
-            <Route>
-              <PageNotFound />
-            </Route>
-          </Switch>
-        </LayoutContainer>
-      </ThemeProvider>
-    </StylesProvider>
+    <ThemeProvider theme={theme}>
+      <LayoutContainer>
+        <Switch>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+          <Route path="/404">
+            <PageNotFound />
+          </Route>
+          <Route>
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </LayoutContainer>
+    </ThemeProvider>
   );
 }
 

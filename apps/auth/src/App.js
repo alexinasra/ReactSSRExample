@@ -1,14 +1,11 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
+
 import {
   ThemeProvider,
-  StylesProvider,
-  jssPreset,
-} from '@mui/styles';
+} from '@mui/material/styles';
 import i18n from '@react-ssrex/i18n/client';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
 
@@ -20,8 +17,6 @@ import SignupPage from './pages/SignupPage';
 import GuestSigninPage from './pages/GuestSigninPage';
 import SignoutPage from './pages/SignoutPage';
 import PasswordReset from './pages/PasswordReset';
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const THEME_SETTINGS = gql`
 query {
@@ -59,37 +54,35 @@ function App() {
     };
   }, [data]);
   return (
-    <StylesProvider jss={jss}>
-      <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-        <AuthReport>
-          {({ userInRole }) => (
-            <AuthContainer>
-              <Switch>
-                <Route path="/signup" exact>
-                  {userInRole ? <Redirect to="/" /> : <SignupPage />}
-                </Route>
-                <Route path="/signin" exact>
-                  {userInRole ? <Redirect to="/" /> : <SigninPage />}
-                </Route>
-                <Route path="/guest-signin" exact>
-                  <GuestSigninPage />
-                </Route>
-                <Route path="/signout" exact>
-                  <SignoutPage />
-                </Route>
-                <Route path="/change-password" exact>
-                  <PasswordReset />
-                </Route>
-                <Route path="/" exact>
-                  <Home />
-                </Route>
-                <Redirect to="/signin" />
-              </Switch>
-            </AuthContainer>
-          )}
-        </AuthReport>
-      </ThemeProvider>
-    </StylesProvider>
+    <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+      <AuthReport>
+        {({ userInRole }) => (
+          <AuthContainer>
+            <Switch>
+              <Route path="/signup" exact>
+                {userInRole ? <Redirect to="/" /> : <SignupPage />}
+              </Route>
+              <Route path="/signin" exact>
+                {userInRole ? <Redirect to="/" /> : <SigninPage />}
+              </Route>
+              <Route path="/guest-signin" exact>
+                <GuestSigninPage />
+              </Route>
+              <Route path="/signout" exact>
+                <SignoutPage />
+              </Route>
+              <Route path="/change-password" exact>
+                <PasswordReset />
+              </Route>
+              <Route path="/" exact>
+                <Home />
+              </Route>
+              <Redirect to="/signin" />
+            </Switch>
+          </AuthContainer>
+        )}
+      </AuthReport>
+    </ThemeProvider>
   );
 }
 

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1
   },
   logo: {
-    height: theme.mixins.toolbar.minHeight-theme.spacing(1)
+    // height: theme.mixins.toolbar.minHeight-theme.spacing(1)
   }
 }));
 export default function LayoutAppBar({children}) {
@@ -32,7 +32,7 @@ export default function LayoutAppBar({children}) {
       <Toolbar className={classes.toolbar}>
         <div className={classes.toolbarGrow}>
           <Link color="inherit" href='/'>
-            <img className={classes.logo} src="/assets/logo.png" alt="logo" />
+            <img className={classes.logo} height="60" src="/assets/logo.png" alt="logo" />
           </Link>
           {children}
         </div>

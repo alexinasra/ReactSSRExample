@@ -4,15 +4,10 @@ import { Switch, Route, Link as RouterLink } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import i18n from '@react-ssrex/i18n/client';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
-
 import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
-  StylesProvider,
-  jssPreset,
-} from '@mui/styles';
+} from '@mui/material/styles';
 
 import List from '@mui/material/List';
 
@@ -40,9 +35,6 @@ import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
-
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const MainNav = () => {
   const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
@@ -131,32 +123,30 @@ export default function App() {
         shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
       }}
       >
-        <StylesProvider jss={jss}>
-          <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-            <LayoutContainer>
-              <LayoutAppBar>
-                <LayoutSideBarToggle />
-                <ThemeModeToggle />
-                <ThemePaletteSelect />
-              </LayoutAppBar>
-              {' '}
-              <LayoutSideBar mainNav={<MainNav />} />
-              <LayoutContentContainer>
-                <Switch>
-                  <Route path="/profile" exact>
-                    <Profile />
-                  </Route>
-                  <Route path="/settings" exact>
-                    <Settings />
-                  </Route>
-                  <Route path="/">
-                    <HomePage />
-                  </Route>
-                </Switch>
-              </LayoutContentContainer>
-            </LayoutContainer>
-          </ThemeProvider>
-        </StylesProvider>
+        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+          <LayoutContainer>
+            <LayoutAppBar>
+              <LayoutSideBarToggle />
+              <ThemeModeToggle />
+              <ThemePaletteSelect />
+            </LayoutAppBar>
+            {' '}
+            <LayoutSideBar mainNav={<MainNav />} />
+            <LayoutContentContainer>
+              <Switch>
+                <Route path="/profile" exact>
+                  <Profile />
+                </Route>
+                <Route path="/settings" exact>
+                  <Settings />
+                </Route>
+                <Route path="/">
+                  <HomePage />
+                </Route>
+              </Switch>
+            </LayoutContentContainer>
+          </LayoutContainer>
+        </ThemeProvider>
       </LayoutContext.Provider>
     </ForceSignin>
   );

@@ -5,15 +5,12 @@ import {
 } from 'react-router-dom';
 
 import i18n from '@react-ssrex/i18n/client';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
+
 import {
   ThemeProvider,
-  StylesProvider,
-  jssPreset,
-} from '@mui/styles';
+} from '@mui/material/styles';
 
 import List from '@mui/material/List';
 
@@ -43,9 +40,6 @@ import HomePage from './pages/HomePage';
 import Translations from './pages/Translations';
 import Users from './pages/Users';
 import SystemNotifications from './pages/SystemNotifications';
-
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 function MainNav() {
   const { t } = useTranslation('AdminConsole', { useSuspense: false });
@@ -134,37 +128,35 @@ export default function App() {
         shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
       }}
       >
-        <StylesProvider jss={jss}>
-          <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-            <LayoutContainer>
-              <LayoutAppBar>
-                <LayoutSideBarToggle />
-                <ThemeModeToggle />
-                <ThemePaletteSelect />
-              </LayoutAppBar>
-              <LayoutSideBar mainNav={<MainNav />} />
-              <LayoutContentContainer>
-                <Switch>
-                  <Route path="/users" exact>
-                    <Users />
-                  </Route>
-                  <Route path="/system-notifications" exact>
-                    <SystemNotifications />
-                  </Route>
-                  <Route path="/translations" exact>
-                    <Redirect to="/translations/common" />
-                  </Route>
-                  <Route path="/translations/:namespace">
-                    <Translations />
-                  </Route>
-                  <Route path="/">
-                    <HomePage />
-                  </Route>
-                </Switch>
-              </LayoutContentContainer>
-            </LayoutContainer>
-          </ThemeProvider>
-        </StylesProvider>
+        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+          <LayoutContainer>
+            <LayoutAppBar>
+              <LayoutSideBarToggle />
+              <ThemeModeToggle />
+              <ThemePaletteSelect />
+            </LayoutAppBar>
+            <LayoutSideBar mainNav={<MainNav />} />
+            <LayoutContentContainer>
+              <Switch>
+                <Route path="/users" exact>
+                  <Users />
+                </Route>
+                <Route path="/system-notifications" exact>
+                  <SystemNotifications />
+                </Route>
+                <Route path="/translations" exact>
+                  <Redirect to="/translations/common" />
+                </Route>
+                <Route path="/translations/:namespace">
+                  <Translations />
+                </Route>
+                <Route path="/">
+                  <HomePage />
+                </Route>
+              </Switch>
+            </LayoutContentContainer>
+          </LayoutContainer>
+        </ThemeProvider>
       </LayoutContext.Provider>
     </ForceSignin>
   );
