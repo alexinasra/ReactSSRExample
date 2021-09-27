@@ -1,7 +1,7 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme as createMuiTheme } from '@material-ui/core/styles';
 import defaultTheme from './themes/default';
 import deepOrangeTheme from './themes/deepOrange';
-
+import customStyles from './styles/custom';
 const mapNameToTheme = (themeName) => {
   switch (themeName) {
     case 'deepOrange':
@@ -17,6 +17,7 @@ export default function createTheme(themeName='default', mode = 'light', directi
 
   return createMuiTheme({
     ...modedPalette,
+    ...(customStyles(modedPalette, mode, direction)),
     direction,
   });
 }
