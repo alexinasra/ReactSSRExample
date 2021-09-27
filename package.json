@@ -11,5 +11,9 @@
     "packages/*",
     "core/*",
     "apps/*"
-  ]
+  ],
+  "dependencies": {
+    "fs-capacitor": "^7.0.1",
+    "graphql-upload": "^12.0.0"
+  }
 }
