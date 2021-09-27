@@ -31,7 +31,7 @@ module.exports = async function guestSignin(root, args , {
         sessionId: session._id
       }
     }, 'TOP_SECRET', {
-      expiresIn: '1w'
+      expiresIn: '1d'
     });
     return {
       token
