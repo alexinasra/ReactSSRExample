@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
+import Avatar from '@mui/material/Avatar';
+import Icon from '@mui/material/Icon';
 import PaperPage from '@react-ssrex/ui/build/DashboardLayout/LayoutPaperPage';
 import LanguageSettings from './LanguageSettings';
 

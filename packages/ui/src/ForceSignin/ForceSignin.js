@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Link from '@material-ui/core/Link';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Link from '@mui/material/Link';
+import CircularProgress from '@mui/material/CircularProgress';
 import AppLoading from '../AppLoading';
 import AuthReport from '../AuthReport';
 

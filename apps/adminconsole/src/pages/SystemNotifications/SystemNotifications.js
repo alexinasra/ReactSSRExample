@@ -1,9 +1,9 @@
 import React from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import Button from '@material-ui/core/Button';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Button from '@mui/material/Button';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutPaperPage';
 
 const SYS_NOTIFICATIONS_Q = gql`

@@ -12,15 +12,15 @@ import {
   ThemeProvider,
   StylesProvider,
   jssPreset,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
-import Icon from '@material-ui/core/Icon';
+import Icon from '@mui/material/Icon';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import LayoutContainer from '@react-ssrex/ui/build/DashboardLayout/LayoutContainer';
 import LayoutContentContainer from '@react-ssrex/ui/build/DashboardLayout/LayoutContentContainer';

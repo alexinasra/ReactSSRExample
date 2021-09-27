@@ -1,4 +1,4 @@
-import { createTheme as createMuiTheme } from '@material-ui/core/styles';
+import { createTheme as createMuiTheme } from '@mui/material/styles';
 import defaultTheme from './themes/default';
 import deepOrangeTheme from './themes/deepOrange';
 import customStyles from './styles/custom';

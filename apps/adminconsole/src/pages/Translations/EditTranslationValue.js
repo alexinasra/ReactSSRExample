@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql, useMutation } from '@apollo/client';
 
-import Button from '@material-ui/core/Button';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Button from '@mui/material/Button';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 const UPDATE_TRANSLATION = gql`
 mutation ($input: UpdateI18nTranslationInput) {

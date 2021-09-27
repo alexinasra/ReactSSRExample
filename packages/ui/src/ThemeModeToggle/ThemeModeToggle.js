@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/styles';
 import { gql, useMutation } from '@apollo/client';
-import IconButton from '@material-ui/core/IconButton';
-import Switch from '@material-ui/core/Switch';
-import Icon from '@material-ui/core/Icon';
+import IconButton from '@mui/material/IconButton';
+import Switch from '@mui/material/Switch';
+import Icon from '@mui/material/Icon';
 
 const TGL_THEME_MODE = gql`
   mutation{

@@ -1,19 +1,19 @@
 import React from 'react';
 import { gql, useMutation } from '@apollo/client';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import Select from '@material-ui/core/Select';
-import Icon from '@material-ui/core/Icon';
+import { makeStyles, useTheme } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import Select from '@mui/material/Select';
+import Icon from '@mui/material/Icon';
 import defaultTheme, {
   deepOrangeTheme
 } from '../themes';
-import blue from '@material-ui/core/colors/blue';
-import deepOrange from '@material-ui/core/colors/deepOrange';
+import blue from '@mui/material/colors/blue';
+import deepOrange from '@mui/material/colors/deepOrange';
 
 
 const useStyles = makeStyles((theme) => ({

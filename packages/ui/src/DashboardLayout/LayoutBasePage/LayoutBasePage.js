@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles,useTheme } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { makeStyles,useTheme } from '@mui/styles';
+import Container from '@mui/material/Container';
 import LayoutContext from '../LayoutContext';
 
 const useDecorationStyles = makeStyles((theme) => ({

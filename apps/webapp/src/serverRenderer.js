@@ -22,7 +22,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 
 import {
   ServerStyleSheets,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 
 import App from './App';
 

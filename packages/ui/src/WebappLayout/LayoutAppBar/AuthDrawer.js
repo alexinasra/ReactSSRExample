@@ -1,26 +1,26 @@
 import React, { Suspense } from 'react';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { Translation } from 'react-i18next';
 
-import Drawer from '@material-ui/core/Drawer';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
+import Drawer from '@mui/material/Drawer';
+import { makeStyles } from '@mui/styles';
+import Avatar from '@mui/material/Avatar';
+import Icon from '@mui/material/Icon';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
 
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import StatusBadge from '../../StatusBadge';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import ThemePaletteSelect from '../../ThemePaletteSelect';
 import ThemeModeToggle from '../../ThemeModeToggle';
 import AuthReport from '../../AuthReport';

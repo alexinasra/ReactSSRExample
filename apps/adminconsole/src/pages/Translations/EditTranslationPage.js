@@ -1,10 +1,10 @@
 import React from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 // import { gql, useMutation } from '@apollo/client';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import TranslationValue from './TranslationValue';
 import EditTranslationValue from './EditTranslationValue';
 

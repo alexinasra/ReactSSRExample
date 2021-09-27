@@ -5,7 +5,7 @@ import {
   ThemeProvider,
   StylesProvider,
   jssPreset,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';

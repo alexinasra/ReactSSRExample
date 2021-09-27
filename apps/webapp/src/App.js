@@ -7,7 +7,7 @@ import {
   ThemeProvider,
   StylesProvider,
   jssPreset,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 import i18n from '@react-ssrex/i18n/client';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
@@ -47,19 +47,13 @@ function App() {
   }, [i18n]);
   const theme = React.useMemo(() => {
     if (data && data.themeSettings) {
-      return {
-        themeName: data.themeSettings.name,
-        themeMode: data.themeSettings.mode,
-      };
+      return createTheme(data.themeSettings.name, data.themeSettings.mode, direction);
     }
-    return {
-      themeName: 'default',
-      themeMode: 'light',
-    };
-  }, [data]);
+    return createTheme(undefined, undefined, direction);
+  }, [data, direction]);
   return (
     <StylesProvider jss={jss}>
-      <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+      <ThemeProvider theme={theme}>
         <LayoutContainer>
           <Switch>
             <Route path="/" exact>

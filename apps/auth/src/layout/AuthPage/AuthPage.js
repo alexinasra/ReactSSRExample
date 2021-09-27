@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
+import Container from '@mui/material/Container';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 const useStyles = makeStyles(() => ({
   card: {

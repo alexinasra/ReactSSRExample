@@ -21,7 +21,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 import fetch from 'node-fetch';
 import {
   ServerStyleSheets,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 
 import App from './App';
 

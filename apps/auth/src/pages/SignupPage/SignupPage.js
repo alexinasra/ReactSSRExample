@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 import { Link as RouterLink } from 'react-router-dom';
 
-import Alert from '@material-ui/lab/Alert';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
 import AuthPage from '../../layout/AuthPage';
 import AuthStatusCode from '../../AuthStatusCode';
 

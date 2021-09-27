@@ -1,7 +1,7 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import { makeStyles } from '@mui/styles';
 import LayoutContentContainer from '../LayoutContentContainer';
 import LayoutAppBar from '../LayoutAppBar';
 import LayoutBottomBar from '../LayoutBottomBar';

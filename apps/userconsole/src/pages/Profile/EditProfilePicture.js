@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from '@mui/styles';
+import Avatar from '@mui/material/Avatar';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import ProfilePictureDialog from './ProfilePictureDialog';
 
 const useStyles = makeStyles((theme) => ({

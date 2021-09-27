@@ -22,7 +22,7 @@ import fetch from 'node-fetch';
 
 import {
   ServerStyleSheets,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import App from './App';

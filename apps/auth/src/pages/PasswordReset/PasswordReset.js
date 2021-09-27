@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@mui/styles';
+import TextField from '@mui/material/TextField';
 import { useTranslation } from 'react-i18next';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import AuthPage from '../../layout/AuthPage';
 
 const useStyles = makeStyles(() => ({

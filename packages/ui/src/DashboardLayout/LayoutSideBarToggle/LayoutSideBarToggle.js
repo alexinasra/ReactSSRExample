@@ -1,9 +1,9 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
 
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
 import LayoutContext from '../LayoutContext';
 
 const useStyles = makeStyles((theme) => ({

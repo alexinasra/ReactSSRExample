@@ -1,15 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import SnackbarContent from '@mui/material/SnackbarContent';
 import Notifications from '../../Notifications';
 
 

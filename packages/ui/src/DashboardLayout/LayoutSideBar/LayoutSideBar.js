@@ -1,12 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
-import Box from '@material-ui/core/Box';
-import Drawer from '@material-ui/core/Drawer';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
 
 import LayoutContext from '../LayoutContext';
 import UserProfile from './UserProfile';

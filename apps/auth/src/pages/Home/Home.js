@@ -1,10 +1,10 @@
 import React from 'react';
 import { Redirect, Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Link from '@material-ui/core/Link';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Avatar from '@mui/material/Avatar';
+import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
 import AuthPage from '../../layout/AuthPage';
 

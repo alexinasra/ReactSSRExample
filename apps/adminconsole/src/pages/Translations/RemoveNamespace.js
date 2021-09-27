@@ -3,13 +3,13 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
 import { gql, useMutation } from '@apollo/client';
 
 const DROP_NS = gql`

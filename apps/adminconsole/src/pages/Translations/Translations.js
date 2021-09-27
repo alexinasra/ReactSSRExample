@@ -1,6 +1,6 @@
 /* eslint-disable no-tabs */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   useParams,
   Switch,
@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom';
 
 import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutBasePage';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 import EditTranslationPage from './EditTranslationPage';
 import TranslationsTable from './TranslationsTable';

@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { Translation } from 'react-i18next';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import AuthReport from '../../AuthReport';
 import ThemePaletteSelect from '../../ThemePaletteSelect';
 import ThemeModeToggle from '../../ThemeModeToggle';

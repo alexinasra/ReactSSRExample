@@ -3,14 +3,14 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Dialog from '@material-ui/core/Dialog';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
-import TextField from '@material-ui/core/TextField';
+import Dialog from '@mui/material/Dialog';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
+import TextField from '@mui/material/TextField';
 import { gql, useMutation } from '@apollo/client';
 
 const CREATE_NS = gql`
