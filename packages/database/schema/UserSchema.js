@@ -45,8 +45,6 @@ const userSchema = new Schema({
   },
   profilePicture: Types.String,
   preferedLanguage: Types.String,
-
-  lastAccess: Types.Date,
 });
 
 userSchema.query.byEmail = function(email) {

@@ -62,14 +62,6 @@ const resolvers = {
       }
       return "/public/defaults/default-profile-picture.png";
     },
-    themeSettings: ({
-      themeSettings
-    }) => {
-      return themeSettings || ({
-        name: 'default',
-        mode: 'light'
-      });
-    }
   },
 };
 
