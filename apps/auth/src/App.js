@@ -5,6 +5,11 @@ import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
 } from '@mui/material/styles';
+
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+
 import i18n from '@react-ssrex/i18n/client';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
@@ -41,6 +46,15 @@ function App() {
       setDirection(i18n.dir(lng));
     });
   }, [i18n]);
+
+  // Create rtl cache
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'mui',
+  });
   const theme = React.useMemo(() => {
     if (data && data.themeSettings) {
       return {
@@ -54,35 +68,37 @@ function App() {
     };
   }, [data]);
   return (
-    <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-      <AuthReport>
-        {({ userInRole }) => (
-          <AuthContainer>
-            <Switch>
-              <Route path="/signup" exact>
-                {userInRole ? <Redirect to="/" /> : <SignupPage />}
-              </Route>
-              <Route path="/signin" exact>
-                {userInRole ? <Redirect to="/" /> : <SigninPage />}
-              </Route>
-              <Route path="/guest-signin" exact>
-                <GuestSigninPage />
-              </Route>
-              <Route path="/signout" exact>
-                <SignoutPage />
-              </Route>
-              <Route path="/change-password" exact>
-                <PasswordReset />
-              </Route>
-              <Route path="/" exact>
-                <Home />
-              </Route>
-              <Redirect to="/signin" />
-            </Switch>
-          </AuthContainer>
-        )}
-      </AuthReport>
-    </ThemeProvider>
+    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+      <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+        <AuthReport>
+          {({ userInRole }) => (
+            <AuthContainer>
+              <Switch>
+                <Route path="/signup" exact>
+                  {userInRole ? <Redirect to="/" /> : <SignupPage />}
+                </Route>
+                <Route path="/signin" exact>
+                  {userInRole ? <Redirect to="/" /> : <SigninPage />}
+                </Route>
+                <Route path="/guest-signin" exact>
+                  <GuestSigninPage />
+                </Route>
+                <Route path="/signout" exact>
+                  <SignoutPage />
+                </Route>
+                <Route path="/change-password" exact>
+                  <PasswordReset />
+                </Route>
+                <Route path="/" exact>
+                  <Home />
+                </Route>
+                <Redirect to="/signin" />
+              </Switch>
+            </AuthContainer>
+          )}
+        </AuthReport>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }
 

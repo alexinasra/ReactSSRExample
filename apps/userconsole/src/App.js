@@ -9,6 +9,10 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+
 import List from '@mui/material/List';
 
 import ListItem from '@mui/material/ListItem';
@@ -76,6 +80,7 @@ query {
   }
 }
 `;
+
 export default function App() {
   const { data, loading, error } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
@@ -94,6 +99,15 @@ export default function App() {
       setDirection(i18n.dir(lng));
     });
   }, [i18n]);
+
+  // Create rtl cache
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'mui',
+  });
 
   const theme = React.useMemo(() => {
     if (data && data.themeSettings) {
@@ -116,37 +130,39 @@ export default function App() {
   }
 
   return (
-    <ForceSignin signinUrl="/auth/signin">
-      <LayoutContext.Provider value={{
-        state,
-        expandSidebar: () => dispatch(actions.expandSidebarAction()),
-        shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-      }}
-      >
-        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-          <LayoutContainer>
-            <LayoutAppBar>
-              <LayoutSideBarToggle />
-              <ThemeModeToggle />
-              <ThemePaletteSelect />
-            </LayoutAppBar>
-            <LayoutSideBar mainNav={<MainNav />} />
-            <LayoutContentContainer>
-              <Switch>
-                <Route path="/profile" exact>
-                  <Profile />
-                </Route>
-                <Route path="/settings" exact>
-                  <Settings />
-                </Route>
-                <Route path="/">
-                  <HomePage />
-                </Route>
-              </Switch>
-            </LayoutContentContainer>
-          </LayoutContainer>
-        </ThemeProvider>
-      </LayoutContext.Provider>
-    </ForceSignin>
+    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+      <ForceSignin signinUrl="/auth/signin">
+        <LayoutContext.Provider value={{
+          state,
+          expandSidebar: () => dispatch(actions.expandSidebarAction()),
+          shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
+        }}
+        >
+          <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+            <LayoutContainer>
+              <LayoutAppBar>
+                <LayoutSideBarToggle />
+                <ThemeModeToggle />
+                <ThemePaletteSelect />
+              </LayoutAppBar>
+              <LayoutSideBar mainNav={<MainNav />} />
+              <LayoutContentContainer>
+                <Switch>
+                  <Route path="/profile" exact>
+                    <Profile />
+                  </Route>
+                  <Route path="/settings" exact>
+                    <Settings />
+                  </Route>
+                  <Route path="/">
+                    <HomePage />
+                  </Route>
+                </Switch>
+              </LayoutContentContainer>
+            </LayoutContainer>
+          </ThemeProvider>
+        </LayoutContext.Provider>
+      </ForceSignin>
+    </CacheProvider>
   );
 }

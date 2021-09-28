@@ -12,6 +12,10 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+
 import List from '@mui/material/List';
 
 import ListItem from '@mui/material/ListItem';
@@ -119,45 +123,55 @@ export default function App() {
   if (error) {
     return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
   }
+  // Create rtl cache
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'mui',
+  });
 
   return (
-    <ForceSignin signinUrl="/auth/signin">
-      <LayoutContext.Provider value={{
-        state,
-        expandSidebar: () => dispatch(actions.expandSidebarAction()),
-        shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-      }}
-      >
-        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-          <LayoutContainer>
-            <LayoutAppBar>
-              <LayoutSideBarToggle />
-              <ThemeModeToggle />
-              <ThemePaletteSelect />
-            </LayoutAppBar>
-            <LayoutSideBar mainNav={<MainNav />} />
-            <LayoutContentContainer>
-              <Switch>
-                <Route path="/users" exact>
-                  <Users />
-                </Route>
-                <Route path="/system-notifications" exact>
-                  <SystemNotifications />
-                </Route>
-                <Route path="/translations" exact>
-                  <Redirect to="/translations/common" />
-                </Route>
-                <Route path="/translations/:namespace">
-                  <Translations />
-                </Route>
-                <Route path="/">
-                  <HomePage />
-                </Route>
-              </Switch>
-            </LayoutContentContainer>
-          </LayoutContainer>
-        </ThemeProvider>
-      </LayoutContext.Provider>
-    </ForceSignin>
+    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+      <ForceSignin signinUrl="/auth/signin">
+        <LayoutContext.Provider value={{
+          state,
+          expandSidebar: () => dispatch(actions.expandSidebarAction()),
+          shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
+        }}
+        >
+          <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+            <LayoutContainer>
+              <LayoutAppBar>
+                <LayoutSideBarToggle />
+                <ThemeModeToggle />
+                <ThemePaletteSelect />
+              </LayoutAppBar>
+              <LayoutSideBar mainNav={<MainNav />} />
+              <LayoutContentContainer>
+                <Switch>
+                  <Route path="/users" exact>
+                    <Users />
+                  </Route>
+                  <Route path="/system-notifications" exact>
+                    <SystemNotifications />
+                  </Route>
+                  <Route path="/translations" exact>
+                    <Redirect to="/translations/common" />
+                  </Route>
+                  <Route path="/translations/:namespace">
+                    <Translations />
+                  </Route>
+                  <Route path="/">
+                    <HomePage />
+                  </Route>
+                </Switch>
+              </LayoutContentContainer>
+            </LayoutContainer>
+          </ThemeProvider>
+        </LayoutContext.Provider>
+      </ForceSignin>
+    </CacheProvider>
   );
 }

@@ -8,6 +8,10 @@ import {
 } from '@mui/material/styles';
 import i18n from '@react-ssrex/i18n/client';
 
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+
 import LayoutContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContainer';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 
@@ -44,22 +48,33 @@ function App() {
     }
     return createTheme('default', 'light', direction);
   }, [data, direction]);
+
+  // Create rtl cache
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'mui',
+  });
   return (
-    <ThemeProvider theme={theme}>
-      <LayoutContainer>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/404">
-            <PageNotFound />
-          </Route>
-          <Route>
-            <PageNotFound />
-          </Route>
-        </Switch>
-      </LayoutContainer>
-    </ThemeProvider>
+    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+      <ThemeProvider theme={theme}>
+        <LayoutContainer>
+          <Switch>
+            <Route path="/" exact>
+              <HomePage />
+            </Route>
+            <Route path="/404">
+              <PageNotFound />
+            </Route>
+            <Route>
+              <PageNotFound />
+            </Route>
+          </Switch>
+        </LayoutContainer>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }
 
