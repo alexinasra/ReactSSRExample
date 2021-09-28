@@ -10,7 +10,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
-import i18n from '@react-ssrex/i18n/client';
+import { useTranslation } from 'react-i18next';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
 
@@ -40,15 +40,10 @@ const cacheLtr = createCache({
   key: 'mui',
 });
 function App() {
+  const { i18n } = useTranslation();
   const { data } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
 
-  React.useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
   React.useEffect(() => {
     i18n.on('languageChanged', (lng) => {
       setDirection(i18n.dir(lng));

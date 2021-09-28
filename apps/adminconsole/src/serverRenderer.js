@@ -17,10 +17,6 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import createEmotionServer from '@emotion/server/create-instance';
-
 import fetch from 'node-fetch';
 
 import App from './App';
@@ -67,24 +63,17 @@ export default function serverRenderer({ clientStats, serverStats }) {
 
     getDataFromTree(App).then((content) => {
       const initialState = client.extract();
-      const cache = createCache({ key: 'css' });
-      const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
 
       const context = {};
       const body = ReactDOMServer.renderToString(
-        <CacheProvider value={cache}>
-          <I18nextProvider i18n={req.i18n}>
-            <ApolloProvider client={client}>
-              <StaticRouter basename="/adminconsole" context={context} location={req.url}>
-                <App />
-              </StaticRouter>
-            </ApolloProvider>
-          </I18nextProvider>
-        </CacheProvider>,
+        <I18nextProvider i18n={req.i18n}>
+          <ApolloProvider client={client}>
+            <StaticRouter basename="/adminconsole" context={context} location={req.url}>
+              <App />
+            </StaticRouter>
+          </ApolloProvider>
+        </I18nextProvider>,
       );
-      // Grab the CSS from emotion
-      const emotionChunks = extractCriticalToChunks(body);
-      const emotionCss = constructStyleTagsFromChunks(emotionChunks);
 
       // context.url will contain the URL to redirect to if a <Redirect> was used
       if (context.url) {
@@ -96,7 +85,7 @@ export default function serverRenderer({ clientStats, serverStats }) {
         res.render('adminconsole', {
           lng,
           dir,
-          serverCss: emotionCss,
+          serverCss: '',
           serverBody: body,
           initialState: JSON.stringify(initialState).replace(/</g, '\\u003c'),
         });

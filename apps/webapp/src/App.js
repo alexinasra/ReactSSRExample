@@ -6,7 +6,7 @@ import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
 } from '@mui/material/styles';
-import i18n from '@react-ssrex/i18n/client';
+import { useTranslation } from 'react-i18next';
 
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
@@ -37,15 +37,10 @@ const cacheLtr = createCache({
 });
 
 function App() {
+  const { i18n } = useTranslation();
   const { data } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
 
-  React.useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
   React.useEffect(() => {
     i18n.on('languageChanged', (lng) => {
       setDirection(i18n.dir(lng));
@@ -59,7 +54,7 @@ function App() {
   }, [data, direction]);
 
   return (
-    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+    <CacheProvider value={direction.toLowerCase() === 'rtl' ? cacheRtl : cacheLtr}>
       <ThemeProvider theme={theme}>
         <LayoutContainer>
           <Switch>
@@ -80,3 +75,7 @@ function App() {
 }
 
 export default App;
+export {
+  cacheLtr,
+  cacheRtl,
+};

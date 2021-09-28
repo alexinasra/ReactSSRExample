@@ -4,7 +4,6 @@ import {
   Switch, Route, Link as RouterLink, Redirect,
 } from 'react-router-dom';
 
-import i18n from '@react-ssrex/i18n/client';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
 
@@ -95,6 +94,7 @@ const cacheLtr = createCache({
   key: 'mui',
 });
 export default function App() {
+  const { i18n } = useTranslation();
   const { data, loading, error } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
   const [state, dispatch] = React.useReducer(SideBarReducer, {
@@ -175,3 +175,7 @@ export default function App() {
     </CacheProvider>
   );
 }
+export {
+  cacheLtr,
+  cacheRtl,
+};

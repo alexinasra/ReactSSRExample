@@ -5,6 +5,7 @@ import Link from '@mui/material/Link';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
 
@@ -28,8 +29,8 @@ export default function AuthStatus() {
   return (
     <AuthReport>
       {({ userInRole }) => (
-        <div>
-          <div sx={{
+        <Box>
+          <Box sx={{
             display: 'flex',
             alignItems: 'center',
           }}>
@@ -69,8 +70,8 @@ export default function AuthStatus() {
                   </Button>
                 </>
               )}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
     </AuthReport>
   );

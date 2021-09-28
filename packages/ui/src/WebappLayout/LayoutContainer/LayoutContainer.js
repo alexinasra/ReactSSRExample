@@ -4,7 +4,6 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import LayoutContentContainer from '../LayoutContentContainer';
 import LayoutAppBar from '../LayoutAppBar';
-import LayoutBottomBar from '../LayoutBottomBar';
 
 export default function LayoutContainer({
   children
@@ -16,7 +15,6 @@ export default function LayoutContainer({
       <LayoutContentContainer>
         {children}
       </LayoutContentContainer>
-      <LayoutBottomBar />
     </Box>
   );
 }

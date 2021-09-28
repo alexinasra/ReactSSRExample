@@ -3,7 +3,6 @@ import React from 'react';
 import { Switch, Route, Link as RouterLink } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
-import i18n from '@react-ssrex/i18n/client';
 import { gql, useQuery } from '@apollo/client';
 import {
   ThemeProvider,
@@ -91,18 +90,13 @@ const cacheLtr = createCache({
 });
 
 export default function App() {
+  const { i18n } = useTranslation();
   const { data, loading, error } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
   const [state, dispatch] = React.useReducer(SideBarReducer, {
     ...LayoutDefaultState,
   });
 
-  React.useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
   React.useEffect(() => {
     i18n.on('languageChanged', (lng) => {
       setDirection(i18n.dir(lng));

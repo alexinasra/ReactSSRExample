@@ -11,14 +11,13 @@ export default function LayoutAppBar({children}) {
   return (
     <AppBar
       position="fixed"
-      sx={{ display: 'flex' }}
     >
-      <Toolbar sx={{ flexGrow: 1, display: 'flex'}}>
+      <Toolbar sx={{ display: 'flex' }}>
+        <Link href='/'>
+          <img height="60" src="/assets/logo.png" alt="logo" />
+        </Link>
         <Box sx={{ flexGrow: 1 }}>
-          <Link color="inherit" href='/'>
-            <img height="60" src="/assets/logo.png" alt="logo" />
-          </Link>
-          {children}
+        {children}
         </Box>
         <AuthStatus />
       </Toolbar>

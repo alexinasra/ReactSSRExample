@@ -24,7 +24,10 @@ import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import createEmotionServer from '@emotion/server/create-instance';
 
-import App from './App';
+import App, {
+  cacheLtr,
+  cacheRtl,
+} from './App';
 
 export default function serverRenderer({ clientStats, serverStats }) {
   return (req, res, next) => {
@@ -69,23 +72,15 @@ export default function serverRenderer({ clientStats, serverStats }) {
 
       const context = {};
 
-      const cache = createCache({ key: 'css' });
-      const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
-
       const body = ReactDOMServer.renderToString(
-        <CacheProvider value={cache}>
-          <I18nextProvider i18n={req.i18n}>
-            <ApolloProvider client={client}>
-              <StaticRouter context={context} location={req.url}>
-                <App />
-              </StaticRouter>
-            </ApolloProvider>
-          </I18nextProvider>
-        </CacheProvider>,
+        <I18nextProvider i18n={req.i18n}>
+          <ApolloProvider client={client}>
+            <StaticRouter context={context} location={req.url}>
+              <App />
+            </StaticRouter>
+          </ApolloProvider>
+        </I18nextProvider>,
       );
-      // Grab the CSS from emotion
-      const emotionChunks = extractCriticalToChunks(body);
-      const emotionCss = constructStyleTagsFromChunks(emotionChunks);
 
       // context.url will contain the URL to redirect to if a <Redirect> was used
       if (context.url) {
@@ -97,7 +92,7 @@ export default function serverRenderer({ clientStats, serverStats }) {
         res.render('webapp', {
           lng,
           dir,
-          serverCss: emotionCss,
+          serverCss: '',
           serverBody: body,
           initialState: JSON.stringify(initialState).replace(/</g, '\\u003c'),
         });
