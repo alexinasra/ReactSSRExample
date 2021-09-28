@@ -8,7 +8,6 @@ import Drawer from '@mui/material/Drawer';
 
 import LayoutContext from '../LayoutContext';
 import UserProfile from './UserProfile';
-import { styled } from '@mui/material/styles'
 
 
 export default function LayoutSideBar({ mainNav, secondaryNav}) {
@@ -23,7 +22,9 @@ export default function LayoutSideBar({ mainNav, secondaryNav}) {
           sx={{
             width: theme => (expandedSidebar || localExpand) ? 240 : theme.spacing(9),
             flexShrink: 0,
+            transition: theme => theme.transitions.create(['width']),
             '& .MuiDrawer-paper': {
+              transition: theme => theme.transitions.create(['width']),
               width: theme => (expandedSidebar || localExpand) ? 240 : theme.spacing(9),
               boxSizing: 'border-box',
             },
