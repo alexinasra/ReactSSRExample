@@ -19,7 +19,7 @@ export default function LayoutSideBarToggle() {
             onClick={expandSidebar}
             sx={{
               marginRight: 36,
-              display: state.expandedSidebar: 'none' ? 'inline-block',
+              display: state.expandedSidebar? 'none' : 'inline-block',
             }}
           >
             <Icon>menu</Icon>
@@ -31,7 +31,7 @@ export default function LayoutSideBarToggle() {
             onClick={shrinkSidebar}
             sx={{
               marginRight: 36,
-              display: !state.expandedSidebar: 'none' ? 'inline-block',
+              display: !state.expandedSidebar? 'none' : 'inline-block',
             }}
           >
             <Icon>{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
