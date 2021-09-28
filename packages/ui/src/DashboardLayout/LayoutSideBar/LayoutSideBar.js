@@ -1,7 +1,6 @@
 import React from 'react';
-import clsx from 'clsx';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 
 import Box from '@mui/material/Box';
@@ -16,8 +15,6 @@ export default function LayoutSideBar({ mainNav, secondaryNav}) {
   const [localExpand, setLocalExpand] = React.useState(false);
   const handleLocalExpand = () => setTimeout(() => setLocalExpand(true), 30);
   const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 360);
-
-
   return (
     <LayoutContext.Consumer>
       {({ state: { expandedSidebar } }) => (
@@ -31,6 +28,7 @@ export default function LayoutSideBar({ mainNav, secondaryNav}) {
               boxSizing: 'border-box',
             },
           }}
+          anchor="left"
           open={expandedSidebar || localExpand}
         >
           <Box sx={{

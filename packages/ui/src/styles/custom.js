@@ -163,31 +163,31 @@ export default function customStyle(themePalette, mode, direction){
           }
         },
       },
-      MuiInputLabel: {
-        styleOverrides: {
-          formControl: {
-            top: 12,
-            left: 10,
-            transform: 'translate(0, 22px) scale(1)',
-          },
-          shrink: {
-            transform: 'translate(0, 13px) scale(0.7)',
-            zIndex: 1,
-          },
-          filled: {
-            transform: 'translate(2px, 6px) scale(1)',
-            '&$shrink': {
-              transform: 'translate(0px, -6px) scale(0.75)',
-            },
-          },
-          outlined: {
-            transform: 'translate(2px, 6px) scale(1)',
-            '&$shrink': {
-              transform: 'translate(4px, -16px) scale(0.75)',
-            },
-          }
-        },
-      },
+      // MuiInputLabel: {
+      //   styleOverrides: {
+      //     formControl: {
+      //       top: 12,
+      //       left: 10,
+      //       transform: 'translate(0, 22px) scale(1)',
+      //     },
+      //     shrink: {
+      //       transform: 'translate(0, 13px) scale(0.7)',
+      //       zIndex: 1,
+      //     },
+      //     filled: {
+      //       transform: 'translate(2px, 6px) scale(1)',
+      //       '&$shrink': {
+      //         transform: 'translate(0px, -6px) scale(0.75)',
+      //       },
+      //     },
+      //     outlined: {
+      //       transform: 'translate(2px, 6px) scale(1)',
+      //       '&$shrink': {
+      //         transform: 'translate(4px, -16px) scale(0.75)',
+      //       },
+      //     }
+      //   },
+      // },
       MuiFormLabel: {
         styleOverrides: {
           root: {

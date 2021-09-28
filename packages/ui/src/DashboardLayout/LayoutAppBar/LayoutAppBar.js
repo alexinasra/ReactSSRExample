@@ -8,6 +8,7 @@ export default function LayoutAppBar({children}) {
   const {
     state, expandSidebar, shrinkSidebar,
   } = React.useContext(LayoutContext);
+
   return (
     <AppBar
       position="fixed"

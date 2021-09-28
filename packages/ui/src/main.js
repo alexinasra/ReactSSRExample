@@ -113,6 +113,7 @@ export default async function main({
   await setupI18n(opts, LanguageDetector, initReactI18next);
 
   return function (RenderedApp, rootElement) {
+
     if (rootElement) {
       ReactDom.hydrate(
         <ApolloProvider client={client}>
