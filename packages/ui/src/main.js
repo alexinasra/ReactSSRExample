@@ -9,7 +9,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createUploadLink } from 'apollo-upload-client'
 
-import { initReactI18next } from 'react-i18next';
+import { initReactI18next, withSSR } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -113,12 +113,11 @@ export default async function main({
   await setupI18n(opts, LanguageDetector, initReactI18next);
 
   return function (RenderedApp, rootElement) {
-
+    const I18nSSR = withSSR()(RenderedApp)
     if (rootElement) {
-      ReactDom.hydrate(
-        <ApolloProvider client={client}>
+      ReactDom.hydrate(<ApolloProvider client={client}>
           <BrowserRouter basename={basename}>
-            <RenderedApp />
+            <I18nSSR />
           </BrowserRouter>
         </ApolloProvider>,
         rootElement,
