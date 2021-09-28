@@ -31,6 +31,14 @@ query {
   }
 }
 `;
+// Create rtl cache
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [rtlPlugin],
+});
+const cacheLtr = createCache({
+  key: 'mui',
+});
 function App() {
   const { data } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
@@ -47,14 +55,6 @@ function App() {
     });
   }, [i18n]);
 
-  // Create rtl cache
-  const cacheRtl = createCache({
-    key: 'muirtl',
-    stylisPlugins: [rtlPlugin],
-  });
-  const cacheLtr = createCache({
-    key: 'mui',
-  });
   const theme = React.useMemo(() => {
     if (data && data.themeSettings) {
       return {

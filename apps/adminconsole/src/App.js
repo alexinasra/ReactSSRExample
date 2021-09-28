@@ -86,6 +86,14 @@ query {
 }
 `;
 
+// Create rtl cache
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [rtlPlugin],
+});
+const cacheLtr = createCache({
+  key: 'mui',
+});
 export default function App() {
   const { data, loading, error } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
@@ -123,14 +131,6 @@ export default function App() {
   if (error) {
     return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
   }
-  // Create rtl cache
-  const cacheRtl = createCache({
-    key: 'muirtl',
-    stylisPlugins: [rtlPlugin],
-  });
-  const cacheLtr = createCache({
-    key: 'mui',
-  });
 
   return (
     <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
