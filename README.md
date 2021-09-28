@@ -4,7 +4,7 @@ Modify mongodb configuration file (/packages/config/mongodb.config.js, then run 
 <br/>
 ```
 yarn install
-yarn workspace @react-ssrex/ui run [--watch]  build #You can rebuild the ui components at any time. but first you have to build it.
+yarn workspace @react-ssrex/ui build [--watch] #You can rebuild the ui components at any time. but first you have to build it.
 yarn workspace @react-ssrex/server dev:start [--disable-auth] [--disable-user] [--disable-admin] [--disable-webapp] #start server in development mode
 
 * main app (@react-ssrex/webapp) at: localhost:3030/
