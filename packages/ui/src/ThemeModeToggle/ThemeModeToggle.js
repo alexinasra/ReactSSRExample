@@ -14,9 +14,7 @@ const TGL_THEME_MODE = gql`
   }
 `;
 
-export default function ThemeModeToggle({
-  className,
-}) {
+export default function ThemeModeToggle() {
   const theme = useTheme()
   const [toggleThemeMode] = useMutation(TGL_THEME_MODE, {
     update(cache, { data: { toggleThemeMode } }) {
@@ -32,8 +30,8 @@ export default function ThemeModeToggle({
   return (
     <Switch
       checked={theme.palette.type === 'light'}
-      className={className}
       onChange={toggleThemeMode}
+      color="secondary"
       checkedIcon={<Icon fontSize="small">light_mode</Icon>}
       icon={<Icon fontSize="small">dark_mode</Icon>} />
   );

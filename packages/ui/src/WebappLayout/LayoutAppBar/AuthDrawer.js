@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import { Translation } from 'react-i18next';
 
 import Drawer from '@mui/material/Drawer';
-import { makeStyles } from '@mui/styles';
 import Avatar from '@mui/material/Avatar';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
@@ -28,50 +27,12 @@ import MenuPanel from './MenuPanel';
 import NotificationsPanel from './NotificationsPanel';
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  authStatus: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  menuButton: {
-    padding: 1,
-  },
-  drawerProfile: {
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  inline: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  drawerAvatar: {
-    width: theme.spacing(8),
-    height: theme.spacing(8),
-  },
-  paletteMenu: {
-    position: 'relative',
-    display: 'inline-block',
-    border: '1px solid',
-    width: 'auto'
-  },
-  paletteMenuList: {
-    display: 'inline-block',
-    border: '1px solid',
-    position: 'relative',
-  }
-}));
-
 
 export default function AuthDrawer({
   tabId,
   onTabChange,
   onClose
 }) {
-  const classes = useStyles();
   return (
     <AuthReport>
       {({ userInRole }) => userInRole && (
@@ -87,9 +48,19 @@ export default function AuthDrawer({
             <Tab value="notifications" icon={<Icon>notifications</Icon>} />
             <Tab value="menu" icon={<Icon>menu</Icon>} />
           </Tabs>
-          <Box className={classes.drawerProfile}>
+          <Box sx={{
+            paddingTop: theme => theme.spacing(3),
+            paddingBottom: theme => theme.spacing(2),
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
             <StatusBadge status="online">
-              <Avatar className={classes.drawerAvatar} src={userInRole.profilePicture} />
+              <Avatar sx={{
+                width: theme => theme.spacing(8),
+                height: theme => theme.spacing(8),
+              }}
+              src={userInRole.profilePicture} />
             </StatusBadge>
             <Box align="center">
               <Typography variant="body1" color="textPrimary">
@@ -104,7 +75,7 @@ export default function AuthDrawer({
           {(tabId == 'menu') && <MenuPanel />}
           {(tabId == 'notifications') && <NotificationsPanel />}
           <Divider />
-
+          <Box sx={{ flexGrow: 1}} />
           <BottomNavigation>
             <BottomNavigationAction
              component="a" href="/userconsole"

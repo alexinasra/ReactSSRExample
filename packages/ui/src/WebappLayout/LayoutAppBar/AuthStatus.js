@@ -4,7 +4,6 @@ import Badge from '@mui/material/Badge';
 import Link from '@mui/material/Link';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
-import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 
 import Typography from '@mui/material/Typography';
@@ -14,17 +13,7 @@ import AuthReport from '../../AuthReport';
 import AuthDrawer from './AuthDrawer';
 import Notifications from '../../Notifications';
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  authStatus: {
-    display: 'flex',
-    alignItems: 'center',
-  }
-}));
-
-
 export default function AuthStatus() {
-  const classes = useStyles();
   const { t } = useTranslation('Auth', {
     useSuspense: false
   });
@@ -39,8 +28,11 @@ export default function AuthStatus() {
   return (
     <AuthReport>
       {({ userInRole }) => (
-        <div className={classes.root}>
-          <div className={classes.authStatus}>
+        <div>
+          <div sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
             {userInRole ? (
                 <>
                   <Notifications>

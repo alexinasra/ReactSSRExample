@@ -1,19 +1,12 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-  },
-}), 'LayoutContainer');
-
 export default function LayoutContainer({ children }) {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Box component="div" sx={{ display: 'flex' }}>
       <CssBaseline />
       {children}
-    </div>
+    </Box>
   );
 }

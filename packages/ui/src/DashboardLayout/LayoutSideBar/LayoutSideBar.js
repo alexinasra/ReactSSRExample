@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Divider from '@mui/material/Divider';
@@ -10,54 +9,10 @@ import Drawer from '@mui/material/Drawer';
 
 import LayoutContext from '../LayoutContext';
 import UserProfile from './UserProfile';
+import { styled } from '@mui/material/styles'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: 240,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...theme.mixins.toolbar,
-  },
-  logoUrl: {
-    flexGrow: 1,
-    height: theme.mixins.toolbar.minHeight,
-  },
-  alignStart: {
-    justifyContent: 'flex-start',
-  },
-  logoImg: {
-    height: theme.mixins.toolbar.minHeight - theme.spacing(1),
-  },
-  menuButton: {
-    background: theme.palette.secondary.light,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-}));
 
 export default function LayoutSideBar({ mainNav, secondaryNav}) {
-  const classes = useStyles();
   const [localExpand, setLocalExpand] = React.useState(false);
   const handleLocalExpand = () => setTimeout(() => setLocalExpand(true), 30);
   const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 360);
@@ -68,16 +23,25 @@ export default function LayoutSideBar({ mainNav, secondaryNav}) {
       {({ state: { expandedSidebar } }) => (
         <Drawer
           variant="permanent"
-          classes={{
-            paper: clsx(classes.root, !expandedSidebar && !localExpand && classes.drawerPaperClose),
+          sx={{
+            width: theme => (expandedSidebar || localExpand) ? 240 : theme.spacing(9),
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: theme => (expandedSidebar || localExpand) ? 240 : theme.spacing(9),
+              boxSizing: 'border-box',
+            },
           }}
           open={expandedSidebar || localExpand}
         >
-          <div className={clsx(classes.toolbarIcon, !expandedSidebar && classes.alignStart)}>
-            <RouterLink className={classes.logoLink} to="/">
-              <img className={classes.logoImg} src={`/assets/logo${!expandedSidebar ? '-compact' : ''}.png`} alt="lookfor.ae" />
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: expandedSidebar ? 'center' : 'flex-start',
+          }}>
+            <RouterLink to="/">
+              <img src={`/assets/logo${!expandedSidebar ? '-compact' : ''}.png`} alt="lookfor.ae" />
             </RouterLink>
-          </div>
+          </Box>
           <Divider />
           <UserProfile />
           <Divider />

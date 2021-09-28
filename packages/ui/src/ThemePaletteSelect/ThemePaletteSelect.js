@@ -1,7 +1,8 @@
 import React from 'react';
 import { gql, useMutation } from '@apollo/client';
-import { makeStyles, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/styles';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,23 +16,6 @@ import defaultTheme, {
 import blue from '@mui/material/colors/blue';
 import deepOrange from '@mui/material/colors/deepOrange';
 
-
-const useStyles = makeStyles((theme) => ({
-  menuItemContent: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  defaultIcon: {
-    margin: `auto ${theme.spacing()}px`,
-    backgroundColor: blue[500],
-    borderRadius: '50%'
-  },
-  deepOrangeIcon: {
-    margin: `auto ${theme.spacing()}px`,
-    backgroundColor: deepOrange[500],
-    borderRadius: '50%'
-  },
-}))
 const SET_THEME_NAME = gql`
   mutation ($themeName: String!) {
     setThemeName(themeName: $themeName) {
@@ -42,12 +26,10 @@ const SET_THEME_NAME = gql`
 `;
 
 export default function ThemePaletteSelect({
-  className,
   color,
   fab
 }) {
   const theme = useTheme();
-  const classes = useStyles();
 
   const [setThemeName] = useMutation(SET_THEME_NAME, {
     update(cache, { data: { setThemeName } }) {
@@ -74,16 +56,26 @@ export default function ThemePaletteSelect({
       onChange={selectItem}
     >
       <MenuItem value={defaultTheme.lightPalette.palette.id}>
-        <div className={classes.menuItemContent}>
-          <Icon className={classes.defaultIcon}>palette</Icon>
+        <Box sx={{display: 'flex',
+          alignItems: 'center'}}>
+          <Icon sx={{
+            margin: theme => `auto ${theme.spacing(1)}px`,
+            backgroundColor: blue[500],
+            borderRadius: '50%'
+          }}>palette</Icon>
           {defaultTheme.lightPalette.palette.name}
-        </div>
+        </Box>
       </MenuItem>
       <MenuItem value={deepOrangeTheme.lightPalette.palette.id}>
-        <div className={classes.menuItemContent}>
-          <Icon className={classes.deepOrangeIcon}>palette</Icon>
+        <Box sx={{display: 'flex',
+          alignItems: 'center'}}>
+          <Icon sx={{
+            margin: theme => `auto ${theme.spacing(1)}px`,
+            backgroundColor: deepOrange[500],
+            borderRadius: '50%'
+          }}>palette</Icon>
           {deepOrangeTheme.lightPalette.palette.name}
-        </div>
+        </Box>
       </MenuItem>
     </Select>
   );

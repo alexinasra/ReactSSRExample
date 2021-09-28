@@ -6,6 +6,7 @@ const lightPalette = {
     id: 'default',
     name: 'Default',
     type: 'light',
+    mode: 'light',
     primary: {
       ...primaryColor,
       light: primaryColor[300],

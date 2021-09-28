@@ -1,41 +1,25 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@mui/styles';
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import AuthStatus from './AuthStatus';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: {
-    flexGrow: 1,
-    display: 'flex',
-  },
-  toolbarGrow: {
-    flexGrow: 1
-  },
-  logo: {
-    // height: theme.mixins.toolbar.minHeight-theme.spacing(1)
-  }
-}));
+
 export default function LayoutAppBar({children}) {
-  const classes = useStyles();
 
   return (
     <AppBar
       position="fixed"
-      className={classes.root}
+      sx={{ display: 'flex' }}
     >
-      <Toolbar className={classes.toolbar}>
-        <div className={classes.toolbarGrow}>
+      <Toolbar sx={{ flexGrow: 1, display: 'flex'}}>
+        <Box sx={{ flexGrow: 1 }}>
           <Link color="inherit" href='/'>
-            <img className={classes.logo} height="60" src="/assets/logo.png" alt="logo" />
+            <img height="60" src="/assets/logo.png" alt="logo" />
           </Link>
           {children}
-        </div>
+        </Box>
         <AuthStatus />
       </Toolbar>
     </AppBar>

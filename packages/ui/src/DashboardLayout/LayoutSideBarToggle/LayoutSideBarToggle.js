@@ -1,22 +1,12 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import clsx from 'clsx';
 
 import IconButton from '@mui/material/IconButton';
 import Icon from '@mui/material/Icon';
 import LayoutContext from '../LayoutContext';
 
-const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-}));
 export default function LayoutSideBarToggle() {
-
-  const classes = useStyles();
   const theme = useTheme();
   return (
     <LayoutContext.Consumer>
@@ -27,9 +17,10 @@ export default function LayoutSideBarToggle() {
             color="inherit"
             aria-label="open drawer"
             onClick={expandSidebar}
-            className={clsx(
-              classes.menuButton, state.expandedSidebar && classes.menuButtonHidden,
-            )}
+            sx={{
+              marginRight: 36,
+              display: state.expandedSidebar: 'none' ? 'inline-block',
+            }}
           >
             <Icon>menu</Icon>
           </IconButton>
@@ -38,9 +29,10 @@ export default function LayoutSideBarToggle() {
             color="inherit"
             aria-label="open drawer"
             onClick={shrinkSidebar}
-            className={clsx(
-              classes.menuButton, !state.expandedSidebar && classes.menuButtonHidden,
-            )}
+            sx={{
+              marginRight: 36,
+              display: !state.expandedSidebar: 'none' ? 'inline-block',
+            }}
           >
             <Icon>{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
           </IconButton>

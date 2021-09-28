@@ -6,6 +6,7 @@ const darkPalette = {
     id: 'deepOrange',
     name: 'Deep Orange',
     type: 'dark',
+    mode: 'dark',
     primary: {
       ...primaryColor,
       light: primaryColor[500],

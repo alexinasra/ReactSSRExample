@@ -1,47 +1,22 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles,useTheme } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'relative',
-  },
-  appBarBackground: {
-    position: 'fixed',
-    paddingTop: theme.mixins.toolbar.minHeight + 20,
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    background: theme.palette.primary.light,
-    width: '100%',
-    zIndex: -99999,
-    top: theme.mixins.toolbar.minHeight,
-    left: 0,
-    right: 0,
-  },
-  appBarSpace: theme.mixins.toolbar,
-}));
+const AppBarSpace = styled('div')(({theme}) => ({...theme.mixins.toolbar}));
 
 export default function LayoutBasePage({
-  className,
-  containerClassName, children,
+  children,
 }) {
-  const classes = useStyles();
-  const theme = useTheme();
   return (
-    <div
-      className={clsx(classes.root, className)}
-    >
-      <div className={classes.appBarSpace} />
+    <Box sx={{ display: 'relative'}}>
+      <AppBarSpace />
       <Container
         maxWidth="xl"
-        className={clsx(classes.container, containerClassName)}
       >
         {children}
       </Container>
-    </div>
+    </Box>
   );
 }
