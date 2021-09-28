@@ -1,10 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
 import { useQuery, useMutation, gql } from '@apollo/client';
 
+import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     display: 'flex',
     flexDirection: 'row',
@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
   },
   item: {
-    margin: theme.spacing(2),
-    height: theme.spacing(8),
-    width: theme.spacing(8),
+    margin: (theme) => theme.spacing(2),
+    height: (theme) => theme.spacing(8),
+    width: (theme) => theme.spacing(8),
   },
-}));
+};
 
 const GALLERY = gql`
 query {
@@ -39,11 +39,11 @@ mutation SetProfilePic($url: String!) {
 }
 `;
 
-function Item({ url, className }) {
+function Item({ url }) {
   const [setProfilePic] = useMutation(SET_PROFILE_PIC);
   return (
     <Avatar
-      className={className}
+      sx={styles.item}
       src={url}
       onClick={() => setProfilePic({ variables: { url } })}
     />
@@ -51,7 +51,6 @@ function Item({ url, className }) {
 }
 
 export default function ProfilePictureSelect() {
-  const classes = useStyles();
   const { loading, data } = useQuery(GALLERY);
 
   if (loading) {
@@ -59,11 +58,11 @@ export default function ProfilePictureSelect() {
   }
 
   return (
-    <div className={classes.root}>
+    <Box sx={styles.root}>
       {
         data.userInRole.profilePictures.map((fileUrl) => (
-          <Item key={fileUrl.replace('/', '_')} className={classes.item} url={fileUrl} />))
+          <Item key={fileUrl.replace('/', '_')} url={fileUrl} />))
       }
-    </div>
+    </Box>
   );
 }

@@ -1,11 +1,10 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@mui/styles';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 import Typography from '@mui/material/Typography';
@@ -15,9 +14,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import TranslationValue from './TranslationValue';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
-    padding: theme.spacing(2),
+    padding: (theme) => theme.spacing(2),
   },
   row: {
     display: 'flex',
@@ -31,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
   bodyRow: {
   },
   keyCollumn: {
-    width: theme.spacing(24),
+    width: (theme) => theme.spacing(24),
   },
   actionCollumn: {
-    width: theme.spacing(12),
+    width: (theme) => theme.spacing(12),
   },
   flexGrow: {
     flexGrow: 1,
@@ -43,12 +42,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: theme.spacing(46),
-    '& > :first-child': {
+    width: (theme) => theme.spacing(46),
+    '& > :first-of-type': {
       flexGrow: 1,
     },
   },
-}));
+};
 
 const TRANSLATIONS_TABLE = gql`
 query ($namespace: String) {
@@ -73,7 +72,6 @@ mutation ($input: DropI18nTranslationInput!){
 }
 `;
 export default function TranslationsTable() {
-  const classes = useStyles();
   const { namespace } = useParams();
   const [deleteKey, setDeleteKey] = React.useState(false);
   const [deleteTranslation] = useMutation(DROP_TRANSLATION);
@@ -108,30 +106,30 @@ export default function TranslationsTable() {
   };
 
   return (
-    <Paper className={classes.root}>
-      <div
-        className={clsx(classes.row, classes.headingRow)}
+    <Paper sx={styles.root}>
+      <Box
+        sx={{ ...styles.row, ...styles.headingRow }}
       >
-        <div className={classes.keyCollumn}>
+        <Box sx={styles.keyCollumn}>
           {namespace}
-        </div>
-        <div className={clsx(classes.valueCollumn, classes.languageTile)}>
+        </Box>
+        <Box sx={{ ...styles.valueCollumn, ...styles.languageTile }}>
           {t('language_en')}
-        </div>
+        </Box>
         {data.languages.filter((l) => l.short !== 'en').map((l) => (
-          <div key={l.short} className={clsx(classes.valueCollumn, classes.languageTile)}>
+          <Box key={l.short} sx={{ ...styles.valueCollumn, ...styles.languageTile }}>
             {t(`language_${l.short}`)}
-          </div>
+          </Box>
         ))}
-      </div>
+      </Box>
       {
           data.i18nTranslationKeys.map((translationKey) => (
-            <div key={translationKey.id} className={clsx(classes.row, classes.bodyRow)}>
-              <div className={classes.keyCollumn}>
+            <Box key={translationKey.id} sx={{ ...styles.row, ...styles.bodyRow }}>
+              <Box sx={styles.keyCollumn}>
                 {translationKey.key}
-              </div>
+              </Box>
 
-              <div id={`${translationKey.id}_en`} className={classes.valueCollumn}>
+              <Box id={`${translationKey.id}_en`} sx={styles.valueCollumn}>
                 <TranslationValue
                   translationNs={translationKey.namespace}
                   translationKey={translationKey.key}
@@ -145,13 +143,13 @@ export default function TranslationsTable() {
                     </bdi>
                   )}
                 </TranslationValue>
-              </div>
+              </Box>
               {
                 data.languages.filter((l) => l.short !== 'en').map((l) => (
-                  <div
+                  <Box
                     id={`${translationKey.id}_${l.short}`}
                     key={`${translationKey.id}_${l.short}`}
-                    className={classes.valueCollumn}
+                    sx={styles.valueCollumn}
                   >
                     <TranslationValue
                       translationNs={translationKey.namespace}
@@ -166,18 +164,18 @@ export default function TranslationsTable() {
                         </bdi>
                       )}
                     </TranslationValue>
-                  </div>
+                  </Box>
                 ))
               }
-              <div className={classes.actionCollumn}>
+              <Box sx={styles.actionCollumn}>
                 <IconButton to={`/translations/${namespace}/edit/${encodeURIComponent(translationKey.key)}`} component={Link}>
                   <Icon>edit</Icon>
                 </IconButton>
                 <IconButton onClick={() => setDeleteKey(translationKey)}>
                   <Icon>delete</Icon>
                 </IconButton>
-              </div>
-            </div>
+              </Box>
+            </Box>
           ))
         }
 

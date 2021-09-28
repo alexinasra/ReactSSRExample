@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import { useTranslation } from 'react-i18next';
 
 import Grid from '@mui/material/Grid';
@@ -9,21 +8,19 @@ import TextField from '@mui/material/TextField';
 
 import { useQuery, useMutation, gql } from '@apollo/client';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-  },
+const styles = {
   inputText: {
-    marginBottom: theme.spacing(3),
+    marginBottom: (theme) => theme.spacing(3),
   },
   actions: {
     display: 'flex',
     justifyContent: 'flex-end',
   },
   action: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginLeft: (theme) => theme.spacing(1),
+    marginRight: (theme) => theme.spacing(1),
   },
-}));
+};
 
 const USER_PROFILE = gql`
 query UserProfile {
@@ -45,7 +42,6 @@ mutation UpdateUserProfile($input: UserProfileInput!) {
 }`;
 
 function EditForm({ user }) {
-  const classes = useStyles();
   const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   const [firstname, setFirstname] = useState(user.firstname || '');
   const [lastname, setLastname] = useState(user.lastname || '');
@@ -79,11 +75,11 @@ function EditForm({ user }) {
   if (loading) return (<p>Loading</p>);
   if (error) return (<pre>{JSON.stringify(error, null, 2)}</pre>);
   return (
-    <form className={classes.root}>
+    <form>
       <Grid container>
         <Grid item md={12}>
           <TextField
-            className={classes.inputText}
+            sx={styles.inputText}
             fullWidth
             variant="outlined"
             value={firstname}
@@ -91,7 +87,7 @@ function EditForm({ user }) {
             label={t('userProfile.firstname')}
           />
           <TextField
-            className={classes.inputText}
+            sx={styles.inputText}
             fullWidth
             variant="outlined"
             value={lastname}
@@ -99,9 +95,9 @@ function EditForm({ user }) {
             label={t('userProfile.lastname')}
           />
         </Grid>
-        <Grid className={classes.actions} item md={12}>
+        <Grid sx={styles.actions} item md={12}>
           <Button
-            className={classes.action}
+            sx={styles.action}
             variant="contained"
             color="primary"
             onClick={handleSave}
@@ -109,7 +105,7 @@ function EditForm({ user }) {
             {t('userProfile.save')}
           </Button>
           <Button
-            className={classes.action}
+            sx={styles.action}
             variant="contained"
             onClick={handleReload}
           >

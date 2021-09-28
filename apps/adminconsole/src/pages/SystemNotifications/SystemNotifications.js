@@ -3,7 +3,6 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Button from '@mui/material/Button';
 
-import { makeStyles } from '@mui/styles';
 import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutPaperPage';
 
 const SYS_NOTIFICATIONS_Q = gql`
@@ -34,12 +33,8 @@ mutation ($message: String!) {
   }
 }
 `;
-const useStyles = makeStyles(() => ({
-  root: {},
-}));
 
 export default function SystemNotifications() {
-  const classes = useStyles();
   const {
     data, loading, error, subscribeToMore,
   } = useQuery(SYS_NOTIFICATIONS_Q);
@@ -82,8 +77,8 @@ export default function SystemNotifications() {
     return (<p>Loading...</p>);
   }
   return (
-    <LayoutPage className={classes.root}>
-      <TextareaAutosize value={message} onChange={handleChange} rowsMin={5} />
+    <LayoutPage>
+      <TextareaAutosize value={message} onChange={handleChange} minRows={5} />
       <Button disabled={!message} onClick={handleSubmit}>Send</Button>
       {
         data.systemNotifications.map((n, index) => (

@@ -11,29 +11,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
 import AuthStatusCode from '../../AuthStatusCode';
 import AuthPage from '../../layout/AuthPage';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: (theme) => theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: (theme) => theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: (theme) => theme.spacing(3, 0, 2),
   },
-}));
+};
 
 const SIGN_IN = gql`
 mutation SigninWithEmail($email: String!, $password: String!){
@@ -52,8 +47,6 @@ mutation SigninWithEmail($email: String!, $password: String!){
 `;
 
 export default function SignIn() {
-  // const query = useQuery();
-  const classes = useStyles();
   const { t } = useTranslation('Auth', { useSuspense: false });
   const [inputError, setInputError] = useState(false);
 
@@ -105,11 +98,11 @@ export default function SignIn() {
   };
 
   return (
-    <AuthPage className={classes.paper} maxWidth="xs">
+    <AuthPage sx={styles.paper} maxWidth="xs">
       {inputError && (
       <Alert severity="warning">{inputError}</Alert>
       )}
-      <form className={classes.form} onSubmit={signIn} noValidate>
+      <form sx={styles.form} onSubmit={signIn} noValidate>
         <TextField
           variant="outlined"
           margin="normal"
@@ -145,7 +138,7 @@ export default function SignIn() {
           fullWidth
           variant="contained"
           color="primary"
-          className={classes.submit}
+          sx={styles.submit}
         >
           {t('SigninButton.text')}
         </Button>

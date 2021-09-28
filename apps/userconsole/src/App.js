@@ -130,7 +130,6 @@ export default function App() {
               <ThemeModeToggle />
               <ThemePaletteSelect />
             </LayoutAppBar>
-            {' '}
             <LayoutSideBar mainNav={<MainNav />} />
             <LayoutContentContainer>
               <Switch>

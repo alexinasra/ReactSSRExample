@@ -1,37 +1,31 @@
 import React from 'react';
 import { Redirect, Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
 import Avatar from '@mui/material/Avatar';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
 import AuthPage from '../../layout/AuthPage';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stritch',
-    justifyContent: 'center',
-  },
-  avatar: {
-    alignSelf: 'center',
-    width: 120,
-    height: 120,
-  },
-
-}));
-
 export default function Home() {
-  const classes = useStyles();
   return (
     <AuthReport>
       {({ userInRole }) => (userInRole ? (
         <AuthPage>
-          <div className={classes.root}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stritch',
+            justifyContent: 'center',
+          }}
+          >
             <Avatar
-              className={classes.avatar}
+              sx={{
+                alignSelf: 'center',
+                width: 120,
+                height: 120,
+              }}
               src={userInRole.profilePicture}
             />
             <div>
@@ -46,7 +40,7 @@ export default function Home() {
                 Signout
               </RouterLink>
             </div>
-          </div>
+          </Box>
         </AuthPage>
       ) : (
         <Redirect to="/auth/signin" />

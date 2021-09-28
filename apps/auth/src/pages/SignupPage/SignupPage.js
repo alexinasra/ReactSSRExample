@@ -11,29 +11,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
 import AuthPage from '../../layout/AuthPage';
 import AuthStatusCode from '../../AuthStatusCode';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: (theme) => theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: (theme) => theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: (theme) => theme.spacing(3, 0, 2),
   },
-}));
+};
 const SIGN_UP = gql`
 mutation ($firstname: String!, $lastname: String!, $email: String!, $password: String!){
   signup(
@@ -56,7 +51,6 @@ mutation ($firstname: String!, $lastname: String!, $email: String!, $password: S
 `;
 
 export default function SignUp() {
-  const classes = useStyles();
   const { t } = useTranslation('Auth', { useSuspense: false });
 
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -100,11 +94,11 @@ export default function SignUp() {
   };
 
   return (
-    <AuthPage className={classes.paper} maxWidth="xs">
+    <AuthPage sx={styles.paper} maxWidth="xs">
       {inputError && (
       <Alert severity="warning">{inputError}</Alert>
       )}
-      <form className={classes.form} onSubmit={signUp} noValidate>
+      <form sx={styles.form} onSubmit={signUp} noValidate>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
 
@@ -190,7 +184,7 @@ export default function SignUp() {
           variant="contained"
           color="primary"
           disabled={!acceptTerms}
-          className={classes.submit}
+          sx={styles.submit}
         >
           {t('SignupButton.text')}
         </Button>

@@ -63,7 +63,7 @@ export default function EditTranslationValue({
           onChange={handleValueChange}
           aria-label="empty textarea"
           placeholder="Empty"
-          rows={5}
+          minRows={5}
         />
       </bdi>
       <Button type="submit">

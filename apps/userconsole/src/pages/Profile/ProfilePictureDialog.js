@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 
-import { makeStyles, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/styles';
 
 import SwipeableViews from 'react-swipeable-views';
 
@@ -18,14 +18,6 @@ import Tab from '@mui/material/Tab';
 import ProfilePictureSelect from './ProfilePictureSelect';
 import UploadProfilePicture from './UploadProfilePicture';
 
-const useStyles = makeStyles(() => ({
-  root: {},
-  title: {
-    display: 'flex',
-    alignItem: 'center',
-    justifyContent: 'center',
-  },
-}));
 const GET_PROFILE_PIC = gql`
 query ProfilePic {
   userInRole {
@@ -36,7 +28,6 @@ query ProfilePic {
 `;
 
 export default function ProfilePictureDialog({ open, onClose }) {
-  const classes = useStyles();
   const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   const { loading, error, data } = useQuery(GET_PROFILE_PIC);
   const [tabIndex, setTabIndex] = React.useState(0);
@@ -56,8 +47,13 @@ export default function ProfilePictureDialog({ open, onClose }) {
   }
 
   return (
-    <Dialog open={open} className={classes.root}>
-      <DialogTitle className={classes.title}>
+    <Dialog open={open}>
+      <DialogTitle sx={{
+        display: 'flex',
+        alignItem: 'center',
+        justifyContent: 'center',
+      }}
+      >
         <Avatar src={data.userInRole.profilePicture} />
       </DialogTitle>
       <DialogContent>

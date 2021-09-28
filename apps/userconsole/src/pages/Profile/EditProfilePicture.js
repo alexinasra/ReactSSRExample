@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@mui/styles';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import ProfilePictureDialog from './ProfilePictureDialog';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: theme.spacing(4),
-    marginRight: theme.spacing(4),
-    padding: theme.spacing(4),
+    marginLeft: (theme) => theme.spacing(4),
+    marginRight: (theme) => theme.spacing(4),
+    padding: (theme) => theme.spacing(4),
   },
   avatar: {
-    height: theme.spacing(24),
-    width: theme.spacing(24),
-    marginBottom: theme.spacing(2),
+    height: (theme) => theme.spacing(24),
+    width: (theme) => theme.spacing(24),
+    marginBottom: (theme) => theme.spacing(2),
   },
-}));
+};
 
 const GET_PROFILE_PIC = gql`
 query ProfilePic {
@@ -36,7 +35,6 @@ query ProfilePic {
 export default function EditProfilePicture() {
   const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
 
-  const classes = useStyles();
   const { loading, error, data } = useQuery(GET_PROFILE_PIC);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -56,8 +54,8 @@ export default function EditProfilePicture() {
 
   return (
     <>
-      <Paper className={classes.root}>
-        <Avatar className={classes.avatar} src={profilePicture} />
+      <Paper sx={styles.root}>
+        <Avatar sx={styles.avatar} src={profilePicture} />
         <Button variant="contained" onClick={handleDialogOpen}>{t('userProfile.changeProfilePic')}</Button>
       </Paper>
       <ProfilePictureDialog open={dialogOpen} onClose={handleDialogClose} />

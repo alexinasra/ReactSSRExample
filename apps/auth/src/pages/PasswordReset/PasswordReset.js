@@ -1,15 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import AuthPage from '../../layout/AuthPage';
-
-const useStyles = makeStyles(() => ({
-  root: {},
-}));
 
 const CHANGE_PASSWORD = gql`
 mutation ($password: String! $newPassword: String!) {
@@ -27,7 +22,6 @@ function useQuery() {
 }
 
 export default function PasswordReset() {
-  const classes = useStyles();
   const query = useQuery();
   const { t, ready } = useTranslation('Auth', { useSuspense: false });
   if (!ready) {
@@ -47,7 +41,7 @@ export default function PasswordReset() {
   };
 
   return (
-    <AuthPage className={classes.root} loading={loading} error={error}>
+    <AuthPage loading={loading} error={error}>
       <TextField
         variant="outlined"
         margin="normal"
@@ -79,10 +73,10 @@ export default function PasswordReset() {
         margin="normal"
         required
         fullWidth
-        name="password"
+        name="renew-password"
         label={t('PasswordInput.label')}
         type="password"
-        id="password"
+        id="renew-password"
         autoComplete="current-password"
         value={passwordConfirm}
         onChange={(e) => setPasswordConfirm(e.target.value)}

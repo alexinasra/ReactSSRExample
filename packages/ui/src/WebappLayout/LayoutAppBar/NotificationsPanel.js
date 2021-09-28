@@ -1,6 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
@@ -12,19 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import Notifications from '../../Notifications';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  notification: {
-    background: theme.palette.grey[theme.palette.type ==="dark"? 500: 100]
-  },
-
-}));
-
-
 export default function NotificationsPanel() {
-  const classes = useStyles();
-  
+
   React.useEffect(() => {}, [])
   return (
     <Notifications>

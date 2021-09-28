@@ -1,22 +1,19 @@
 import React, { useMemo } from 'react';
-import { makeStyles } from '@mui/styles';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import clsx from 'clsx';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  link: { margin: `auto ${theme.spacing(1)}px ` },
+const styles = {
+  link: { margin: (theme) => `auto ${theme.spacing(1)}px ` },
   langButton: {
-    background: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[600],
+    background: (theme) => (theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[600]),
   },
   selectedLanguage: {
-    background: theme.palette.success[theme.palette.type],
+    background: (theme) => theme.palette.success[theme.palette.mode],
   },
-}));
+};
 
 const PREFERED_LANG = gql`
 query {
@@ -37,7 +34,6 @@ mutation ($lng: String!) {
 `;
 
 export default function LanguageSettings() {
-  const classes = useStyles();
   const { i18n, t, ready } = useTranslation(null, { useSuspense: false });
   const { data, loading, error } = useQuery(PREFERED_LANG);
   const [setPreferedLanguage] = useMutation(SET_PREFERED_LANG);
@@ -60,17 +56,12 @@ export default function LanguageSettings() {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box sx={styles.root}>
       <ButtonGroup>
         {systemLanguages.map((lng) => (
           <Button
-            className={
-              clsx(
-                classes.langButton,
-                {
-                  [classes.selectedLanguage]: lng === data.userInRole.preferedLanguage,
-                },
-              )
+            sx={
+              lng === data.userInRole.preferedLanguage ? styles.langButton : styles.selectedLanguage
             }
             onClick={handleLanguageChange(lng)}
             key={lng}

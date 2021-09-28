@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -19,18 +18,8 @@ query {
   }
 }
 `;
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: '36ch',
-    backgroundColor: theme.palette.background.paper,
-  },
-  inline: {
-    display: 'inline',
-  },
-}));
+
 export default function Users() {
-  const classes = useStyles();
   const { data, error, loading } = useQuery(USERS);
 
   if (error) {
@@ -44,8 +33,13 @@ export default function Users() {
 
   return (
     <LayoutPage>
-      <List className={classes.root} />
-      {
+      <List sx={{
+        width: '100%',
+        maxWidth: '36ch',
+        backgroundColor: (theme) => theme.palette.background.paper,
+      }}
+      >
+        {
         users.map((user) => (
           <ListItem key={user.id} alignItems="flex-start">
             <ListItemAvatar>
@@ -58,6 +52,7 @@ export default function Users() {
           </ListItem>
         ))
       }
+      </List>
     </LayoutPage>
   );
 }
