@@ -21,6 +21,5 @@ module.exports = async function (root, args, {
   }
 
   const notifications = await Notification.getUnchecked(user._id);
-  console.log(notifications)
   return notifications;
 }
