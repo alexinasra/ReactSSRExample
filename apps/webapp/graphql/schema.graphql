@@ -1,3 +1,16 @@
 extend type Query {
   _webapp: Boolean
 }
+extend type Mutation {
+  voteOnPoll(input: VoteOnPollInput!): VoteOnPollPayload
+}
+
+input VoteOnPollInput {
+  pollId: String!
+  optionId: String!
+}
+type VoteOnPollPayload {
+  voted: Boolean
+  error: String
+  poll: Poll
+}

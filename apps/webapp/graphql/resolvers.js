@@ -1,6 +1,9 @@
+const mutations = require('./mutations');
+const queries = require('./queries');
+const types = require('./types');
 
 module.exports = {
-  Query: {
-    _webapp: () => true
-  }
+  Query: queries,
+  Mutation: mutations,
+  ...types
 }

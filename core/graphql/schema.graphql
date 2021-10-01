@@ -3,12 +3,15 @@ type Query {
   application: Application!
   themeSettings: Theme!
   notifications: [Notification]
+  getPoll(pollId: String!): Poll
+  allPolls: [Poll]
 }
 type Mutation {
   setThemeName(themeName: String!): Theme!
   setThemeMode(themeMode: String!): Theme!
   toggleThemeMode: Theme!
   checkNotifications(notificationIds: [String!]!): CheckNotificationsPayload
+  createPoll(input: CreatePollInput): CreatePollPayload
 }
 
 type Subscription {
@@ -46,4 +49,31 @@ type Notification {
 }
 type CheckNotificationsPayload {
   checked: [Notification]
+}
+
+type Poll {
+  id: String!
+  userId: String
+  subject: String!
+  options: [PollOption]
+  votersCount: Int!
+  myVote: PollOption
+}
+
+type PollOption {
+  id: String!
+  text: String!
+  voters: [String!]
+  votersCount: Int!
+}
+
+input CreatePollInput {
+  subject: String!
+  options: [String!]!
+}
+
+type CreatePollPayload {
+  created: Boolean
+  poll: Poll
+  error: String
 }

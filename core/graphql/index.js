@@ -26,12 +26,11 @@ const webappPermissions = require('@react-ssrex/webapp/graphql/permissions');
 const useragent = require('express-useragent');
 const { applyMiddleware } = require('graphql-middleware');
 
-
-
 const {
   execute,
   subscribe
 } = require('graphql');
+
 const MongoDbConfig = require('@react-ssrex/config/mongodb.config.js');
 
 

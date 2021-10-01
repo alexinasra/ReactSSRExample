@@ -16,6 +16,7 @@ import LayoutContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContainer'
 import createTheme from '@react-ssrex/ui/build/createTheme';
 
 import HomePage from './pages/HomePage';
+import CreatePoll from './pages/Poll/CreatePoll';
 import { PageNotFound } from './pages/ErrorPage';
 
 const THEME_SETTINGS = gql`
@@ -60,6 +61,9 @@ function App() {
           <Switch>
             <Route path="/" exact>
               <HomePage />
+            </Route>
+            <Route path="/poll/create" exact>
+              <CreatePoll />
             </Route>
             <Route path="/404">
               <PageNotFound />
