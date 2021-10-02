@@ -17,6 +17,7 @@ import createTheme from '@react-ssrex/ui/build/createTheme';
 
 import HomePage from './pages/HomePage';
 import CreatePoll from './pages/Poll/CreatePoll';
+import ViewPoll from './pages/Poll/ViewPoll';
 import { PageNotFound } from './pages/ErrorPage';
 
 const THEME_SETTINGS = gql`
@@ -61,6 +62,9 @@ function App() {
           <Switch>
             <Route path="/" exact>
               <HomePage />
+            </Route>
+            <Route path="/poll/view-:pollId" exact>
+              <ViewPoll />
             </Route>
             <Route path="/poll/create" exact>
               <CreatePoll />
