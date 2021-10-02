@@ -4,6 +4,9 @@ const { isAuthenticated, isGuest, isUser } = require('@react-ssrex/graphql/rules
 const permissions = shield({
   Query: {
     _webapp: deny
+  },
+  Mutation: {
+    voteOnPoll: isUser
   }
 });
 
