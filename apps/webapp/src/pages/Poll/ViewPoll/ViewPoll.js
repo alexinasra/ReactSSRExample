@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import LayoutPage from '@react-ssrex/ui/build/WebappLayout/LayoutBasePage';
 
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
 
 import { gql, useQuery } from '@apollo/client';
+
+import VoteOnPoll from '../../actions/VoteOnPoll';
 
 const GET_POLL_Q = gql`
 query ($pollId: String!) {
@@ -18,6 +18,12 @@ query ($pollId: String!) {
     userId
     subject
     options {
+      id
+      text
+      voters
+      votersCount
+    }
+    myVote {
       id
       text
       voters
@@ -42,34 +48,39 @@ export default function ViewPoll() {
   }
   return (
     <LayoutPage decorate>
-      <Card
-        sx={{
-          marginTop: (theme) => theme.spacing(3),
-          marginBottom: (theme) => theme.spacing(3),
-        }}
-      >
-        <CardHeader title={data.getPoll.subject} />
-        <CardContent>
-          <List>
-            {data.getPoll.options.map((o) => (
-              <ListItemButton
-                selected={data.getPoll.myVote && data.getPoll.myVote.id === o.id}
-                disabled={!!data.getPoll.myVote}
-                key={o.id}
-              >
-                <Typography>{o.text}</Typography>
-                {data.getPoll.myVote && (
-                <Typography>
-                  {o.votersCount}
-                  /
-                  {data.getPoll.votersCount}
-                </Typography>
-                )}
-              </ListItemButton>
-            ))}
-          </List>
-        </CardContent>
-      </Card>
+      <VoteOnPoll>
+        { ({ vote }) => (
+          <Box
+            sx={{
+              marginTop: (theme) => theme.spacing(3),
+              marginBottom: (theme) => theme.spacing(3),
+            }}
+          >
+            <Typography variant="title">{data.getPoll.subject}</Typography>
+            <Box>
+              <List>
+                {data.getPoll.options.map((o) => (
+                  <ListItemButton
+                    selected={data.getPoll.myVote && data.getPoll.myVote.id === o.id}
+                    disabled={!!data.getPoll.myVote}
+                    onClick={() => vote(data.getPoll.id, o.id)}
+                    key={o.id}
+                  >
+                    <Typography>{o.text}</Typography>
+                    {data.getPoll.myVote && (
+                    <Typography>
+                      {o.votersCount}
+                      /
+                      {data.getPoll.votersCount}
+                    </Typography>
+                    )}
+                  </ListItemButton>
+                ))}
+              </List>
+            </Box>
+          </Box>
+        )}
+      </VoteOnPoll>
     </LayoutPage>
   );
 }
