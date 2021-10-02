@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import LayoutPage from '@react-ssrex/ui/build/WebappLayout/LayoutBasePage';
 import { gql, useMutation } from '@apollo/client';
-import PollForm from './PollForm';
+import PollForm from '@react-ssrex/ui/build/PollForm';
 
 const CREATE_POLL_M = gql`
 mutation ($input: CreatePollInput!) {
