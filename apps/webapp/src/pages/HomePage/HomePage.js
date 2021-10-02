@@ -5,14 +5,9 @@ import Icon from '@mui/material/Icon';
 
 import LayoutBasePage from '@react-ssrex/ui/build/WebappLayout/LayoutBasePage';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
 import { gql } from '@apollo/client';
 import GqlQuery from '@react-ssrex/ui/build/GqlQuery';
-import VoteOnPoll from '../actions/VoteOnPoll';
+import PollCard from './PollCard';
 
 const GET_ALL_Q = gql`
 query {
@@ -34,9 +29,6 @@ query {
     }
     votersCount
   }
-  userInRole {
-    id
-  }
 }
 `;
 
@@ -44,56 +36,17 @@ export default function HomePage() {
   return (
     <LayoutBasePage>
       <GqlQuery query={GET_ALL_Q}>
-        {
-        ({ allPolls }) => (
-          <>
-            {
-            ((allPolls && allPolls.length) ? (
-              <VoteOnPoll>
-                {({ vote }) => [...allPolls].reverse().map((p) => (
-                  <Card
-                    key={p.id}
-                    raised={!p.myVote}
-                    sx={{
-                      marginTop: (theme) => theme.spacing(3),
-                      marginBottom: (theme) => theme.spacing(3),
-                    }}
-                  >
-                    <CardHeader title={p.subject} />
-                    <CardContent>
-                      <List>
-                        {p.options.map((o) => (
-                          <ListItemButton
-                            selected={p.myVote && p.myVote.id === o.id}
-                            disabled={!!p.myVote}
-                            key={o.id}
-                            onClick={() => vote(p.id, o.id)}
-                          >
-                            <Typography>{o.text}</Typography>
-                            {p.myVote && (
-                            <Typography>
-                              {o.votersCount}
-                              /
-                              {p.votersCount}
-                            </Typography>
-                            )}
-                          </ListItemButton>
-                        ))}
-                      </List>
-                    </CardContent>
-                  </Card>
-                ))}
-              </VoteOnPoll>
-            ) : (
+        {({ allPolls }) => (
+          <div>
+            {(allPolls && allPolls.length) ? [...allPolls].reverse().map((p) => (
+              <div key={p.id}><PollCard poll={p} /></div>
+            )) : (
               <Typography>
                 No polls available.
               </Typography>
-            ))
-          }
-          </>
-        )
-      }
-
+            )}
+          </div>
+        )}
       </GqlQuery>
       <Fab
         sx={{
