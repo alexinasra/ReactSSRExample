@@ -62,10 +62,10 @@ export default function AuthStatus() {
                 </>
               ) : (
                 <>
-                  <Button href="/auth/signin">
+                  <Button color="inherit" href="/auth/signin">
                       {t('SigninButton.text', { defaultValue: 'Sign In' })}
                   </Button>
-                  <Button href="/auth/signup">
+                  <Button color="inherit" href="/auth/signup">
                       {t('SignupButton.text', { defaultValue: 'Sign Up' })}
                   </Button>
                 </>
