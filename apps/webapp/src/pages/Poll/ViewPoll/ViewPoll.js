@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 
 import { gql } from '@apollo/client';
 import PollOptionsList from './PollOptionsList';
+import PollSkeleton from './PollSkeleton';
 
 const GET_POLL_Q = gql`
 query ($pollId: String!) {
@@ -36,7 +37,11 @@ export default function ViewPoll() {
   const { pollId } = useParams();
   return (
     <LayoutPage decorate>
-      <GqlQuery query={GET_POLL_Q} variables={{ pollId }}>
+      <GqlQuery
+        query={GET_POLL_Q}
+        renderLoading={() => (<PollSkeleton />)}
+        variables={{ pollId }}
+      >
         {({ getPoll }) => (
           <Box
             sx={{
