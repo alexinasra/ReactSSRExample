@@ -5,13 +5,9 @@ import GqlQuery from '@react-ssrex/ui/build/GqlQuery';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
 
 import { gql } from '@apollo/client';
 import PollOptionsList from './PollOptionsList';
-
-import VoteOnPoll from '../../actions/VoteOnPoll';
 
 const GET_POLL_Q = gql`
 query ($pollId: String!) {
@@ -42,21 +38,17 @@ export default function ViewPoll() {
     <LayoutPage decorate>
       <GqlQuery query={GET_POLL_Q} variables={{ pollId }}>
         {({ getPoll }) => (
-          <VoteOnPoll>
-            { ({ vote }) => (
-              <Box
-                sx={{
-                  marginTop: (theme) => theme.spacing(3),
-                  marginBottom: (theme) => theme.spacing(3),
-                }}
-              >
-                <Typography variant="title">{getPoll.subject}</Typography>
-                <Box>
-                  <PollOptionsList poll={getPoll} />
-                </Box>
-              </Box>
-            )}
-          </VoteOnPoll>
+          <Box
+            sx={{
+              marginTop: (theme) => theme.spacing(3),
+              marginBottom: (theme) => theme.spacing(3),
+            }}
+          >
+            <Typography variant="title">{getPoll.subject}</Typography>
+            <Box>
+              <PollOptionsList poll={getPoll} />
+            </Box>
+          </Box>
         )}
       </GqlQuery>
     </LayoutPage>
