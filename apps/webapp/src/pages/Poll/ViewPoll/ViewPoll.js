@@ -9,6 +9,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 
 import { gql } from '@apollo/client';
+import PollOptionsList from './PollOptionsList';
 
 import VoteOnPoll from '../../actions/VoteOnPoll';
 
@@ -51,25 +52,7 @@ export default function ViewPoll() {
               >
                 <Typography variant="title">{getPoll.subject}</Typography>
                 <Box>
-                  <List>
-                    {getPoll.options.map((o) => (
-                      <ListItemButton
-                        selected={getPoll.myVote && getPoll.myVote.id === o.id}
-                        disabled={!!getPoll.myVote}
-                        onClick={() => vote(getPoll.id, o.id)}
-                        key={o.id}
-                      >
-                        <Typography>{o.text}</Typography>
-                        {getPoll.myVote && (
-                        <Typography>
-                          {o.votersCount}
-                          /
-                          {getPoll.votersCount}
-                        </Typography>
-                        )}
-                      </ListItemButton>
-                    ))}
-                  </List>
+                  <PollOptionsList poll={getPoll} />
                 </Box>
               </Box>
             )}
