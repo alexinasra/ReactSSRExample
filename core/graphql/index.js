@@ -135,20 +135,19 @@ module.exports = async function setup({
     permissions.push(webappPermissions);
   }
 
-  const wsApp = await createApplication({
+  const qlAppEndpoint = await createApplication({
     modules
-  });
-
-  const wsSchema = applyMiddleware(
-    wsApp.createSchemaForApollo(),
+  })
+  const qlSchema = applyMiddleware(
+    qlAppEndpoint.createSchemaForApollo(),
     ...permissions
-  );
+  )
   // Set up the WebSocket for handling GraphQL subscriptions
   new SubscriptionServer({
     execute,
     subscribe,
     keepAlive: 1200,
-    schema: wsSchema,
+    schema: qlSchema,
     onConnect: (params, socket, context) => {
       const req = socket.upgradeReq
       req.headers.authorization = params.Authorization;
@@ -164,13 +163,6 @@ module.exports = async function setup({
 
 
 
-  const qlAppEndpoint = await createApplication({
-    modules
-  })
-  const qlSchema = applyMiddleware(
-    qlAppEndpoint.createSchemaForApollo(),
-    ...permissions
-  )
   const qlServer = new ApolloServer({
     schema: qlSchema,
     context: contextFn,
