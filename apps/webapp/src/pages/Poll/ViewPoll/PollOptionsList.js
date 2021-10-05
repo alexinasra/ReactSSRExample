@@ -10,6 +10,7 @@ import VoteOnPoll from '../../actions/VoteOnPoll';
 const VerticalBar = function VerticalBar({ value }) {
   return (
     <Box sx={{
+      display: value.myVote ? 'block' : 'none',
       position: 'absolute',
       top: 0,
       left: 0,
