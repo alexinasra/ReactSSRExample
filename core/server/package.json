@@ -10,6 +10,10 @@
     "start": "cross-env NODE_ENV=production node ./build/index.js"
   },
   "nodemonConfig": {
+    "ignore": [
+      "../**/*.test.js",
+      "./**/*.test.js"
+    ],
     "watch": [
       "./src/*",
       "../graphql/**",
