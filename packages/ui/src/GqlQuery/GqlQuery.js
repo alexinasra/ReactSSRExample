@@ -10,14 +10,14 @@ import AlertTitle from '@mui/material/AlertTitle';
 export default function GqlQuery({
   query,
   variables,
-  renderError = (e) => {
+  renderError = (e) => (
     <Alert severity="error">
       <AlertTitle>Error</AlertTitle>
       <pre>
         {JSON.stringify(e, null, '*')}
       </pre>
     </Alert>
-  },
+  ),
   renderLoading = () => (
     <Box sx={{ width: 300 }}>
       <Skeleton />
