@@ -5,9 +5,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:start": "cross-env NODE_ENV=development babel-node --config-file ./babel.config.js src/index.js",
+    "dev:start": "cross-env NODE_ENV=development nodemon --exec babel-node --config-file ./babel.config.js src/index.js",
     "prod": "cross-env NODE_ENV=production babel --config-file ./babel.config.js src/* --out-dir build/",
     "start": "cross-env NODE_ENV=production node ./build/index.js"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "./src/*",
+      "../graphql/**",
+      "../i18n/graphql/**",
+      "../i18n/graphql/index.js",
+      "../../apps/**/graphql/**",
+      "../../apps/**/graphql/index.js"
+    ]
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
