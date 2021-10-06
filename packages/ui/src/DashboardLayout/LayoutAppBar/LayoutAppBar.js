@@ -8,9 +8,11 @@ import { styled } from '@mui/material/styles'
 const LayoutAppBarDecorator = styled(AppBar, {
   shouldForwardProp: (prop) => prop!=='expand'
 })(({ theme, expand }) => ({
-    marginLeft: expand? 240:72,
-    width: `calc(100% - ${expand? 240:72}px)`,
-    transition: theme.transitions.create(['width', 'marginLeft', 'marginRight'])
+  padding:0,
+  margin:0,
+  marginLeft: expand? 240:72,
+  width: `calc(100% - ${expand? 240:72}px)`,
+  transition: theme.transitions.create(['width', 'marginLeft', 'marginRight']),
 }))
 
 export default function LayoutAppBar({children}) {
@@ -22,7 +24,11 @@ export default function LayoutAppBar({children}) {
     <LayoutAppBarDecorator
       position="fixed"
       expand={state.expandedSidebar}>
-      <Toolbar sx={{paddingRight: 24}}>
+      <Toolbar sx={{
+        padding:0,
+        margin:0,
+        display: 'flex',
+      }}>
         {children}
       </Toolbar>
     </LayoutAppBarDecorator>

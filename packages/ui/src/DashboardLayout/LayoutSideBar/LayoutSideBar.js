@@ -32,15 +32,19 @@ export default function LayoutSideBar({ mainNav, secondaryNav}) {
           anchor="left"
           open={expandedSidebar || localExpand}
         >
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: expandedSidebar ? 'center' : 'flex-start',
-          }}>
-            <RouterLink to="/">
-              <img src={`/assets/logo${!expandedSidebar ? '-compact' : ''}.png`} alt="lookfor.ae" />
-            </RouterLink>
-          </Box>
+          <RouterLink to="/">
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              ['& img']: {
+                height: theme => theme.mixins.toolbar.minHeight + 8,
+              }
+            }}>
+                <img src={`/assets/logo${!expandedSidebar ? '-compact' : ''}.png`} alt="ReactSSREX" />
+            </Box>
+          </RouterLink>
           <Divider />
           <UserProfile />
           <Divider />

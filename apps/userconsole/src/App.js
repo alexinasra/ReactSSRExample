@@ -8,9 +8,7 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 
-import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
 
 import List from '@mui/material/List';
 
@@ -25,8 +23,6 @@ import LayoutContentContainer from '@react-ssrex/ui/build/DashboardLayout/Layout
 import LayoutAppBar from '@react-ssrex/ui/build/DashboardLayout/LayoutAppBar';
 import LayoutSideBar from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBar';
 
-import LayoutContext, { LayoutDefaultState } from '@react-ssrex/ui/build/DashboardLayout/LayoutContext';
-import SideBarReducer, * as actions from '@react-ssrex/ui/build/DashboardLayout/SideBarReducer';
 import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
 import AppLoading from '@react-ssrex/ui/build/AppLoading';
 
@@ -35,6 +31,7 @@ import LayoutSideBarToggle from '@react-ssrex/ui/build/DashboardLayout/LayoutSid
 import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
 import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 
+import createEmotionCache from '@react-ssrex/ui/build/createEmotionCache';
 import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
@@ -77,22 +74,10 @@ query {
 }
 `;
 
-// Create rtl cache
-const cacheRtl = createCache({
-  key: 'muirtl',
-  stylisPlugins: [rtlPlugin],
-});
-const cacheLtr = createCache({
-  key: 'mui',
-});
-
 export default function App() {
   const { i18n } = useTranslation();
   const { data, loading, error } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
-  const [state, dispatch] = React.useReducer(SideBarReducer, {
-    ...LayoutDefaultState,
-  });
 
   React.useEffect(() => {
     i18n.on('languageChanged', (lng) => {
@@ -121,38 +106,31 @@ export default function App() {
   }
 
   return (
-    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+    <CacheProvider value={createEmotionCache(direction)}>
       <ForceSignin signinUrl="/auth/signin">
-        <LayoutContext.Provider value={{
-          state,
-          expandSidebar: () => dispatch(actions.expandSidebarAction()),
-          shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-        }}
-        >
-          <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-            <LayoutContainer>
-              <LayoutAppBar>
-                <LayoutSideBarToggle />
-                <ThemeModeToggle />
-                <ThemePaletteSelect />
-              </LayoutAppBar>
-              <LayoutSideBar mainNav={<MainNav />} />
-              <LayoutContentContainer>
-                <Switch>
-                  <Route path="/profile" exact>
-                    <Profile />
-                  </Route>
-                  <Route path="/settings" exact>
-                    <Settings />
-                  </Route>
-                  <Route path="/">
-                    <HomePage />
-                  </Route>
-                </Switch>
-              </LayoutContentContainer>
-            </LayoutContainer>
-          </ThemeProvider>
-        </LayoutContext.Provider>
+        <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+          <LayoutContainer>
+            <LayoutAppBar>
+              <LayoutSideBarToggle />
+              <ThemeModeToggle />
+              <ThemePaletteSelect />
+            </LayoutAppBar>
+            <LayoutSideBar mainNav={<MainNav />} />
+            <LayoutContentContainer>
+              <Switch>
+                <Route path="/profile" exact>
+                  <Profile />
+                </Route>
+                <Route path="/settings" exact>
+                  <Settings />
+                </Route>
+                <Route path="/">
+                  <HomePage />
+                </Route>
+              </Switch>
+            </LayoutContentContainer>
+          </LayoutContainer>
+        </ThemeProvider>
       </ForceSignin>
     </CacheProvider>
   );

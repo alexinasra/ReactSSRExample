@@ -50,7 +50,7 @@ export default function ThemePaletteSelect({
     <Select
       id="theme-menu"
       autoWidth
-      variant="outlined"
+      variant="standard"
       value={theme.palette.id}
       onChange={selectItem}
     >
@@ -59,8 +59,7 @@ export default function ThemePaletteSelect({
           alignItems: 'center'}}>
           <Icon sx={{
             margin: theme => `auto ${theme.spacing(1)}px`,
-            backgroundColor: blue[500],
-            borderRadius: '50%'
+            backgroundColor: defaultTheme.lightPalette.palette.primary.main,
           }}>palette</Icon>
           {defaultTheme.lightPalette.palette.name}
         </Box>
@@ -70,8 +69,7 @@ export default function ThemePaletteSelect({
           alignItems: 'center'}}>
           <Icon sx={{
             margin: theme => `auto ${theme.spacing(1)}px`,
-            backgroundColor: deepOrange[500],
-            borderRadius: '50%'
+            backgroundColor: deepOrangeTheme.lightPalette.palette.primary.main,
           }}>palette</Icon>
           {deepOrangeTheme.lightPalette.palette.name}
         </Box>

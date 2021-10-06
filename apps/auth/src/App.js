@@ -6,14 +6,13 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 
-import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
 
 import { useTranslation } from 'react-i18next';
 import createTheme from '@react-ssrex/ui/build/createTheme';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
 
+import createEmotionCache from '@react-ssrex/ui/build/createEmotionCache';
 import AuthContainer from './layout/AuthContainer';
 
 import Home from './pages/Home';
@@ -28,14 +27,7 @@ query {
   themeSettings @client
 }
 `;
-// Create rtl cache
-const cacheRtl = createCache({
-  key: 'muirtl',
-  stylisPlugins: [rtlPlugin],
-});
-const cacheLtr = createCache({
-  key: 'mui',
-});
+
 function App() {
   const { i18n } = useTranslation();
   const { data } = useQuery(THEME_SETTINGS);
@@ -60,7 +52,7 @@ function App() {
     };
   }, [data]);
   return (
-    <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
+    <CacheProvider value={createEmotionCache(direction)}>
       <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
         <AuthReport>
           {({ userInRole }) => (

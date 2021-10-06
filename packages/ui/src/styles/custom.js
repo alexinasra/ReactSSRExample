@@ -263,7 +263,7 @@ export default function customStyle(themePalette, mode, direction){
       MuiToolbar: {
         styleOverrides: {
           root: {
-            borderRadius: 8,
+            borderRadius: 0,
           }
         },
       },
