@@ -18,7 +18,6 @@ import AuthContainer from './layout/AuthContainer';
 import Home from './pages/Home';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
-import GuestSigninPage from './pages/GuestSigninPage';
 import SignoutPage from './pages/SignoutPage';
 import PasswordReset from './pages/PasswordReset';
 
@@ -63,9 +62,6 @@ function App() {
                 </Route>
                 <Route path="/signin" exact>
                   {userInRole ? <Redirect to="/" /> : <SigninPage />}
-                </Route>
-                <Route path="/guest-signin" exact>
-                  <GuestSigninPage />
                 </Route>
                 <Route path="/signout" exact>
                   <SignoutPage />
