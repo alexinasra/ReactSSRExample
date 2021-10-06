@@ -1,10 +1,10 @@
 import React from 'react';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
-import createTheme from '@react-ssrex/ui/build/createTheme';
 import { gql, useQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import createEmotionCache from '@react-ssrex/ui/build/createEmotionCache';
+import createTheme from './createTheme';
+import createEmotionCache from './createEmotionCache';
 
 const THEME_SETTINGS = gql`
 query ThemeSettingsQuery{

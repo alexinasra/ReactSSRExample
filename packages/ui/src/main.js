@@ -13,7 +13,7 @@ import { initReactI18next, withSSR } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
 import Cookies from 'js-cookie'
-
+import InitTheme from './InitTheme';
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 
 
@@ -121,7 +121,9 @@ export default async function main({
     if (rootElement) {
       ReactDom.hydrate(<ApolloProvider client={client}>
           <BrowserRouter basename={basename}>
-            <I18nSSR />
+            <InitTheme>
+              <I18nSSR />
+            </InitTheme>
           </BrowserRouter>
         </ApolloProvider>,
         rootElement,

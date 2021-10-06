@@ -15,7 +15,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import fetch from 'node-fetch';
 import { I18nextProvider } from 'react-i18next';
-
+import InitTheme from './InitTheme';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from './createEmotionCache';
@@ -84,9 +84,11 @@ export default function serverRender(basename, templatename, App) {
       const body = ReactDOMServer.renderToString(
         <I18nextProvider i18n={req.i18n}>
           <ApolloProvider client={client}>
-            <StaticRouter basename={basename} context={context} location={req.url}>
-              <App />
-            </StaticRouter>
+            <InitTheme>
+              <StaticRouter basename={basename} context={context} location={req.url}>
+                <App />
+              </StaticRouter>
+            </InitTheme>
           </ApolloProvider>
         </I18nextProvider>,
       );

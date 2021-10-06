@@ -1,18 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
-
-import {
-  ThemeProvider,
-} from '@mui/material/styles';
-
-import { CacheProvider } from '@emotion/react';
-
-import { useTranslation } from 'react-i18next';
-import createTheme from '@react-ssrex/ui/build/createTheme';
 import AuthReport from '@react-ssrex/ui/build/AuthReport';
 
-import createEmotionCache from '@react-ssrex/ui/build/createEmotionCache';
 import AuthContainer from './layout/AuthContainer';
 
 import Home from './pages/Home';
@@ -21,64 +10,32 @@ import SignupPage from './pages/SignupPage';
 import SignoutPage from './pages/SignoutPage';
 import PasswordReset from './pages/PasswordReset';
 
-const THEME_SETTINGS = gql`
-query {
-  themeSettings @client
-}
-`;
-
 function App() {
-  const { i18n } = useTranslation();
-  const { data } = useQuery(THEME_SETTINGS);
-  const [direction, setDirection] = React.useState(i18n.dir());
-
-  React.useEffect(() => {
-    i18n.on('languageChanged', (lng) => {
-      setDirection(i18n.dir(lng));
-    });
-  }, [i18n]);
-
-  const theme = React.useMemo(() => {
-    if (data && data.themeSettings) {
-      return {
-        themeName: data.themeSettings.name,
-        themeMode: data.themeSettings.mode,
-      };
-    }
-    return {
-      themeName: 'default',
-      themeMode: 'light',
-    };
-  }, [data]);
   return (
-    <CacheProvider value={createEmotionCache(direction)}>
-      <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
-        <AuthReport>
-          {({ userInRole }) => (
-            <AuthContainer>
-              <Switch>
-                <Route path="/signup" exact>
-                  {userInRole ? <Redirect to="/" /> : <SignupPage />}
-                </Route>
-                <Route path="/signin" exact>
-                  {userInRole ? <Redirect to="/" /> : <SigninPage />}
-                </Route>
-                <Route path="/signout" exact>
-                  <SignoutPage />
-                </Route>
-                <Route path="/change-password" exact>
-                  <PasswordReset />
-                </Route>
-                <Route path="/" exact>
-                  <Home />
-                </Route>
-                <Redirect to="/signin" />
-              </Switch>
-            </AuthContainer>
-          )}
-        </AuthReport>
-      </ThemeProvider>
-    </CacheProvider>
+    <AuthReport>
+      {({ userInRole }) => (
+        <AuthContainer>
+          <Switch>
+            <Route path="/signup" exact>
+              {userInRole ? <Redirect to="/" /> : <SignupPage />}
+            </Route>
+            <Route path="/signin" exact>
+              {userInRole ? <Redirect to="/" /> : <SigninPage />}
+            </Route>
+            <Route path="/signout" exact>
+              <SignoutPage />
+            </Route>
+            <Route path="/change-password" exact>
+              <PasswordReset />
+            </Route>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Redirect to="/signin" />
+          </Switch>
+        </AuthContainer>
+      )}
+    </AuthReport>
   );
 }
 
