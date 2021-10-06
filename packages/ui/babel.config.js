@@ -5,6 +5,7 @@ module.exports = {
     }]],
   ignore: ["node_modules"],
   plugins: [
+    "import-graphql",
     [
       "file-loader",
       {

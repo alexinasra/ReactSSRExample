@@ -6,8 +6,9 @@ module.exports = {
     "@babel/preset-react"],
   ignore: ["node_modules"],
   plugins: [
+    "file-loader",
     [
-      "file-loader",
+      "import-graphql",
       {
         name: "[name].[ext]",
         outputPath: "/assets",

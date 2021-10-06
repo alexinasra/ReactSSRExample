@@ -15,6 +15,7 @@ module.exports = {
     // // for IE 11 support
     // '@babel/plugin-transform-object-assign',
 
+    "import-graphql",
     [
       "file-loader",
       {
