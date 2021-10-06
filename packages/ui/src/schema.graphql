@@ -1,0 +1,38 @@
+
+query UserInRoleQuery {
+  userInRole {
+    id
+    firstname
+    lastname
+    email
+    profilePicture
+  }
+}
+query NotificationsQuery{
+  notifications {
+    id
+    message
+    publisher
+    checked
+  }
+}
+
+subscription NewNotificationSubsription{
+  newNotification {
+    id
+    message
+    publisher
+    checked
+  }
+}
+
+mutation CheckNotificationsMutation($notificationIds: [String!]!){
+  checkNotifications(notificationIds: $notificationIds) {
+    checked {
+      id
+      message
+      publisher
+      checked
+    }
+  }
+}

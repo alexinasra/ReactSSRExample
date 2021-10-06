@@ -1,47 +1,18 @@
 import React from 'react';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  NotificationsQuery,
+  NewNotificationSubsription,
+  CheckNotificationsMutation
+} from '../schema.graphql'
 
-
-const NOTIFICATIONS_Q = gql`
-query {
-  notifications {
-    id
-    message
-    publisher
-    checked
-  }
-}
-`;
-const NOTIFICATIONS_S = gql`
-subscription {
-  newNotification {
-    id
-    message
-    publisher
-    checked
-  }
-}
-`;
-
-const CHK_NOTIFICATION_M = gql`
-mutation CheckNotifications($notificationIds: [String!]!){
-  checkNotifications(notificationIds: $notificationIds) {
-    checked {
-      id
-      message
-      publisher
-      checked
-    }
-  }
-}
-`;
 export default function Notifications({ children }){
-  const { data, error, loading, subscribeToMore } = useQuery(NOTIFICATIONS_Q);
-  const [checkNotifications] = useMutation(CHK_NOTIFICATION_M);
+  const { data, error, loading, subscribeToMore } = useQuery(NotificationsQuery);
+  const [checkNotifications] = useMutation(CheckNotificationsMutation);
 
   React.useEffect(() => {
     subscribeToMore({
-      document: NOTIFICATIONS_S,
+      document: NewNotificationSubsription,
       updateQuery( prev, { subscriptionData }) {
         if (!subscriptionData.data) return prev;
         const newFeedItem = subscriptionData.data.newNotification;

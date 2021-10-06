@@ -1,20 +1,10 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import AppLoading from '../AppLoading';
+import { UserInRoleQuery } from '../schema.graphql'
 
-const USER_INROLE_Q = gql`
-query {
-  userInRole {
-    id
-    firstname
-    lastname
-    email
-    profilePicture
-  }
-}
-`;
 export default function AuthReport ({ children }) {
-  const { data, loading, error } = useQuery(USER_INROLE_Q);
+  const { data, loading, error } = useQuery(UserInRoleQuery);
   if(loading) {
     return (<AppLoading />)
   }
