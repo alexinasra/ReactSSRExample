@@ -5,8 +5,8 @@ const permissions = shield({
   Query: {
     application: deny,
     notifications: isAuthenticated,
-    allPolls: isAuthenticated,
-    getPoll: isAuthenticated
+    allPolls: allow,
+    getPoll: allow
   },
   Mutation: {
     checkNotifications: isAuthenticated,
