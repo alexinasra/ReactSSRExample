@@ -72,6 +72,7 @@
     "react-dom": "^17.0.1",
     "react-i18next": "^11.8.5",
     "react-router": "^5.2.0",
+    "react-transition-group": "^4.4.2",
     "serve-static": "^1.14.1",
     "stylis": "^4.0.10",
     "stylis-plugin-rtl": "^2.1.0",
