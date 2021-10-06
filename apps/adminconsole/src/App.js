@@ -15,7 +15,6 @@ import InitLayout from './InitLayout';
 
 export default function App() {
   return (
-
     <InitTheme>
       <InitLayout>
         <Switch>
