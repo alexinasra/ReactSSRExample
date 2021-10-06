@@ -1,29 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-
-const TRANSLATION_VALUE = gql`
-query (
-  $namespace: String
-  $language: String
-  $key: String
-){
-  i18nTranslationValue (
-    namespace: $namespace
-    language: $language
-    key: $key
-  ){
-    id
-    translationKey {
-      id
-      namespace
-      key
-    }
-    language
-    value
-    actualValue
-  }
-}
-`;
+import { useQuery } from '@apollo/client';
+import { I18nTranslationValueQuery } from '../../schema.graphql';
 
 export default function TranslationValue({
   translationNs,
@@ -33,7 +10,7 @@ export default function TranslationValue({
 }) {
   const {
     data, loading, error,
-  } = useQuery(TRANSLATION_VALUE, {
+  } = useQuery(I18nTranslationValueQuery, {
     variables: {
       namespace: translationNs,
       language: translationLanguage,

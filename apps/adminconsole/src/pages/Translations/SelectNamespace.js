@@ -3,17 +3,13 @@ import {
   useParams,
   useHistory,
 } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { I18nNamespacesQuery } from '../../schema.graphql';
 
-const TRANSLATIONS_PAGE = gql`
-query {
-  i18nNamespaces
-}
-`;
 export default function SelectNamespace() {
   const { namespace } = useParams();
 
@@ -22,7 +18,7 @@ export default function SelectNamespace() {
     error,
     loading,
     refetch,
-  } = useQuery(TRANSLATIONS_PAGE);
+  } = useQuery(I18nNamespacesQuery);
   const { push } = useHistory();
 
   React.useEffect(() => {

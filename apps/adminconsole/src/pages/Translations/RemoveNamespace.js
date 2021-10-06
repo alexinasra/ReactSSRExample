@@ -10,23 +10,15 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Icon from '@mui/material/Icon';
-import { gql, useMutation } from '@apollo/client';
-
-const DROP_NS = gql`
-mutation ($namespace: String!) {
-  dropI18nNamespace(namespace: $namespace) {
-    dropped
-    namespace
-  }
-}
-`;
+import { useMutation } from '@apollo/client';
+import { DropI18nNamespaceMutation } from '../../schema.graphql';
 
 export default function RemoveNamespace({
   namespace,
 }) {
   const { t } = useTranslation('AdminConsole', { useSuspense: false });
   const [open, setOpen] = useState(false);
-  const [dropNamespace] = useMutation(DROP_NS, {
+  const [dropNamespace] = useMutation(DropI18nNamespaceMutation, {
     update(cache, { data }) {
       cache.modify({
         fields: {

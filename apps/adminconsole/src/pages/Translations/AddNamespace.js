@@ -11,21 +11,14 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Icon from '@mui/material/Icon';
 import TextField from '@mui/material/TextField';
-import { gql, useMutation } from '@apollo/client';
-
-const CREATE_NS = gql`
-mutation ($namespace: String!) {
-  createI18nNamespace(namespace: $namespace) {
-    created
-  }
-}
-`;
+import { useMutation } from '@apollo/client';
+import { CreateI18nNamespaceMutation } from '../../schema.graphql';
 
 export default function AddNamespace() {
   const { t } = useTranslation('AdminConsole', { useSuspense: false });
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [createNamespace] = useMutation(CREATE_NS, {
+  const [createNamespace] = useMutation(CreateI18nNamespaceMutation, {
     update(cache, { data }) {
       cache.modify({
         fields: {

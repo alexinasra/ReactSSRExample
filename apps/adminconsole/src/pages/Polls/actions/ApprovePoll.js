@@ -2,35 +2,14 @@ import React from 'react';
 
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { gql, useMutation } from '@apollo/client';
-
-const APPROVE_POLL_M = gql`
-mutation ApprovePoll ($pollId: String!) {
-  approvePoll(pollId: $pollId) {
-    approved
-    error
-    poll {
-      id
-      userId
-      subject
-      approved
-      options {
-        id
-        text
-        voters
-        votersCount
-      }
-      votersCount
-    }
-  }
-}
-`;
+import { useMutation } from '@apollo/client';
+import { ApprovePollMutation } from '../../../schema.graphql';
 
 export default function ApprovePoll({ children }) {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState('');
 
-  const [approvePollM] = useMutation(APPROVE_POLL_M, {
+  const [approvePollM] = useMutation(ApprovePollMutation, {
     refetchQueries: ['FetchPolls'],
   });
   const approvePoll = (pollId) => {

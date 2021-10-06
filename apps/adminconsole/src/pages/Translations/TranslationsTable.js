@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import TranslationValue from './TranslationValue';
+import { TranslationsTableQuery, DropI18nTranslationMutation } from '../../schema.graphql';
 
 const styles = {
   root: {
@@ -49,38 +50,16 @@ const styles = {
   },
 };
 
-const TRANSLATIONS_TABLE = gql`
-query ($namespace: String) {
-  languages {
-    short
-    long
-    native
-    dir
-  }
-  i18nTranslationKeys (namespace: $namespace) {
-    id
-    namespace
-    key
-  }
-}
-`;
-const DROP_TRANSLATION = gql`
-mutation ($input: DropI18nTranslationInput!){
-  dropI18nTranslation(input: $input) {
-    dropped
-  }
-}
-`;
 export default function TranslationsTable() {
   const { namespace } = useParams();
   const [deleteKey, setDeleteKey] = React.useState(false);
-  const [deleteTranslation] = useMutation(DROP_TRANSLATION);
+  const [deleteTranslation] = useMutation(DropI18nTranslationMutation);
   const {
     data,
     error,
     loading,
     refetch,
-  } = useQuery(TRANSLATIONS_TABLE, {
+  } = useQuery(TranslationsTableQuery, {
     variables: { namespace },
     fetchPolicy: 'cache-and-network',
   });

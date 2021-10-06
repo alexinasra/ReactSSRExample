@@ -11,26 +11,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useMutation, gql } from '@apollo/client';
-
-const CREATE_KEY = gql`
-mutation ($input: CreateI18nTranslationInput) {
-  createI18nTranslation(input: $input) {
-    created
-    translationKey {
-      id
-      namespace
-      key
-    }
-  }
-}
-`;
+import { CreateI18nTranslationMutation } from '../../schema.graphql';
 
 export default function AddKey() {
   const { t } = useTranslation('AdminConsole', { useSuspense: false });
   const { push } = useHistory();
   const { namespace } = useParams();
 
-  const [createKey] = useMutation(CREATE_KEY, {
+  const [createKey] = useMutation(CreateI18nTranslationMutation, {
     update(cache, { data: { createI18nTranslation } }) {
       cache.modify({
         fields: {

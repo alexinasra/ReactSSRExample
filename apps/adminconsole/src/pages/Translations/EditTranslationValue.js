@@ -1,28 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import Button from '@mui/material/Button';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-
-const UPDATE_TRANSLATION = gql`
-mutation ($input: UpdateI18nTranslationInput) {
-  updateI18nTranslation(input: $input) {
-    updated
-    translationValues {
-      id
-      translationKey {
-        id
-        namespace
-        key
-      }
-      language
-      value
-      actualValue
-    }
-  }
-}
-`;
+import { UpdateI18nTranslationMutation } from '../../schema.graphql';
 
 export default function EditTranslationValue({
   autoFocus = false,
@@ -34,7 +16,7 @@ export default function EditTranslationValue({
 }) {
   const [value, setValue] = useState(translationActualValue || '');
   const { i18n } = useTranslation([], { useSuspense: false });
-  const [updateTranslationValue] = useMutation(UPDATE_TRANSLATION);
+  const [updateTranslationValue] = useMutation(UpdateI18nTranslationMutation);
 
   const handleValueChange = (e) => setValue(e.target.value);
 

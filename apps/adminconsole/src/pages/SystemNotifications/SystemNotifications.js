@@ -1,44 +1,20 @@
 import React from 'react';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Button from '@mui/material/Button';
 
 import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutPaperPage';
-
-const SYS_NOTIFICATIONS_Q = gql`
-query {
-  systemNotifications {
-    id
-    publisher
-    message
-  }
-}
-`;
-
-const SYS_NOTIFICATIONS_S = gql`
-subscription {
-  newSystemNotification {
-    id
-    message
-    publisher
-  }
-}
-`;
-const SYS_NOTIFICATIONS_M = gql`
-mutation ($message: String!) {
-  publishSystemNotification(input: $message) {
-    id
-    message
-    publisher
-  }
-}
-`;
+import {
+  SystemNotificationsQuery,
+  SystemNotificationsSubscription,
+  PublishSystemNotificationMutation,
+} from '../../schema.graphql';
 
 export default function SystemNotifications() {
   const {
     data, loading, error, subscribeToMore,
-  } = useQuery(SYS_NOTIFICATIONS_Q);
-  const [publishSystemNotification] = useMutation(SYS_NOTIFICATIONS_M);
+  } = useQuery(SystemNotificationsQuery);
+  const [publishSystemNotification] = useMutation(PublishSystemNotificationMutation);
   const [message, setMessage] = React.useState('');
 
   const handleSubmit = () => {
@@ -59,7 +35,7 @@ export default function SystemNotifications() {
 
   React.useEffect(() => {
     subscribeToMore({
-      document: SYS_NOTIFICATIONS_S,
+      document: SystemNotificationsSubscription,
       updateQuery(prev, { subscriptionData }) {
         if (!subscriptionData.data) return prev;
         const newFeedItem = subscriptionData.data.newSystemNotification;

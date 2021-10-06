@@ -4,23 +4,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import LayoutPage from '@react-ssrex/ui/build/DashboardLayout/LayoutPaperPage';
-
-const USERS = gql`
-query {
-  users{
-    id
-    email
-    firstname
-    lastname
-    profilePicture
-  }
-}
-`;
+import { UsersQuery } from '../../schema.graphql';
 
 export default function Users() {
-  const { data, error, loading } = useQuery(USERS);
+  const { data, error, loading } = useQuery(UsersQuery);
 
   if (error) {
     return (<pre>JSON.stringify(error)</pre>);
