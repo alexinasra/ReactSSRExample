@@ -1,0 +1,149 @@
+#TranslationsTable
+
+mutation CreateI18nTranslationMutation($input: CreateI18nTranslationInput) {
+  createI18nTranslation(input: $input) {
+    created
+    translationKey {
+      id
+      namespace
+      key
+    }
+  }
+}
+mutation CreateI18nNamespaceMutation($namespace: String!) {
+  createI18nNamespace(namespace: $namespace) {
+    created
+  }
+}
+mutation UpdateI18nTranslationMutation($input: UpdateI18nTranslationInput) {
+  updateI18nTranslation(input: $input) {
+    updated
+    translationValues {
+      id
+      translationKey {
+        id
+        namespace
+        key
+      }
+      language
+      value
+      actualValue
+    }
+  }
+}
+
+mutation DropI18nNamespaceMutation($namespace: String!) {
+  dropI18nNamespace(namespace: $namespace) {
+    dropped
+    namespace
+  }
+}
+
+query I18nNamespacesQuery {
+  i18nNamespaces
+}
+
+query TranslationsTableQuery($namespace: String) {
+  languages {
+    short
+    long
+    native
+    dir
+  }
+  i18nTranslationKeys (namespace: $namespace) {
+    id
+    namespace
+    key
+  }
+}
+mutation DropI18nTranslationMutation($input: DropI18nTranslationInput!){
+  dropI18nTranslation(input: $input) {
+    dropped
+  }
+}
+query I18nTranslationValueQuery(
+  $namespace: String
+  $language: String
+  $key: String
+){
+  i18nTranslationValue (
+    namespace: $namespace
+    language: $language
+    key: $key
+  ){
+    id
+    translationKey {
+      id
+      namespace
+      key
+    }
+    language
+    value
+    actualValue
+  }
+}
+#Notifications
+fragment NotificationAttributes on Notification{
+  id
+  publisher
+  message
+}
+query SystemNotificationsQuery {
+  systemNotifications {
+    ...NotificationAttributes
+  }
+}
+
+subscription SystemNotificationsSubscription {
+  newSystemNotification {
+    ...NotificationAttributes
+  }
+}
+
+mutation PublishSystemNotificationMutation($message: String!) {
+  publishSystemNotification(input: $message) {
+    ...NotificationAttributes
+  }
+}
+
+#Poll related queries/mutations
+fragment PollAttributes on Poll {
+  id
+  userId
+  subject
+  approved
+  options {
+    id
+    text
+    voters
+    votersCount
+  }
+  votersCount
+}
+
+mutation ApprovePollMutation ($pollId: String!) {
+  approvePoll(pollId: $pollId) {
+    approved
+    error
+    poll {
+      ...PollAttributes
+    }
+  }
+}
+
+query FetchPollsQuery ($filter: PollsFilter) {
+  fetchPolls (filter: $filter) {
+    ...PollAttributes
+  }
+}
+
+#Users
+query UsersQuery {
+  users {
+    id
+    email
+    firstname
+    lastname
+    profilePicture
+  }
+}
