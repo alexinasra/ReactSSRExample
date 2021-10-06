@@ -125,6 +125,9 @@ module.exports = class Server extends EventEmitter {
           const session = await Session.findById(sessionId).exec();
           if (userId) {
             user = await User.findById(userId).exec();
+          } else {
+            await session.remove();
+            return done(new Error('no userid'))
           }
 
           return done(null, { session, user });

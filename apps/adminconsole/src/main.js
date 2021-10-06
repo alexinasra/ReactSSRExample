@@ -28,7 +28,16 @@ const apolloCache = new InMemoryCache({
   const renderApp = await main({
     graphqlUrl,
     graphqlSubscriptionUrl,
-    apolloCache,
+    typePolicies: {
+      Query: {
+        fields: {
+          i18nTranslationKeys: {
+            keyArgs: ['id', 'namespace'],
+            merge: (existing, incoming) => incoming,
+          },
+        },
+      },
+    },
     basename: '/adminconsole',
   });
 

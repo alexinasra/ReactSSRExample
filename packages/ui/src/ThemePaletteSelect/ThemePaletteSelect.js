@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useApolloClient, gql } from '@apollo/client';
 import { useTheme } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -15,37 +15,36 @@ import defaultTheme, {
 } from '../themes';
 import blue from '@mui/material/colors/blue';
 import deepOrange from '@mui/material/colors/deepOrange';
+import Cookies from 'js-cookie'
 
-const SET_THEME_NAME = gql`
-  mutation ($themeName: String!) {
-    setThemeName(themeName: $themeName) {
-      name
-      mode
-    }
-  }
-`;
 
 export default function ThemePaletteSelect({
   color,
   fab
 }) {
-  const theme = useTheme();
+  const client = useApolloClient();
 
-  const [setThemeName] = useMutation(SET_THEME_NAME, {
-    update(cache, { data: { setThemeName } }) {
-      cache.modify({
-        fields: {
-          themeSettings(settings) {
-            return setThemeName;
-          }
-        }
-      })
-    }
-  });
+  const theme = useTheme();
 
   const selectItem = (e) => {
     const { value } = e.target;
-    setThemeName({variables:{ themeName: value }})
+    Cookies.set('themeName', value);
+    client.cache.writeQuery({
+      query: gql`
+        query ThemeSettings {
+          themeSettings {
+            name
+            mode
+          }
+        }
+      `,
+      data: {
+        themeSettings: {
+          name: value,
+          mode: theme.palette.mode
+        }
+      }
+    })
   }
   return (
     <Select

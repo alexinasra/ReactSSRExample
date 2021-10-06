@@ -37,7 +37,6 @@ import ThemeModeToggle from '@react-ssrex/ui/build/ThemeModeToggle';
 import ThemePaletteSelect from '@react-ssrex/ui/build/ThemePaletteSelect';
 
 import ForceSignin from '@react-ssrex/ui/build/ForceSignin';
-import AppLoading from '@react-ssrex/ui/build/AppLoading';
 
 import HomePage from './pages/HomePage';
 import Translations from './pages/Translations';
@@ -84,11 +83,8 @@ function MainNav() {
 }
 
 const THEME_SETTINGS = gql`
-query {
-  themeSettings {
-    name,
-    mode,
-  }
+query ThemeSettingsQuery{
+  themeSettings @client
 }
 `;
 
@@ -102,18 +98,12 @@ const cacheLtr = createCache({
 });
 export default function App() {
   const { i18n } = useTranslation();
-  const { data, loading, error } = useQuery(THEME_SETTINGS);
+  const { data } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
   const [state, dispatch] = React.useReducer(SideBarReducer, {
     ...LayoutDefaultState,
   });
 
-  React.useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
   React.useEffect(() => {
     i18n.on('languageChanged', (lng) => {
       setDirection(i18n.dir(lng));
@@ -123,21 +113,15 @@ export default function App() {
   const theme = React.useMemo(() => {
     if (data && data.themeSettings) {
       return {
-        themeName: data.themeSettings.name,
-        themeMode: data.themeSettings.mode,
+        name: data.themeSettings.name,
+        mode: data.themeSettings.mode,
       };
     }
+
     return {
       ...LayoutDefaultState,
     };
   }, [data]);
-
-  if (loading) {
-    return (<AppLoading />);
-  }
-  if (error) {
-    return (<pre>{JSON.stringify(error, null, '\t')}</pre>);
-  }
 
   return (
     <CacheProvider value={direction === 'rtl' ? cacheRtl : cacheLtr}>
@@ -148,7 +132,7 @@ export default function App() {
           shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
         }}
         >
-          <ThemeProvider theme={createTheme(theme.themeName, theme.themeMode, direction)}>
+          <ThemeProvider theme={createTheme(theme.name, theme.mode, direction)}>
             <LayoutContainer>
               <LayoutAppBar>
                 <LayoutSideBarToggle />

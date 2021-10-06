@@ -73,10 +73,7 @@ const MainNav = () => {
 };
 const THEME_SETTINGS = gql`
 query {
-  themeSettings {
-    name,
-    mode,
-  }
+  themeSettings @client
 }
 `;
 

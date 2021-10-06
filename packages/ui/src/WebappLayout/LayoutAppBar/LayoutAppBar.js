@@ -17,7 +17,7 @@ export default function LayoutAppBar({children}) {
           <img height="60" src="/assets/logo.png" alt="logo" />
         </Link>
         <Box sx={{ flexGrow: 1 }}>
-        {children}
+          {children}
         </Box>
         <AuthStatus />
       </Toolbar>

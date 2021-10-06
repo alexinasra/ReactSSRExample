@@ -1,32 +1,36 @@
 import React from 'react';
 import { useTheme } from '@mui/styles';
-import { gql, useMutation } from '@apollo/client';
+import { useApolloClient, gql } from '@apollo/client';
 import IconButton from '@mui/material/IconButton';
 import Switch from '@mui/material/Switch';
 import Icon from '@mui/material/Icon';
+import Cookies from 'js-cookie'
 
-const TGL_THEME_MODE = gql`
-  mutation{
-    toggleThemeMode {
-      name
-      mode
-    }
-  }
-`;
 
 export default function ThemeModeToggle() {
   const theme = useTheme()
-  const [toggleThemeMode] = useMutation(TGL_THEME_MODE, {
-    update(cache, { data: { toggleThemeMode } }) {
-      cache.modify({
-        fields: {
-          themeSettings(settings) {
-            return toggleThemeMode;
+  const client = useApolloClient();
+  const toggleThemeMode = () => {
+    const mode = theme.palette.mode === 'dark' ? 'light' : 'dark';
+    Cookies.set('themeMode', mode);
+
+    client.cache.writeQuery({
+      query: gql`
+        query ThemeSettings {
+          themeSettings {
+            name
+            mode
           }
         }
-      })
-    }
-  });
+      `,
+      data: {
+        themeSettings: {
+          mode,
+          name: theme.palette.id
+        }
+      }
+    })
+  }
   return (
     <Switch
       checked={theme.palette.type === 'light'}

@@ -25,10 +25,7 @@ import PasswordReset from './pages/PasswordReset';
 
 const THEME_SETTINGS = gql`
 query {
-  themeSettings {
-    name,
-    mode,
-  }
+  themeSettings @client
 }
 `;
 // Create rtl cache

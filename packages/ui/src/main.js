@@ -12,6 +12,7 @@ import { createUploadLink } from 'apollo-upload-client'
 import { initReactI18next, withSSR } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { BrowserRouter } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 
@@ -19,8 +20,8 @@ import i18n, { setupI18n } from '@react-ssrex/i18n/client';
 export default async function main({
   graphqlUrl,
   graphqlSubscriptionUrl,
-  apolloCache,
   basename,
+  typePolicies = {}
 }) {
 
   const httpLink = new createUploadLink({
@@ -59,7 +60,24 @@ export default async function main({
     wsLink,
     concat(authMiddleware, httpLink),
   );
-  const cache = apolloCache || new InMemoryCache();
+  const cache = new InMemoryCache({
+    typePolicies: {
+      ...typePolicies,
+      Query: {
+        fields: {
+          themeSettings: {
+            read() {
+              return {
+                name: Cookies.get('themeName'),
+                mode: Cookies.get('themeMode')
+              }
+            }
+          },
+          ...typePolicies?.Query?.fields
+        }
+      },
+    }
+  });
   const client = new ApolloClient({
     link: splitLink,
     cache: cache.restore(window.__APOLLO_STATE__),
@@ -95,21 +113,7 @@ export default async function main({
       // checkWhitelist: true
     },
   };
-  if (!localStorage.getItem('token')) {
-    const GUEST_SIGNIN_M = gql`
-    mutation {
-      guestSignin {
-        token
-      }
-    }
-    `;
 
-    const { data } = await client.mutate({
-      mutation: GUEST_SIGNIN_M
-    });
-
-    localStorage.setItem('token', data.guestSignin.token);
-  }
   await setupI18n(opts, LanguageDetector, initReactI18next);
 
   return function (RenderedApp, rootElement) {

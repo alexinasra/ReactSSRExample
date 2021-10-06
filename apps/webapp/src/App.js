@@ -8,37 +8,23 @@ import {
 } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 
-import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
-
 import LayoutContainer from '@react-ssrex/ui/build/WebappLayout/LayoutContainer';
 import createTheme from '@react-ssrex/ui/build/createTheme';
+import { LayoutDefaultState } from '@react-ssrex/ui/build/DashboardLayout/LayoutContext';
 
+import createEmotionCache from '@react-ssrex/ui/build/createEmotionCache';
 import HomePage from './pages/HomePage';
 import CreatePoll from './pages/Poll/CreatePoll';
 import ViewPoll from './pages/Poll/ViewPoll';
 import { PageNotFound } from './pages/ErrorPage';
 
 const THEME_SETTINGS = gql`
-query {
-  themeSettings {
-    name,
-    mode,
-  }
+query ThemeSettingsQuery {
+  themeSettings @client
 }
 `;
-
-// Create rtl cache
-const cacheRtl = createCache({
-  key: 'muirtl',
-  stylisPlugins: [rtlPlugin],
-});
-const cacheLtr = createCache({
-  key: 'mui',
-});
-
-function App() {
+export default function App() {
   const { i18n } = useTranslation();
   const { data } = useQuery(THEME_SETTINGS);
   const [direction, setDirection] = React.useState(i18n.dir());
@@ -52,11 +38,11 @@ function App() {
     if (data && data.themeSettings) {
       return createTheme(data.themeSettings.name, data.themeSettings.mode, direction);
     }
-    return createTheme('default', 'light', direction);
+    return createTheme(LayoutDefaultState.name, LayoutDefaultState.mode, direction);
   }, [data, direction]);
 
   return (
-    <CacheProvider value={direction.toLowerCase() === 'rtl' ? cacheRtl : cacheLtr}>
+    <CacheProvider value={createEmotionCache(direction)}>
       <ThemeProvider theme={theme}>
         <LayoutContainer>
           <Switch>
@@ -81,9 +67,3 @@ function App() {
     </CacheProvider>
   );
 }
-
-export default App;
-export {
-  cacheLtr,
-  cacheRtl,
-};

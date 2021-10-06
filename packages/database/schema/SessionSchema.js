@@ -19,16 +19,6 @@ const sessionSchema = new Schema({
     type: Types.Number,
     default: 0
   },
-  themeSettings: {
-    name: {
-      type: Types.String,
-      default: 'default'
-    },
-    mode: {
-      type: Types.String,
-      default: 'light',
-    }
-  },
 });
 
 

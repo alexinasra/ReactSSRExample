@@ -1,16 +1,12 @@
 
 type Query {
   application: Application!
-  themeSettings: Theme!
   notifications: [Notification]
   getPoll(pollId: String!): Poll
   allPolls: [Poll]
   fetchPolls(filter: PollsFilter): [Poll]
 }
 type Mutation {
-  setThemeName(themeName: String!): Theme!
-  setThemeMode(themeMode: String!): Theme!
-  toggleThemeMode: Theme!
   checkNotifications(notificationIds: [String!]!): CheckNotificationsPayload
   createPoll(input: CreatePollInput): CreatePollPayload
 }
@@ -27,10 +23,6 @@ type Application {
 
 scalar Upload
 
-type Theme {
-  name: String
-  mode: String
-}
 
 type User {
   id: String!

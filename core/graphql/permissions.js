@@ -1,23 +1,19 @@
 const { shield, rule, and, or, allow, deny } = require('graphql-shield');
-const { isAuthenticated, isGuest, isUser } = require('./rules');
+const { isAuthenticated, isGuest } = require('./rules');
 
 const permissions = shield({
   Query: {
     application: deny,
-    themeSettings: isAuthenticated,
-    notifications: isUser,
+    notifications: isAuthenticated,
     allPolls: isAuthenticated,
     getPoll: isAuthenticated
   },
   Mutation: {
-    setThemeName: isAuthenticated,
-    setThemeMode: isAuthenticated,
-    toggleThemeMode: isAuthenticated,
-    checkNotifications: isUser,
-    createPoll: isUser,
+    checkNotifications: isAuthenticated,
+    createPoll: isAuthenticated,
   },
   Subscription: {
-    newNotification: isUser,
+    newNotification: isAuthenticated,
   }
 })
 
