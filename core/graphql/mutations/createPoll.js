@@ -5,7 +5,8 @@ module.exports = async function createPoll(root, { input: { subject, options } }
     const poll = await Poll.create({
       userId: user.id,
       subject,
-      options: options.map(o => ({ text: o, voters: []}))
+      options: options.map(o => ({ text: o, voters: []})),
+      approved: false
     });
     return {
       created: true,

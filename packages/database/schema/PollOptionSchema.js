@@ -5,6 +5,7 @@ const pollOptionsSchema = new Schema({
   text: {
     type: Types.String,
     required: true,
+    i18n: true
   },
   voters: {
     type: [Types.ObjectId],

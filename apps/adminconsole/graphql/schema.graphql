@@ -26,6 +26,8 @@ extend type Mutation {
   dropI18nTranslation(input: DropI18nTranslationInput): DropI18nTranslationPayload
   updateI18nTranslation(input: UpdateI18nTranslationInput): UpdateI18nTranslationPayload
   publishSystemNotification(input: String): Notification
+  translatePoll(input: TranslatePollInput): TranslatePollPayload
+  approvePoll(pollId: String!): ApprovePollPayload
 }
 extend type Subscription {
   newSystemNotification: Notification
@@ -91,4 +93,27 @@ type I18nTranslationValue {
   language: String!
   value: String
   actualValue: String
+}
+
+
+input TranslatePollOptionInput {
+  optionId: String!
+  text: String!
+}
+input TranslatePollInput {
+  pollId: String!
+  language: String!
+  subject: String!
+  options: [TranslatePollOptionInput!]!
+}
+
+type TranslatePollPayload {
+  translated: Boolean!
+  error: String
+  poll: Poll
+}
+type ApprovePollPayload {
+  approved: Boolean!
+  error: String
+  poll: Poll
 }

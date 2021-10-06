@@ -8,11 +8,16 @@ const pollSchema = new Schema({
   },
   subject: {
     type: Types.String,
-    required: true
+    required: true,
+    i18n: true
   },
   options: {
     type: [pollOptionsSchema],
     required: true
+  },
+  approved: {
+    type: Types.Boolean,
+    default: false
   }
 });
 

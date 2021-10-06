@@ -5,6 +5,7 @@ type Query {
   notifications: [Notification]
   getPoll(pollId: String!): Poll
   allPolls: [Poll]
+  fetchPolls(filter: PollsFilter): [Poll]
 }
 type Mutation {
   setThemeName(themeName: String!): Theme!
@@ -53,7 +54,9 @@ type CheckNotificationsPayload {
 
 type Poll {
   id: String!
+  language: String!
   userId: String
+  approved: Boolean!
   subject: String!
   options: [PollOption]
   votersCount: Int!
@@ -65,6 +68,11 @@ type PollOption {
   text: String!
   voters: [String!]
   votersCount: Int!
+}
+
+input PollsFilter {
+  queryText: String,
+  show: String
 }
 
 input CreatePollInput {

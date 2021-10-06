@@ -42,6 +42,7 @@ import AppLoading from '@react-ssrex/ui/build/AppLoading';
 import HomePage from './pages/HomePage';
 import Translations from './pages/Translations';
 import Users from './pages/Users';
+import Polls from './pages/Polls';
 import SystemNotifications from './pages/SystemNotifications';
 
 function MainNav() {
@@ -56,15 +57,21 @@ function MainNav() {
       </ListItem>
       <ListItem button component={RouterLink} to="/system-notifications">
         <ListItemIcon>
-          <Icon>people</Icon>
+          <Icon>notifications</Icon>
         </ListItemIcon>
         <ListItemText primary={t('MainNav.systemNotifications')} />
       </ListItem>
       <ListItem button component={RouterLink} to="/users">
         <ListItemIcon>
-          <Icon>notifications</Icon>
+          <Icon>people</Icon>
         </ListItemIcon>
         <ListItemText primary={t('MainNav.users')} />
+      </ListItem>
+      <ListItem button component={RouterLink} to="/polls">
+        <ListItemIcon>
+          <Icon>poll</Icon>
+        </ListItemIcon>
+        <ListItemText primary="Polls" />
       </ListItem>
       <ListItem button component={RouterLink} to="/translations/common">
         <ListItemIcon>
@@ -162,6 +169,9 @@ export default function App() {
                   </Route>
                   <Route path="/translations/:namespace">
                     <Translations />
+                  </Route>
+                  <Route path="/polls" exact>
+                    <Polls />
                   </Route>
                   <Route path="/">
                     <HomePage />

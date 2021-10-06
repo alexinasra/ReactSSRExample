@@ -1,4 +1,5 @@
 const Poll = require('@react-ssrex/database/models/Poll');
+
 module.exports = {
   myVote: async ({ id, options }, args, { user }) => {
     try {
@@ -9,4 +10,5 @@ module.exports = {
       return null;
     }
   },
+  language: (root) => root.getLanguage()
 }
