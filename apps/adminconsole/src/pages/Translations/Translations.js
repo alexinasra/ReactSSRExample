@@ -29,7 +29,8 @@ export default function Translations() {
               <Paper sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: (theme) => `${theme.spacing(2)}px ${theme.spacing(6)}px`,
+                px: 3,
+                py: 2,
               }}
               >
                 <div>
