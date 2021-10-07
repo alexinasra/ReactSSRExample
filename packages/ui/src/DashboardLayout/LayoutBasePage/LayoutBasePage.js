@@ -28,6 +28,8 @@ const Decoration = () => {
 
 const PageContainer = styled('div')(({theme}) => ({
   position: 'relative',
+  border: 1,
+  minHeight: '100vh'
 }))
 const DecorationContainer = styled('div')(({theme}) => ({
   position: 'fixed',
@@ -61,6 +63,10 @@ export default function LayoutBasePage({
       </DecorationContainer>
       )}
       <Container
+        sx={{
+          overflow: 'auto',
+          height: theme => `calc(100vh - ${theme.mixins.toolbar.minHeight})`
+        }}
         maxWidth="xl"
       >
         {children}

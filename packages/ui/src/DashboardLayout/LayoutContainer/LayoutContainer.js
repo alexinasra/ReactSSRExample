@@ -17,7 +17,10 @@ export default function LayoutContainer({ children }) {
         : actions.expandSidebarAction()),
     }}
     >
-    <Box component="div" sx={{ display: 'flex' }}>
+    <Box component="div" sx={{
+      display: 'flex',
+      minHeight: '100vh' }}
+    >
       <CssBaseline />
       {children}
     </Box>
