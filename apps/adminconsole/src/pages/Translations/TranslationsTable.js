@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { TransitionGroup } from 'react-transition-group';
 import Paper from '@mui/material/Paper';
@@ -9,6 +8,9 @@ import Icon from '@mui/material/Icon';
 import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
 import { styled } from '@mui/material/styles';
+import GqlQuery from '@react-ssrex/ui/build/GqlQuery';
+import Skeleton from '@mui/material/Skeleton';
+
 import TranslationValue from './TranslationValue';
 import { TranslationsTableQuery } from '../../schema.graphql';
 import DeleteKeyDialog from './DeleteKeyDialog';
@@ -50,45 +52,54 @@ const TableTitleColumn = styled(TableValueColumn)({
 export default function TranslationsTable() {
   const { namespace } = useParams();
   const [deleteKey, setDeleteKey] = React.useState(false);
-  const {
-    data,
-    error,
-    loading,
-  } = useQuery(TranslationsTableQuery, {
-    variables: { namespace },
-  });
   const { t } = useTranslation('Language', { useSuspense: false });
 
-  if (loading) {
-    return (
-      <p>loading</p>
-    );
-  }
-  if (error) {
-    return (<pre>{JSON.stringify(error, null, '\n')}</pre>);
-  }
-
   return (
-    <TableContainer>
-      <TableSection>
-        <TableRow>
-          <TableKeyColumn>
-            {namespace}
-          </TableKeyColumn>
-          <TableTitleColumn>
-            {t('language_en')}
-          </TableTitleColumn>
-          {data.languages.filter((l) => l.short !== 'en').map((l) => (
-            <TableTitleColumn key={l.short}>
-              {t(`language_${l.short}`)}
-            </TableTitleColumn>
-          ))}
-          <TableActionColumn />
-        </TableRow>
-      </TableSection>
-      <TableSection>
-        <TransitionGroup>
-          {
+    <GqlQuery
+      query={TranslationsTableQuery}
+      variables={{ namespace }}
+      renderLoading={() => (
+        <TableContainer>
+          <TableSection>
+            <TableRow>
+              <Skeleton width="100%" height={40} variant="text" />
+            </TableRow>
+          </TableSection>
+          <TableSection>
+            <TableRow>
+              <Skeleton width="100%" height={40} variant="text" />
+            </TableRow>
+            <TableRow>
+              <Skeleton width="100%" height={40} variant="text" />
+            </TableRow>
+            <TableRow>
+              <Skeleton width="100%" height={40} variant="text" />
+            </TableRow>
+          </TableSection>
+        </TableContainer>
+      )}
+    >
+      {(data) => (
+        <TableContainer>
+          <TableSection>
+            <TableRow>
+              <TableKeyColumn>
+                {namespace}
+              </TableKeyColumn>
+              <TableTitleColumn>
+                {t('language_en')}
+              </TableTitleColumn>
+              {data.languages.filter((l) => l.short !== 'en').map((l) => (
+                <TableTitleColumn key={l.short}>
+                  {t(`language_${l.short}`)}
+                </TableTitleColumn>
+              ))}
+              <TableActionColumn />
+            </TableRow>
+          </TableSection>
+          <TableSection>
+            <TransitionGroup>
+              {
           data.i18nTranslationKeys.map((translationKey) => (
             <Collapse key={translationKey.id}>
               <TableRow>
@@ -112,27 +123,27 @@ export default function TranslationsTable() {
                   </TranslationValue>
                 </TableValueColumn>
                 {
-                data.languages.filter((l) => l.short !== 'en').map((l) => (
-                  <TableValueColumn
-                    id={`${translationKey.id}_${l.short}`}
-                    key={`${translationKey.id}_${l.short}`}
+              data.languages.filter((l) => l.short !== 'en').map((l) => (
+                <TableValueColumn
+                  id={`${translationKey.id}_${l.short}`}
+                  key={`${translationKey.id}_${l.short}`}
+                >
+                  <TranslationValue
+                    translationNs={translationKey.namespace}
+                    translationKey={translationKey.key}
+                    translationLanguage={l.short}
                   >
-                    <TranslationValue
-                      translationNs={translationKey.namespace}
-                      translationKey={translationKey.key}
-                      translationLanguage={l.short}
-                    >
-                      {({ value }) => (
-                        <bdi dir={l.dir}>
-                          <Typography>
-                            {value}
-                          </Typography>
-                        </bdi>
-                      )}
-                    </TranslationValue>
-                  </TableValueColumn>
-                ))
-              }
+                    {({ value }) => (
+                      <bdi dir={l.dir}>
+                        <Typography>
+                          {value}
+                        </Typography>
+                      </bdi>
+                    )}
+                  </TranslationValue>
+                </TableValueColumn>
+              ))
+            }
                 <TableActionColumn>
                   <IconButton to={`/translations/${namespace}/edit/${encodeURIComponent(translationKey.key)}`} component={Link}>
                     <Icon>edit</Icon>
@@ -145,14 +156,16 @@ export default function TranslationsTable() {
             </Collapse>
           ))
         }
-        </TransitionGroup>
-      </TableSection>
-      <DeleteKeyDialog
-        translationKey={deleteKey}
-        onError={console.log}
-        onConfirm={() => { setDeleteKey(false); }}
-        onCancel={() => setDeleteKey(false)}
-      />
-    </TableContainer>
+            </TransitionGroup>
+          </TableSection>
+          <DeleteKeyDialog
+            translationKey={deleteKey}
+            onError={console.log}
+            onConfirm={() => { setDeleteKey(false); }}
+            onCancel={() => setDeleteKey(false)}
+          />
+        </TableContainer>
+      )}
+    </GqlQuery>
   );
 }
