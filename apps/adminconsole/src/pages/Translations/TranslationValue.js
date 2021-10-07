@@ -20,7 +20,7 @@ export default function TranslationValue({
       }}
       renderLoading={() => (
         <Fade in>
-          <Skeleton width="100%" height={40} variant="text" />
+          <Skeleton width="90%" variant="text" />
         </Fade>
       )}
     >
