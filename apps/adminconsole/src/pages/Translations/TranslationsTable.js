@@ -49,6 +49,27 @@ const TableTitleColumn = styled(TableValueColumn)({
   textAlign: 'center',
 });
 
+const renderLoading = () => (
+  <TableContainer>
+    <TableSection>
+      <TableRow>
+        <Skeleton width="100%" height={40} variant="text" />
+      </TableRow>
+    </TableSection>
+    <TableSection>
+      <TransitionGroup>
+        {[...Array(10).keys()].map((k) => (
+          <Collapse key={k}>
+            <TableRow>
+              <Skeleton width="100%" height={40} variant="text" />
+            </TableRow>
+          </Collapse>
+        ))}
+      </TransitionGroup>
+    </TableSection>
+  </TableContainer>
+);
+
 export default function TranslationsTable() {
   const { namespace } = useParams();
   const [deleteKey, setDeleteKey] = React.useState(false);
@@ -58,26 +79,7 @@ export default function TranslationsTable() {
     <GqlQuery
       query={TranslationsTableQuery}
       variables={{ namespace }}
-      renderLoading={() => (
-        <TableContainer>
-          <TableSection>
-            <TableRow>
-              <Skeleton width="100%" height={40} variant="text" />
-            </TableRow>
-          </TableSection>
-          <TableSection>
-            <TableRow>
-              <Skeleton width="100%" height={40} variant="text" />
-            </TableRow>
-            <TableRow>
-              <Skeleton width="100%" height={40} variant="text" />
-            </TableRow>
-            <TableRow>
-              <Skeleton width="100%" height={40} variant="text" />
-            </TableRow>
-          </TableSection>
-        </TableContainer>
-      )}
+      renderLoading={renderLoading}
     >
       {(data) => (
         <TableContainer>
