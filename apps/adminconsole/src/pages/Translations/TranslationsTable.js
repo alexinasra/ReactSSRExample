@@ -21,8 +21,7 @@ const TableContainer = styled(Paper)(({ theme }) => ({
 
 const TableSection = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(4),
-  borderRadius: 4,
-  border: `1px solid ${theme.palette.text.primary}`,
+  borderBottom: '1px solid',
 }));
 
 const TableRow = styled('div')({
@@ -30,23 +29,29 @@ const TableRow = styled('div')({
   alignItems: 'center',
 });
 const TableKeyColumn = styled('div')(({ theme }) => ({
-  padding: theme.spacing(2),
+  display: 'flex',
+  paddingLeft: theme.spacing(2),
   width: theme.spacing(24),
-
+  alignItems: 'center',
+  height: 48,
   flexGrow: 1,
 }));
 const TableActionColumn = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   width: theme.spacing(12),
+  height: 48,
 }));
 const TableValueColumn = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: theme.spacing(46),
+  height: 48,
 }));
 
 const TableTitleColumn = styled(TableValueColumn)({
-  textAlign: 'center',
 });
 
 const renderLoading = () => (
