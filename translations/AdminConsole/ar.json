@@ -7,7 +7,7 @@
 	},
 	"Translations": {
 		"addNamespace": "أضف أسم مساحه جديد",
-		"removeNamespace": "إزالة مساحة الاسم المحددة .",
+		"removeNamespace": "إزالة مساحة الاسم المحددة.",
 		"newKey": "مفتاح جديد",
 		"removeAlert": "هل أنت متأكد أنك تريد إزالة {{namespace}}.",
 		"namespace": "أسم مساحه",

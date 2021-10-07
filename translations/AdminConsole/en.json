@@ -8,7 +8,7 @@
 	},
 	"Translations": {
 		"addNamespace": "add a new namespace",
-		"removeNamespace": "remove selected namespace .",
+		"removeNamespace": "remove selected namespace.",
 		"removeAlert": "Are you sure you want to remove {{namespace}} .",
 		"confirmAction": "$t(common:Actions.confirm)",
 		"cancelAction": "$t(common:Actions.cancel)",
