@@ -114,6 +114,7 @@ export default function TranslationsTable() {
                     translationNs={translationKey.namespace}
                     translationKey={translationKey.key}
                     translationLanguage="en"
+                    renderLoading={() => (<Skeleton width="90%" variant="text" />)}
                   >
                     {({ value }) => (
                       <bdi dir="ltr">
