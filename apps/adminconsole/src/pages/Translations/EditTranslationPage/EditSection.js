@@ -1,7 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { styled } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
+import Box from '@mui/material/Box';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -11,6 +13,10 @@ import EditTranslationValue from './EditTranslationValue';
 import TranslationValue from '../TranslationValue';
 import TextPreview from './TextPreview';
 
+const Sample = styled(Box)({
+  flexGrow: 1,
+});
+
 const renderValueLoader = () => (
   <Skeleton width="90%" height="120px" variant="text" />
 );
@@ -18,8 +24,12 @@ export default function EditSection({
   namespace,
   tkey,
   language,
+  mainLanguage,
+  mainValue,
+  mainActualValue,
   expanded,
   onChange,
+
 }) {
   const { t, i18n } = useTranslation('Language', {
     useSuspense: false,
@@ -33,6 +43,9 @@ export default function EditSection({
     >
       {({ actualValue, value }) => (
         <Accordion
+          sx={{
+            my: 2,
+          }}
           TransitionProps={{ unmountOnExit: true }}
           expanded={expanded}
           elevation={0}
@@ -55,15 +68,35 @@ export default function EditSection({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <TextPreview
-              value={value}
-              dir={i18n.dir(language)}
-            />
-            <TextPreview
-              label="Actual Value"
-              value={actualValue}
-              dir={i18n.dir(language)}
-            />
+            <Box sx={{
+              display: 'flex',
+              gap: 3,
+              justifyContent: 'space-evenly',
+            }}
+            >
+              <Sample>
+                <TextPreview
+                  value={value}
+                  dir={i18n.dir(language)}
+                />
+                <TextPreview
+                  label="Actual Value"
+                  value={actualValue}
+                  dir={i18n.dir(language)}
+                />
+              </Sample>
+              <Sample>
+                <TextPreview
+                  value={mainValue}
+                  dir={i18n.dir(mainLanguage)}
+                />
+                <TextPreview
+                  label="Actual Value"
+                  value={mainActualValue}
+                  dir={i18n.dir(mainLanguage)}
+                />
+              </Sample>
+            </Box>
             <EditTranslationValue
               autoFocus
               required
