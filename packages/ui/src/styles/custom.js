@@ -370,11 +370,11 @@ export default function customStyle(themePalette, mode, direction){
             '&:after': {
               content: '""',
               position: 'absolute',
-              width: 60,
               height: 4,
               background: themePalette.palette.primary.main,
               bottom: 0,
-              left: 26,
+              left: 16,
+              right: 16,
             },
             '& h2': {
               color:
