@@ -85,6 +85,7 @@ export default function TranslationsTable() {
         <TableContainer>
           <TableSection>
             <TableRow>
+              <TableActionColumn />
               <TableKeyColumn>
                 {namespace}
               </TableKeyColumn>
@@ -96,7 +97,6 @@ export default function TranslationsTable() {
                   {t(`language_${l.short}`)}
                 </TableTitleColumn>
               ))}
-              <TableActionColumn />
             </TableRow>
           </TableSection>
           <TableSection>
@@ -105,10 +105,17 @@ export default function TranslationsTable() {
           data.i18nTranslationKeys.map((translationKey) => (
             <Collapse key={translationKey.id}>
               <TableRow>
+                <TableActionColumn>
+                  <IconButton onClick={() => setDeleteKey(translationKey)}>
+                    <Icon>delete</Icon>
+                  </IconButton>
+                  <IconButton to={`/translations/${namespace}/edit/${encodeURIComponent(translationKey.key)}`} component={Link}>
+                    <Icon>edit</Icon>
+                  </IconButton>
+                </TableActionColumn>
                 <TableKeyColumn>
                   {translationKey.key}
                 </TableKeyColumn>
-
                 <TableValueColumn id={`${translationKey.id}_en`}>
                   <TranslationValue
                     translationNs={translationKey.namespace}
@@ -126,35 +133,27 @@ export default function TranslationsTable() {
                   </TranslationValue>
                 </TableValueColumn>
                 {
-              data.languages.filter((l) => l.short !== 'en').map((l) => (
-                <TableValueColumn
-                  id={`${translationKey.id}_${l.short}`}
-                  key={`${translationKey.id}_${l.short}`}
-                >
-                  <TranslationValue
-                    translationNs={translationKey.namespace}
-                    translationKey={translationKey.key}
-                    translationLanguage={l.short}
-                  >
-                    {({ value }) => (
-                      <bdi dir={l.dir}>
-                        <Typography>
-                          {value}
-                        </Typography>
-                      </bdi>
-                    )}
-                  </TranslationValue>
-                </TableValueColumn>
-              ))
-            }
-                <TableActionColumn>
-                  <IconButton to={`/translations/${namespace}/edit/${encodeURIComponent(translationKey.key)}`} component={Link}>
-                    <Icon>edit</Icon>
-                  </IconButton>
-                  <IconButton onClick={() => setDeleteKey(translationKey)}>
-                    <Icon>delete</Icon>
-                  </IconButton>
-                </TableActionColumn>
+                  data.languages.filter((l) => l.short !== 'en').map((l) => (
+                    <TableValueColumn
+                      id={`${translationKey.id}_${l.short}`}
+                      key={`${translationKey.id}_${l.short}`}
+                    >
+                      <TranslationValue
+                        translationNs={translationKey.namespace}
+                        translationKey={translationKey.key}
+                        translationLanguage={l.short}
+                      >
+                        {({ value }) => (
+                          <bdi dir={l.dir}>
+                            <Typography>
+                              {value}
+                            </Typography>
+                          </bdi>
+                        )}
+                      </TranslationValue>
+                    </TableValueColumn>
+                  ))
+                }
               </TableRow>
             </Collapse>
           ))
