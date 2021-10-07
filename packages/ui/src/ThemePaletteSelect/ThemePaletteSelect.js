@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApolloClient, gql } from '@apollo/client';
-import { useTheme } from '@mui/styles';
+import { useTheme, styled } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -17,6 +17,11 @@ import blue from '@mui/material/colors/blue';
 import deepOrange from '@mui/material/colors/deepOrange';
 import Cookies from 'js-cookie'
 
+
+const ThemeOption = styled('div')({
+  display: 'flex',
+  px: 2
+});
 
 export default function ThemePaletteSelect({
   color,
@@ -54,25 +59,32 @@ export default function ThemePaletteSelect({
       value={theme.palette.id}
       onChange={selectItem}
     >
-      <MenuItem value={defaultTheme.lightPalette.palette.id}>
-        <Box sx={{display: 'flex',
-          alignItems: 'center'}}>
-          <Icon sx={{
-            margin: theme => `auto ${theme.spacing(1)}px`,
-            backgroundColor: defaultTheme.lightPalette.palette.primary.main,
-          }}>palette</Icon>
-          {defaultTheme.lightPalette.palette.name}
-        </Box>
+      <MenuItem
+        dense
+        value={defaultTheme.lightPalette.palette.id}
+      >
+        <ThemeOption>
+          <Icon
+            sx={{
+              mx: 1,
+            }}>palette</Icon>
+            <Typography>
+              {defaultTheme.lightPalette.palette.name}
+            </Typography>
+          </ThemeOption>
       </MenuItem>
-      <MenuItem value={deepOrangeTheme.lightPalette.palette.id}>
-        <Box sx={{display: 'flex',
-          alignItems: 'center'}}>
+      <MenuItem
+        dense
+        value={deepOrangeTheme.lightPalette.palette.id}
+      >
+        <ThemeOption>
           <Icon sx={{
-            margin: theme => `auto ${theme.spacing(1)}px`,
-            backgroundColor: deepOrangeTheme.lightPalette.palette.primary.main,
+            mx: 1,
           }}>palette</Icon>
-          {deepOrangeTheme.lightPalette.palette.name}
-        </Box>
+          <Typography>
+            {deepOrangeTheme.lightPalette.palette.name}
+          </Typography>
+        </ThemeOption>
       </MenuItem>
     </Select>
   );
