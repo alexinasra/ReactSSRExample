@@ -59,6 +59,12 @@ query TranslationsTableQuery($namespace: String) {
 mutation DropI18nTranslationMutation($input: DropI18nTranslationInput!){
   dropI18nTranslation(input: $input) {
     dropped
+    translationKey {
+      id
+      namespace
+      key
+    }
+    error
   }
 }
 query I18nTranslationValueQuery(
