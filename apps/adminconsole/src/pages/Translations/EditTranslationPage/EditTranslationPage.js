@@ -31,21 +31,21 @@ export default function EditTranslationPage() {
     [],
   );
   return (
-    <Stack
-      component={Paper}
-      sx={{
-        px: (theme) => theme.spacing(4),
-        py: (theme) => theme.spacing(3),
-      }}
+    <TranslationValue
+      translationNs={namespace}
+      translationKey={key}
+      translationLanguage={mainLanguage}
+      renderLoading={renderValueLoader}
     >
-      <EditBreadcrumbs namespace={namespace} tkey={key} />
-      <TranslationValue
-        translationNs={namespace}
-        translationKey={key}
-        translationLanguage={mainLanguage}
-        renderLoading={renderValueLoader}
-      >
-        {({ actualValue, value }) => (
+      {({ actualValue, value }) => (
+        <Stack
+          component={Paper}
+          sx={{
+            px: (theme) => theme.spacing(4),
+            py: (theme) => theme.spacing(3),
+          }}
+        >
+          <EditBreadcrumbs namespace={namespace} tkey={key} />
           <Stack>
             <TextPreview
               value={value}
@@ -65,9 +65,7 @@ export default function EditTranslationPage() {
               translationLanguage={mainLanguage}
             />
           </Stack>
-        )}
-      </TranslationValue>
-      {
+          {
           otherLanguages.map((l) => (
             <EditSection
               namespace={namespace}
@@ -76,10 +74,15 @@ export default function EditTranslationPage() {
               onChange={handleChange}
               tkey={key}
               language={l}
+              mainLanguage={mainLanguage}
+              mainValue={value}
+              mainActualValue={actualValue}
             />
           ))
         }
-    </Stack>
+        </Stack>
+      )}
+    </TranslationValue>
 
   );
 }
