@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -13,6 +14,7 @@ export default function DeleteKeyDialog({
   onConfirm = () => {},
   onError = () => {},
 }) {
+  const { t } = useTranslation([], { useSuspense: false });
   const [deleteTranslation] = useMutation(DropI18nTranslationMutation, {
     refetchQueries: ['TranslationsTableQuery'],
   });
@@ -35,17 +37,26 @@ export default function DeleteKeyDialog({
   };
 
   return (
-    <Dialog open={!!translationKey} onClose={onCancel}>
-      <DialogTitle>Delete key ?</DialogTitle>
-      <DialogContentText>
-        {translationKey && translationKey.key}
+    <Dialog
+      open={!!translationKey}
+      onClose={onCancel}
+    >
+      <DialogTitle>
+        {t('AdminConsole:Translations.removeAlert')}
+      </DialogTitle>
+      <DialogContentText sx={{
+        px: 3,
+        py: 2,
+      }}
+      >
+        { translationKey && translationKey.id }
       </DialogContentText>
       <DialogActions>
-        <Button onClick={onCancel} color="primary" autoFocus>
-          Cancel
-        </Button>
-        <Button onClick={handleDeleteTranslation} color="primary">
+        <Button onClick={handleDeleteTranslation} color="error">
           Confirm
+        </Button>
+        <Button onClick={onCancel} color="success" autoFocus>
+          Cancel
         </Button>
       </DialogActions>
     </Dialog>
