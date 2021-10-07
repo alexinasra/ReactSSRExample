@@ -29,7 +29,8 @@ const Decoration = () => {
 const PageContainer = styled('div')(({theme}) => ({
   position: 'relative',
   border: 1,
-  minHeight: '100vh'
+  minHeight: '100vh',
+  paddingBottom: theme.spacing(10)
 }))
 const DecorationContainer = styled('div')(({theme}) => ({
   position: 'fixed',
