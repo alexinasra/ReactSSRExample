@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "esModuleInterop": true,
+        "declaration": true,
+        "isolatedModules": true,
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "build"
+    },
+    "include": ["*.js", "*.jsx", "*.ts" ,"*.tsx"]
+}
