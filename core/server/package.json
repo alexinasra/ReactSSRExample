@@ -15,12 +15,7 @@
       "./**/*.test.js"
     ],
     "watch": [
-      "./src/*",
-      "../graphql/**",
-      "../i18n/graphql/**",
-      "../i18n/graphql/index.js",
-      "../../apps/**/graphql/**",
-      "../../apps/**/graphql/index.js"
+      "./src/*"
     ]
   },
   "dependencies": {
