@@ -1,8 +1,17 @@
 
 module.exports = {
-  presets: ["@babel/preset-react", ["@babel/preset-env", {
+  presets: [
+    "@babel/preset-react", 
+    ["@babel/preset-env", {
       "useBuiltIns": false,
-    }]],
+    }],
+    ["@babel/preset-typescript", {
+      isTSX: true,
+      allExtensions:true,
+      allowDeclareFields: true,
+      allowNamespaces: true
+    }]
+  ],
   ignore: ["node_modules"],
   plugins: [
     "import-graphql",
