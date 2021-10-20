@@ -29,7 +29,7 @@ function RedirectDelay({ redirectUrl }: redirectDelayProps) {
 
 type forceSigninProps = {
   signinUrl: string
-  children: React.ReactChildren
+  children: React.ReactNode
 }
 export default function ForceSignin({ signinUrl, children }: forceSigninProps) {
   const [counter, setCounter] = React.useState(0);

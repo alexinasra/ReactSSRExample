@@ -2,7 +2,7 @@ import React from 'react';
 import List from '@mui/material/List';
 
 type layoutSideBarNav = {
-    children: React.ReactChildren
+    children: React.ReactNode
 }
 
 export default function LayoutSideBarNav({

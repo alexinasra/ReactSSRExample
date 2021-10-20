@@ -19,7 +19,7 @@ const LayoutAppBarDecorator = styled(AppBar, {
 }))
 
 type layoutAppBarProps = {
-  children: React.ReactChildren
+  children: React.ReactNode
 }
 
 export default function LayoutAppBar({ children }: layoutAppBarProps) {

@@ -6,13 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import Icon from '@mui/material/Icon';
 import BasePage from '../LayoutBasePage';
 
-import { styled } from '@mui/material/styles';
 
 type layoutPaperPage = {
   title: string,
   subheader: string,
   avatar: JSX.Element
-  children: React.ReactChildren
+  children: React.ReactNode
 }
 
 export default function LayoutPaperPage({
