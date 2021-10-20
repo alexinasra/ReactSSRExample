@@ -2,9 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles'
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import LayoutContext from '../LayoutContext';
 
 const ScaleTransformSvg = styled('svg')(({theme}) => ({
   transform: (theme.direction === 'rtl') ? 'scale(-1,1)' : '',
@@ -53,7 +51,7 @@ const ToolbarSpacing = styled('div')(({theme}) => ({
 
 type layoutBasePageProps = {
   decorate: boolean,
-  children: React.ReactChildren
+  children: React.ReactNode
 }
 
 export default function LayoutBasePage({

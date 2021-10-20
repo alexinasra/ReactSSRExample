@@ -5,8 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import AuthStatus from './AuthStatus';
 
-
-export default function LayoutAppBar({children}) {
+type layoutAppBarProps = {
+  children: React.ReactNode
+}
+export default function LayoutAppBar({children}: layoutAppBarProps) {
 
   return (
     <AppBar

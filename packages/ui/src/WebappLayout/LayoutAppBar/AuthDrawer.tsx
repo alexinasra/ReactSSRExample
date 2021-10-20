@@ -18,7 +18,7 @@ import NotificationsPanel from './NotificationsPanel';
 import { Status } from '../../StatusBadge/StatusBadge';
 
 type authDrawerProps = {
-  tabId: string,
+  tabId: string | boolean,
   onTabChange: (tabId: string) => void,
   onClose: () => void
 }
