@@ -1,49 +1,38 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-
-import List from '@mui/material/List';
-
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 
 import Icon from '@mui/material/Icon';
+import LayoutSideBarNav, { LayoutSideBarLink } from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBarNav';
 
 export default function MainNav() {
   const { t } = useTranslation('AdminConsole', { useSuspense: false });
   return (
-    <List>
-      <ListItem button component={Link} to="/">
-        <ListItemIcon>
-          <Icon>dashboard</Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('MainNav.dashboard')} />
-      </ListItem>
-      <ListItem button component={Link} to="/system-notifications">
-        <ListItemIcon>
-          <Icon>notifications</Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('MainNav.systemNotifications')} />
-      </ListItem>
-      <ListItem button component={Link} to="/users">
-        <ListItemIcon>
-          <Icon>people</Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('MainNav.users')} />
-      </ListItem>
-      <ListItem button component={Link} to="/polls">
-        <ListItemIcon>
-          <Icon>poll</Icon>
-        </ListItemIcon>
-        <ListItemText primary="Polls" />
-      </ListItem>
-      <ListItem button component={Link} to="/translations/common">
-        <ListItemIcon>
-          <Icon>drafts</Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('MainNav.translations')} />
-      </ListItem>
-    </List>
+    <LayoutSideBarNav>
+      <LayoutSideBarLink
+        label={t('MainNav.dashboard')}
+        icon={<Icon>dashboard</Icon>}
+        to="/"
+      />
+      <LayoutSideBarLink
+        label={t('MainNav.systemNotifications')}
+        icon={<Icon>notifications</Icon>}
+        to="/system-notifications"
+      />
+      <LayoutSideBarLink
+        label={t('MainNav.users')}
+        icon={<Icon>people</Icon>}
+        to="/users"
+      />
+      <LayoutSideBarLink
+        label="Polls"
+        icon={<Icon>poll</Icon>}
+        to="/polls"
+      />
+      <LayoutSideBarLink
+        label={t('MainNav.translations')}
+        icon={<Icon>drafts</Icon>}
+        to="/translations/common"
+      />
+    </LayoutSideBarNav>
   );
 }

@@ -6,15 +6,17 @@ import SideBarReducer, * as actions from '../SideBarReducer';
 
 export default function LayoutContainer({ children }) {
   const [state, dispatch] = React.useReducer(SideBarReducer, {
-    expandedSidebar: true
+    expanded: true,
+    mouseOver: false
   });
   return (
     <LayoutContext.Provider value={{
-      state,
+      ...state,
       expandSidebar: () => dispatch(actions.expandSidebarAction()),
       shrinkSidebar: () => dispatch(actions.shrinkSidebarAction()),
-      toggleSidebar: () => dispatch(state.expandedSidebar ? actions.shrinkSidebarAction()
-        : actions.expandSidebarAction()),
+      toggleSidebar: () => dispatch(actions.toggleSidebarAction()),
+      mouseOverSidebar: () => dispatch(actions.mouseOverSidebarAction()),
+      mouseOutSidebar: () => dispatch(actions.mouseOutSidebarAction()),
     }}
     >
     <Box component="div" sx={{

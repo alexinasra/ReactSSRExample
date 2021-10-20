@@ -34,7 +34,7 @@ const PageContainer = styled('div')(({theme}) => ({
 }))
 const DecorationContainer = styled('div')(({theme}) => ({
   position: 'fixed',
-  paddingTop: theme.mixins.toolbar.minHeight + 20,
+  paddingTop: (theme.mixins.toolbar.minHeight as number) + 20,
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
@@ -48,12 +48,18 @@ const DecorationContainer = styled('div')(({theme}) => ({
   right: 0
 }))
 const ToolbarSpacing = styled('div')(({theme}) => ({
-  height: theme.mixins.toolbar.minHeight + 20
+  height: (theme.mixins.toolbar.minHeight as number)  + 20
 }));
+
+type layoutBasePageProps = {
+  decorate: boolean,
+  children: React.ReactChildren
+}
+
 export default function LayoutBasePage({
   decorate,
   children,
-}) {
+}: layoutBasePageProps) {
   const theme = useTheme();
   return (
     <PageContainer>

@@ -6,54 +6,60 @@ import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
-import LayoutContext from '../LayoutContext';
 import UserProfile from './UserProfile';
+import { height } from '@mui/system';
+import LayoutContext from '../LayoutContext';
 
 
-export default function LayoutSideBar({ mainNav, secondaryNav}) {
-  const [localExpand, setLocalExpand] = React.useState(false);
-  const handleLocalExpand = () => setTimeout(() => setLocalExpand(true), 30);
-  const handleLocalShrink = () => setTimeout(() => setLocalExpand(false), 360);
+
+type layoutSideBarProps = {
+  mainNav: React.ReactNode,
+  secondaryNav?: React.ReactNode,
+}
+
+export default function LayoutSideBar({ mainNav, secondaryNav}: layoutSideBarProps) {
+  
   return (
     <LayoutContext.Consumer>
-      {({ state: { expandedSidebar } }) => (
+      {({ expanded, mouseOver, mouseOverSidebar, mouseOutSidebar }) => (
         <Drawer
           variant="permanent"
           sx={{
-            width: theme => (expandedSidebar || localExpand) ? 240 : theme.spacing(9),
-            flexShrink: 0,
+            width: theme => (expanded || mouseOver) ? 240 : theme.spacing(9),
             transition: theme => theme.transitions.create(['width']),
             '& .MuiDrawer-paper': {
               transition: theme => theme.transitions.create(['width']),
-              width: theme => (expandedSidebar || localExpand) ? 240 : theme.spacing(9),
-              boxSizing: 'border-box',
+              width: theme => (expanded || mouseOver) ? 240 : theme.spacing(9),
+              overflowX: 'hidden'
             },
           }}
           anchor="left"
-          open={expandedSidebar || localExpand}
+          open={expanded || mouseOver}
+          onMouseOver={mouseOverSidebar}
+          onTouchStart={mouseOverSidebar}
+          onTouchMove={mouseOverSidebar}
+          onMouseLeave={mouseOutSidebar}
+          onTouchEnd={mouseOutSidebar}
         >
           <RouterLink to="/">
             <Box sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '100%',
               ['& img']: {
-                height: theme => theme.mixins.toolbar.minHeight + 8,
+                height: theme => (theme.mixins.toolbar.minHeight as number) + 8,
               }
             }}>
-                <img src={`/assets/logo${!expandedSidebar ? '-compact' : ''}.png`} alt="ReactSSREX" />
+                <img src={`/assets/logo${(!expanded && !mouseOver) ? '-compact' : ''}.png`} alt="ReactSSREX" />
             </Box>
           </RouterLink>
           <Divider />
           <UserProfile />
           <Divider />
           <Box
-            onMouseOver={handleLocalExpand}
-            onTouchStart={handleLocalExpand}
-            onTouchMove={handleLocalExpand}
-            onMouseLeave={handleLocalShrink}
-            onTouchEnd={handleLocalShrink}
+            sx={{
+              height: '100%',
+            }}
           >
             {mainNav}
             {secondaryNav && (

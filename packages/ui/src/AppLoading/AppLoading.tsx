@@ -15,7 +15,13 @@ const ApploadingDecorator = styled('div')((theme) => ({
 }));
 
 
-export default function AppLoading({ children, loadingVariant, loadingValue }) {
+type appLoadingProps = {
+  loadingValue?: number,
+  loadingVariant?: "determinate" | "indeterminate",
+  children?: React.ReactNode,
+}
+
+export default function AppLoading({ children, loadingVariant, loadingValue }: appLoadingProps) {
   return (
     <ApploadingDecorator>
       <div>

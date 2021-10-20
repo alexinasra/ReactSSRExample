@@ -3,11 +3,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
 import LayoutContext from '../LayoutContext';
-import { styled } from '@mui/material/styles'
+import { styled, Theme } from '@mui/material/styles'
+
+
+type layoutAppBarDecoratorProps = { theme?: Theme, expand: boolean }
 
 const LayoutAppBarDecorator = styled(AppBar, {
   shouldForwardProp: (prop) => prop!=='expand'
-})(({ theme, expand }) => ({
+})(({ theme, expand }: layoutAppBarDecoratorProps) => ({
   padding:0,
   margin:0,
   marginLeft: expand? 240:72,
@@ -15,15 +18,19 @@ const LayoutAppBarDecorator = styled(AppBar, {
   transition: theme.transitions.create(['width', 'marginLeft', 'marginRight']),
 }))
 
-export default function LayoutAppBar({children}) {
+type layoutAppBarProps = {
+  children: React.ReactChildren
+}
+
+export default function LayoutAppBar({ children }: layoutAppBarProps) {
   const {
-    state, expandSidebar, shrinkSidebar,
+    expanded, expandSidebar, shrinkSidebar,
   } = React.useContext(LayoutContext);
 
   return (
     <LayoutAppBarDecorator
       position="fixed"
-      expand={state.expandedSidebar}>
+      expand={expanded}>
       <Toolbar sx={{
         padding:0,
         margin:0,

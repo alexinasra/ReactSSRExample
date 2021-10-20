@@ -16,7 +16,7 @@ export default function createTheme(themeName='default', mode = 'light', directi
   const modedPalette = mode === 'light' ? theme.lightPalette : theme.darkPalette;
   return createMuiTheme({
     ...modedPalette,
-    ...(customStyles(modedPalette, mode, direction)),
+    ...(customStyles(modedPalette.palette, mode, direction)),
     direction,
   });
 }

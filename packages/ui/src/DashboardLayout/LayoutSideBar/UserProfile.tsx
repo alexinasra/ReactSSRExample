@@ -5,6 +5,7 @@ import { useQuery, gql } from '@apollo/client';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 
 import ListItem from '@mui/material/ListItem';
@@ -36,7 +37,7 @@ export default function UserProfile() {
   }
   return (
     <LayoutContext.Consumer>
-      {({ state }) => ((state.expandedSidebar) ? (
+      {({ expanded, mouseOver }) => ((expanded) ? (
         <Box sx={{
           paddingTop: theme => theme.spacing(3),
           paddingBottom: theme => theme.spacing(2),
@@ -45,7 +46,7 @@ export default function UserProfile() {
           alignItems: 'center',
         }}>
           <UserBadge user={data.userInRole} size="lg" />
-          <Box align="center">
+          <Box sx={{textAlign: 'center'}}>
             <Typography variant="body1" color="textPrimary">
               {`${data.userInRole.firstname} ${data.userInRole.lastname}`}
             </Typography>
@@ -60,10 +61,12 @@ export default function UserProfile() {
             <ListItemIcon>
               <UserBadge user={data.userInRole} size="sm" />
             </ListItemIcon>
-            <ListItemText
-              primary={`${data.userInRole.firstname} ${data.userInRole.lastname}`}
-              secondary={data.userInRole.email}
-            />
+            <Collapse in={expanded || mouseOver}>
+              <ListItemText
+                primary={`${data.userInRole.firstname} ${data.userInRole.lastname}`}
+                secondary={data.userInRole.email}
+              />
+            </Collapse>
           </ListItem>
         </List>
       ))}

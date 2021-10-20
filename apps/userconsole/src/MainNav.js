@@ -1,44 +1,30 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-
-import List from '@mui/material/List';
-
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-
 import Icon from '@mui/material/Icon';
+
+import LayoutSideBarNav, { LayoutSideBarLink } from '@react-ssrex/ui/build/DashboardLayout/LayoutSideBarNav';
 
 export default function MainNav() {
   const { t, ready } = useTranslation('UserConsole', { useSuspense: false });
   if (!ready) return false;
   return (
-    <List>
-      <ListItem button component={Link} to="/profile">
-        <ListItemIcon>
-          <Icon fontSize="large">
-            account_circle
-          </Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('mainNav.editProfile')} />
-      </ListItem>
-      <ListItem button component="a" href="/auth/change-password?redirectto=/userconsole">
-        <ListItemIcon>
-          <Icon fontSize="large">
-            lock_open
-          </Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('mainNav.changePassword')} />
-      </ListItem>
-      <ListItem button component={Link} to="/settings">
-        <ListItemIcon>
-          <Icon fontSize="large">
-            settings
-          </Icon>
-        </ListItemIcon>
-        <ListItemText primary={t('mainNav.systemSettings')} />
-      </ListItem>
-    </List>
+
+    <LayoutSideBarNav>
+      <LayoutSideBarLink
+        label={t('mainNav.editProfile')}
+        icon={<Icon>account_circle</Icon>}
+        to="/profile"
+      />
+      <LayoutSideBarLink
+        label={t('mainNav.changePassword')}
+        icon={<Icon>lock_open</Icon>}
+        href="/auth/change-password?redirectto=/userconsole"
+      />
+      <LayoutSideBarLink
+        label={t('mainNav.systemSettings')}
+        icon={<Icon>settings</Icon>}
+        to="/settings"
+      />
+    </LayoutSideBarNav>
   );
 }

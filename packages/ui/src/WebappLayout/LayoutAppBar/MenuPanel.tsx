@@ -24,7 +24,7 @@ export default function MenuPanel() {
             </ListItem>
             <ListItem>
               <ThemePaletteSelect />
-              <ThemeModeToggle color="primary" />
+              <ThemeModeToggle />
             </ListItem>
           </List>
         </>

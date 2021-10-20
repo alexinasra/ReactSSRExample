@@ -10,9 +10,9 @@ import AlertTitle from '@mui/material/AlertTitle';
 type gqlQueryProps = {
   query: DocumentNode,
   variables: any,
-  renderError: (e: Error) => JSX.Element,
-  renderLoading: () => JSX.Element,
-  children: <T, V>(data: T, refetch: (variables?: Partial<V>) => Promise<ApolloQueryResult<T>>) => React.ReactNode
+  renderError?: (e: Error) => JSX.Element,
+  renderLoading?: () => JSX.Element,
+  children: <T, V>(data: T, refetch: (variables?: Partial<V>) => Promise<ApolloQueryResult<T>>) => React.ReactChild
 }
 
 export default function GqlQuery({

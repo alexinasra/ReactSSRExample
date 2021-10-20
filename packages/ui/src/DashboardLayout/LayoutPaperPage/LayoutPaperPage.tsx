@@ -8,19 +8,26 @@ import BasePage from '../LayoutBasePage';
 
 import { styled } from '@mui/material/styles';
 
+type layoutPaperPage = {
+  title: string,
+  subheader: string,
+  avatar: JSX.Element
+  children: React.ReactChildren
+}
+
 export default function LayoutPaperPage({
   title,
   subheader,
   avatar = (<Avatar><Icon>bookmark_border</Icon></Avatar>),
   children,
-}) {
+}: layoutPaperPage) {
   return (
     <BasePage decorate>
       <Card elevation={3}>
         {title && (
           <CardHeader
             sx={{
-              background: theme => theme.palette.type === 'light'
+              background: theme => theme.palette.mode === 'light'
                 ? theme.palette.primary.light
                 : theme.palette.primary.dark,
             }}

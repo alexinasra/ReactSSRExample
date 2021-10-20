@@ -1,11 +1,10 @@
 import React from 'react';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { useApolloClient, gql } from '@apollo/client';
-import IconButton from '@mui/material/IconButton';
 import Switch from '@mui/material/Switch';
 import Icon from '@mui/material/Icon';
 import Cookies from 'js-cookie'
-
+import LayoutPalette from '../themes/LayoutPalette';
 
 export default function ThemeModeToggle() {
   const theme = useTheme()
@@ -26,14 +25,14 @@ export default function ThemeModeToggle() {
       data: {
         themeSettings: {
           mode,
-          name: theme.palette.id
+          name: (theme.palette as LayoutPalette).id
         }
       }
     })
   }
   return (
     <Switch
-      checked={theme.palette.type === 'light'}
+      checked={theme.palette.mode === 'light'}
       onChange={toggleThemeMode}
       color="secondary"
       checkedIcon={<Icon fontSize="small">light_mode</Icon>}

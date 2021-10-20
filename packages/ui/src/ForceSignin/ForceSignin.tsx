@@ -6,29 +6,38 @@ import AppLoading from '../AppLoading';
 import AuthReport from '../AuthReport';
 
 
-function RedirectDelay({ signinUrl }) {
+
+type redirectDelayProps = {
+  redirectUrl: string
+}
+
+function RedirectDelay({ redirectUrl }: redirectDelayProps) {
   const { t } = useTranslation('UI', { useSuspense: false });
   const [count, setCount] = React.useState(0);
   React.useEffect(() => {
     if (count>=100) {
-      return window.location.replace(signinUrl);
+      return window.location.replace(redirectUrl);
     }
     setTimeout(() => setCount(count + 5), 120);
   }, [count])
   return (
     <AppLoading loadingVariant="determinate" loadingValue={count}>
-      <Link href={signinUrl}>{t('RedirectDelay.message')}</Link>
+      <Link href={redirectUrl}>{t('RedirectDelay.message')}</Link>
     </AppLoading>
   )
 }
 
-export default function ForceSignin({ signinUrl, children }) {
+type forceSigninProps = {
+  signinUrl: string
+  children: React.ReactChildren
+}
+export default function ForceSignin({ signinUrl, children }: forceSigninProps) {
   const [counter, setCounter] = React.useState(0);
 
   return (
     <AuthReport>
       {({ userInRole }) => (
-        userInRole ? children : <RedirectDelay signinUrl={signinUrl} />
+        userInRole ? <>{children}</> : <RedirectDelay redirectUrl={signinUrl} />
       )}
     </AuthReport>
   )

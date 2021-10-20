@@ -1,5 +1,11 @@
+import LayoutPalette from "../themes/LayoutPalette";
+type Theme = {
+  palette: LayoutPalette
+}
 
-export default function customStyle(themePalette, mode, direction){
+type LayoutMode = "dark" | "light" | undefined;
+type TextDirection = "rtl" | "ltr" | undefined;
+export default function customStyle(themePalette: LayoutPalette, mode: LayoutMode, direction: TextDirection){
   return {
     typography: {
       useNextVariants: true,
@@ -19,9 +25,9 @@ export default function customStyle(themePalette, mode, direction){
       light: '0 10px 15px -5px rgba(62, 57, 107, .07)',
     },
     glow: {
-      light: `0 2px 20px -5px ${themePalette.palette.primary.main}`,
-      medium: `0 2px 40px -5px ${themePalette.palette.primary.main}`,
-      dark: `0 2px 40px 0px ${themePalette.palette.primary.main}`,
+      light: `0 2px 20px -5px ${themePalette.primary.main}`,
+      medium: `0 2px 40px -5px ${themePalette.primary.main}`,
+      dark: `0 2px 40px 0px ${themePalette.primary.main}`,
     },
     rounded: {
       small: '8px',
@@ -134,7 +140,7 @@ export default function customStyle(themePalette, mode, direction){
               height: 'calc(100% + 1px)',
               borderRadius: 8,
               bottom: -1,
-              boxShadow: `0 0 1px ${themePalette.palette.primary.main}`,
+              boxShadow: `0 0 1px ${themePalette.primary.main}`,
             },
             '&:before': {
               display: 'none',
@@ -261,7 +267,7 @@ export default function customStyle(themePalette, mode, direction){
             borderBottom:
             mode === 'dark'
               ? '1px solid #636363'
-              : `1px solid ${themePalette.palette.primary.light}`,
+              : `1px solid ${themePalette.primary.light}`,
           },
           head: {
             fontWeight: 600,
@@ -319,7 +325,7 @@ export default function customStyle(themePalette, mode, direction){
         styleOverrides: {
           clock: {
             backgroundColor: 'none',
-            border: `1px solid ${themePalette.palette.primary.main}`,
+            border: `1px solid ${themePalette.primary.main}`,
           }
         },
       },
@@ -327,7 +333,7 @@ export default function customStyle(themePalette, mode, direction){
         styleOverrides: {
           thumb: {
             boxShadow: `0 1px 10px 0px ${
-              themePalette.palette.primary.main
+              themePalette.primary.main
             }`,
           }
         },
@@ -336,7 +342,7 @@ export default function customStyle(themePalette, mode, direction){
         styleOverrides: {
           tabs: {
             backgroundColor: 'transparent',
-            color: themePalette.palette.primary.main,
+            color: themePalette.primary.main,
           }
         },
       },
@@ -353,7 +359,7 @@ export default function customStyle(themePalette, mode, direction){
             },
             '&$expanded': {
               borderRadius: 16,
-              boxShadow: `0px 0px 0px 1px ${themePalette.palette.primary.main}`,
+              boxShadow: `0px 0px 0px 1px ${themePalette.primary.main}`,
               '& + div': {
                 borderTopLeftRadius: 16,
                 borderTopRightRadius: 16,
@@ -371,7 +377,7 @@ export default function customStyle(themePalette, mode, direction){
               content: '""',
               position: 'absolute',
               height: 4,
-              background: themePalette.palette.primary.main,
+              background: themePalette.primary.main,
               bottom: 0,
               left: 16,
               right: 16,
@@ -379,8 +385,8 @@ export default function customStyle(themePalette, mode, direction){
             '& h2': {
               color:
               mode === 'dark'
-                ? themePalette.palette.primary.light
-                : themePalette.palette.primary.dark,
+                ? themePalette.primary.light
+                : themePalette.primary.dark,
             },
           }
         },
@@ -402,8 +408,8 @@ export default function customStyle(themePalette, mode, direction){
           colorPrimary: {
             backgroundColor:
             mode === 'dark'
-              ? themePalette.palette.primary.dark
-              : themePalette.palette.primary.main,
+              ? themePalette.primary.dark
+              : themePalette.primary.main,
           }
         },
       },
@@ -424,7 +430,7 @@ export default function customStyle(themePalette, mode, direction){
             overflow: 'hidden',
             borderRadius: 8,
             boxShadow: 'none',
-            border: `1px solid ${themePalette.palette.secondary.main}`,
+            border: `1px solid ${themePalette.secondary.main}`,
           },
         }
       },
@@ -434,8 +440,8 @@ export default function customStyle(themePalette, mode, direction){
             height: 32,
             boxShadow: 'none !important',
             '&$selected': {
-              color: themePalette.palette.secondary.main,
-              backgroundColor: themePalette.palette.secondary.light,
+              color: themePalette.secondary.main,
+              backgroundColor: themePalette.secondary.light,
             },
           },
         }
@@ -453,8 +459,8 @@ export default function customStyle(themePalette, mode, direction){
             boxShadow: 'none',
             backgroundColor:
             mode === 'dark'
-              ? themePalette.palette.secondary.dark
-              : themePalette.palette.secondary.light,
+              ? themePalette.secondary.dark
+              : themePalette.secondary.light,
           },
           title: {
             padding: direction === 'rtl' ? '0 26px 0 0' : '0 0 0 26px',

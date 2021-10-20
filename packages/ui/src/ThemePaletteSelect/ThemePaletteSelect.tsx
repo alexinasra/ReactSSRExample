@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApolloClient, gql } from '@apollo/client';
-import { useTheme, styled } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -16,6 +16,7 @@ import defaultTheme, {
 import blue from '@mui/material/colors/blue';
 import deepOrange from '@mui/material/colors/deepOrange';
 import Cookies from 'js-cookie'
+import LayoutPalette from '../themes/LayoutPalette';
 
 
 const ThemeOption = styled('div')({
@@ -23,15 +24,12 @@ const ThemeOption = styled('div')({
   px: 2
 });
 
-export default function ThemePaletteSelect({
-  color,
-  fab
-}) {
+export default function ThemePaletteSelect() {
   const client = useApolloClient();
 
   const theme = useTheme();
 
-  const selectItem = (e) => {
+  const selectItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     Cookies.set('themeName', value);
     client.cache.writeQuery({
@@ -56,7 +54,7 @@ export default function ThemePaletteSelect({
       id="theme-menu"
       autoWidth
       variant="standard"
-      value={theme.palette.id}
+      value={(theme.palette as LayoutPalette).id}
       onChange={selectItem}
     >
       <MenuItem

@@ -16,16 +16,16 @@ export default function LayoutSideBarToggle() {
   );
   return (
     <LayoutContext.Consumer>
-      {({ state, toggleSidebar }) => (
+      {({ expanded, toggleSidebar }) => (
         <TransitionGroup>
-          <Fade key={state.expandedSidebar? 'expanded':'collapsed'}>
+          <Fade key={expanded? 'expanded':'collapsed'}>
            <IconButton
            edge="start"
            color="inherit"
            aria-label="open drawer"
            onClick={toggleSidebar}
            >
-              <Icon>{state.expandedSidebar? 'menu':chervonIcon}</Icon>
+              <Icon>{expanded? 'menu':chervonIcon}</Icon>
             </IconButton>
           </Fade>
         </TransitionGroup>
