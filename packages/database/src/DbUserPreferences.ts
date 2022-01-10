@@ -1,7 +1,7 @@
 
 
 export default interface DbUserPreferences {
-    language: string,
+    language: string
     theme: string
     mode: "dark" | "light"
 }
